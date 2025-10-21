@@ -508,8 +508,8 @@ page-break-inside: avoid !important;
       <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
     </div>
   </div>
-  <div class="qa-block">
-    <label><span>Jaké diagnózy stanovil:</span></label>
+  <div class="qa-block-hidden" id="q_neurolog_exam_detail">
+    <label><span>Jaké diagnózy stanovil/i:</span></label>
     <textarea class="long-text" name="diagnoses"></textarea>
   </div>
   <div class="qa-block">
@@ -715,6 +715,7 @@ setupConditional('has_siblings', 'q_siblings_detail');
 setupConditional('child_has_device', 'q_child_device_detail1');
 setupConditional('child_has_device', 'q_child_device_detail2');
 setupConditional('child_has_device', 'q_child_device_detail3');
+setupConditional('neurolog_exam', 'q_neurolog_exam_detail');
 
 // Set "-" as baseline everywhere else too
 window.addEventListener('DOMContentLoaded', () => {
