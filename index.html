@@ -351,7 +351,7 @@ page-break-inside: avoid !important;
 <form id="questionnaire">
 
   <!-- Základní údaje -->
-  <fieldset>
+<fieldset>
   <legend>Základní údaje</legend>
   <div class="qa-block">
     <label><span>Jméno dítěte:</span></label>
@@ -391,15 +391,16 @@ page-break-inside: avoid !important;
   </div>
   <div class="qa-block">
     <label><span>Rodiče jsou:</span></label>
-    <select name="parents_status">
-      <option value="-" selected>-</option>
-      <option value="Biologičtí">Biologičtí</option>
-      <option value="Vychovávající">Vychovávající</option>
-    </select>
+    <div class="select-group">
+      <label><input type="radio" name="parents_status" value="-"><span>-</span></label>
+      <label><input type="radio" name="parents_status" value="Biologičtí"><span>Biologičtí</span></label>
+      <label><input type="radio" name="parents_status" value="Vychovávající"><span>Vychovávající</span></label>
+    </div>
   </div>
   <div class="qa-block">
     <label><span>Biologická matka je vychovávající matka?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="bio_mother_status" value="-"><span>-</span></label>
       <label><input type="radio" name="bio_mother_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_mother_status" value="Ne"><span>Ne</span></label>
     </div>
@@ -407,6 +408,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Biologický otec je vychovávající otec?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="bio_father_status" value="-"><span>-</span></label>
       <label><input type="radio" name="bio_father_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_father_status" value="Ne"><span>Ne</span></label>
     </div>
@@ -414,37 +416,16 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Existuje další vychovávající rodič/pečovatel?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="additional_carer_status" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="additional_carer_status" value="-"><span>-</span></label>
+      <label><input type="radio" name="additional_carer_status" value="Ano - plná péče"><span>Ano - plná péče</span></label>
+      <label><input type="radio" name="additional_carer_status" value="Ano - střídavá péče"><span>Ano - střídavá péče</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ne"><span>Ne</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Vychovává dítě i někdo jiný?</span></label>
-    <div class="select-group">
-      <label><input type="radio" name="other_carer_status" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="other_carer_status" value="Ne"><span>Ne</span></label>
-    </div>
-  </div>
-  <div class="qa-block">
-    <label><span>Kolik dalších osob dítě vychovává?</span></label>
-    <input type="number" name="additional_carers_count" id="additional_carers_count" min="0">
-    <div id="additional_carers_container"></div>
-  </div>
-  <div class="qa-block">
-    <label><span>Má dítě sourozence?</span></label>
-    <div class="select-group">
-      <label><input type="radio" name="has_siblings" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="has_siblings" value="Ne"><span>Ne</span></label>
-    </div>
-  </div>
-  <div class="qa-block">
-    <label><span>Kolik má sourozenců?</span></label>
-    <input type="number" name="siblings_count" id="siblings_count" min="0">
-    <div id="siblings_container"></div>
-  </div>
-  <div class="qa-block">
     <label><span>Má matka nějaká zdravotní omezení?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="mother_health" value="-"><span>-</span></label>
       <label><input type="radio" name="mother_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_health" value="Ne"><span>Ne</span></label>
     </div>
@@ -456,6 +437,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Má otec nějaká zdravotní omezení?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="father_health" value="-"><span>-</span></label>
       <label><input type="radio" name="father_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_health" value="Ne"><span>Ne</span></label>
     </div>
@@ -467,24 +449,52 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Je matka dítěte momentálně zaměstnaná?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="mother_employed" value="-"><span>-</span></label>
       <label><input type="radio" name="mother_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_employed" value="Ne"><span>Ne</span></label>
     </div>
   </div>
-  <div class="qa-block">
+  <div class="qa-block hidden" id="q_mother_jobs_detail">
     <label><span>Jaká zaměstnání vykonává matka:</span></label>
     <textarea class="long-text" name="mother_jobs"></textarea>
   </div>
   <div class="qa-block">
     <label><span>Je otec dítěte momentálně zaměstnaný?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="father_employed" value="-"><span>-</span></label>
       <label><input type="radio" name="father_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_employed" value="Ne"><span>Ne</span></label>
     </div>
   </div>
-  <div class="qa-block">
-    <label><span>Pokud ano, jaká zaměstnání vykonává otec:</span></label>
+  <div class="qa-block hidden" id="q_father_jobs_detail">
+    <label><span>Jaká zaměstnání vykonává otec:</span></label>
     <textarea class="long-text" name="father_jobs"></textarea>
+  </div>
+   <div class="qa-block">
+    <label><span>Vychovává dítě i někdo jiný (podstatným způsobem zasahuje do života dítěte)?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="other_carer_status" value="-"><span>-</span></label>
+      <label><input type="radio" name="other_carer_status" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="other_carer_status" value="Ne"><span>Ne</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_other_carer_detail">
+    <label><span>Kolik dalších osob dítě vychovává?</span></label>
+    <input type="number" name="additional_carers_count" id="additional_carers_count" min="0">
+    <div id="additional_carers_container"></div>
+  </div>
+  <div class="qa-block">
+    <label><span>Má dítě sourozence?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="has_siblings" value="-"><span>-</span></label>
+      <label><input type="radio" name="has_siblings" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="has_siblings" value="Ne"><span>Ne</span></label>
+    </div>
+  </div>
+  <div class="qa-block-hidden" id="q_siblings_detail">
+    <label><span>Kolik má sourozenců?</span></label>
+    <input type="number" name="siblings_count" id="siblings_count" min="0">
+    <div id="siblings_container"></div>
   </div>
 </fieldset>
 
@@ -493,6 +503,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="neurolog_exam" value="-"><span>-</span></label>
       <label><input type="radio" name="neurolog_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
     </div>
@@ -512,6 +523,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Byl dítěti někdy vyšetřen zrak?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="vision_exam" value="-"><span>-</span></label>
       <label><input type="radio" name="vision_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_exam" value="Ne"><span>Ne</span></label>
     </div>
@@ -519,6 +531,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Má dítě se zrakem nějaké obtíže?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="vision_issues" value="-"><span>-</span></label>
       <label><input type="radio" name="vision_issues" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_issues" value="Ne"><span>Ne</span></label>
     </div>
@@ -556,6 +569,7 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Má dítě vlastní pokoj?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="child_own_room" value="-"><span>-</span></label>
       <label><input type="radio" name="child_own_room" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_room" value="Ne"><span>Ne</span></label>
     </div>
@@ -563,13 +577,85 @@ page-break-inside: avoid !important;
   <div class="qa-block">
     <label><span>Má dítě vlastní pracovní stůl?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="child_own_desk" value="-"><span>-</span></label>
       <label><input type="radio" name="child_own_desk" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_desk" value="Ne"><span>Ne</span></label>
     </div>
   </div>
+  
+  <div class="qa-block">
+    <label><span>Kolik hodin denně trávíte (vy nebo další rodiče / pečovatelé) doma s dětmi?</span></label>
+    <input type="number" name="time_with_children">
+  </div>
+
+  <div class="qa-block">
+    <label><span>Máte prostor s dítětem něco procvičovat?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="practice_with_child" value="-" checked><span>-</span></label>
+      <label><input type="radio" name="practice_with_child" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="practice_with_child" value="Ne"><span>Ne</span></label>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <label><span>Jaká je vaše oblíbená činnost s dítětem (může jich být i více)?</span></label>
+    <textarea class="long-text" name="fav_activity_with_child"></textarea>
+  </div>
+
+  <div class="qa-block">
+    <label><span>Jaká je oblíbená činnost dítěte obecně?</span></label>
+    <textarea class="long-text" name="child_fav_activity"></textarea>
+  </div>
+
+  <div class="qa-block">
+    <label><span>Jestli má dítě oblíbený film, jaký to je?</span></label>
+    <input type="text" name="child_fav_movie">
+  </div>
+
+  <div class="qa-block">
+    <label><span>Jestli má dítě oblíbenou knihu, jaká to je?</span></label>
+    <input type="text" name="child_fav_book">
+  </div>
+
+  <div class="qa-block">
+      <label><span>Má dítě přístup k telefonu nebo tabletu?</span></label>
+      <div class="select-group">
+        <label><input type="radio" name="child_has_device" value="-" checked><span>-</span></label>
+        <label><input type="radio" name="child_has_device" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="child_has_device" value="Ne"><span>Ne</span></label>
+      </div>
+    </div>
+
+  <div class="qa-block-hidden" id="q_child_device_detail1">
+    <label><span>Jak moc dítě podle vás používá mobil nebo tablet ve srovnání s vrstevníky?</span></label>
+    <input type="text" name="child_device_use_relative">
+  </div>
+
+  <div class="qa-block-hidden" id="q_child_device_detail2">
+    <label><span>Co dítě na telefonu nejčastěji dělá (seřaďte podle frekvence)?</span></label>
+    <textarea class="long-text" name="child_device_usage"></textarea>
+  </div>
+
+  <div class="qa-block-hidden" id="q_child_device_detail3">
+    <label><span>Pokoušíte se nějakým způsobem kontrolovat, co dítě na telefonu dělá (např. výchovně nebo omezením přímo v telefonu)?</span></label>
+    <textarea class="long-text" name="child_device_control"></textarea>
+  </div>
+
+  <div class="qa-block">
+    <label><span>Jak moc je pro vás používání mobilu či tabletu tématem ve výchově?</span></label>
+    <textarea class="long-text" name="child_device_parenting_theme"></textarea>
+  </div>
 </fieldset>
 
+
   <button type="button" onclick="window.print()">Tisk / Uložit pdf</button>
+  
+<div class="save.buttons">
+  <button type="button" onclick="saveForm()">Uložit pro příště</button>
+  <button type="button" onclick="loadForm()">Načíst poslední</button>
+  <button type="button" onclick="clearHistory()">Smazat historii</button>
+</div>
+
 
 <footer class="page-footer">
   <p>© 2025 MUNI FSS - Diagnostika dítěte</p>
@@ -580,33 +666,74 @@ page-break-inside: avoid !important;
 </form>
 
 <script>
-  // Conditional fields
-  function setupConditional(selectName, detailId) {
-    const select = document.querySelector(`[name="${selectName}"]`);
-    const detailDiv = document.getElementById(detailId);
-    detailDiv.style.display = 'none';
-    select.addEventListener('change', () => {
-      detailDiv.style.display = select.value === 'Ano' ? 'block' : 'none';
-    });
-  }
-  setupConditional('mother_health', 'q_mother_health_detail');
-  setupConditional('father_health', 'q_father_health_detail');
+// Replacement setupConditional that supports radio groups and <select>
+function setupConditional(selectName, detailId) {
+  const detailDiv = document.getElementById(detailId);
+  if (!detailDiv) return;
+  detailDiv.style.display = 'none';
 
-  // Age calculation
-  const birthInput = document.getElementById('child_birthdate');
-  const ageInput = document.getElementById('child_age');
-  birthInput.addEventListener('change', () => {
-    const birthDate = new Date(birthInput.value);
-    if (!isNaN(birthDate)) {
-      const now = new Date();
-      let years = now.getFullYear() - birthDate.getFullYear();
-      let months = now.getMonth() - birthDate.getMonth();
-      if (months < 0) { years--; months += 12; }
-      ageInput.value = `${years} let, ${months} měsíců`;
-    } else {
-      ageInput.value = '';
+  // Try to find radios first
+  const radios = Array.from(document.querySelectorAll(`[name="${selectName}"]`));
+  const isRadioGroup = radios.length > 1 || (radios.length === 1 && radios[0].type === 'radio');
+
+  if (isRadioGroup) {
+    // If there is a "-" option, select it by default
+    const dash = radios.find(r => r.value === '-');
+    if (dash) dash.checked = true;
+
+    const update = () => {
+      const checked = document.querySelector(`[name="${selectName}"]:checked`);
+      detailDiv.style.display = checked && checked.value === 'Ano' ? 'block' : 'none';
+    };
+
+    radios.forEach(r => r.addEventListener('change', update));
+    // run once to set initial visibility
+    update();
+  } else {
+    // Fallback for single select/input
+    const elem = document.querySelector(`[name="${selectName}"]`);
+    if (!elem) return;
+    // if it's a <select> and has "-" option, select it
+    if (elem.tagName === 'SELECT') {
+      const opt = Array.from(elem.options).find(o => o.value === '-');
+      if (opt) elem.value = '-';
+    }
+    elem.addEventListener('change', () => {
+      detailDiv.style.display = elem.value === 'Ano' ? 'block' : 'none';
+    });
+    // initial state
+    detailDiv.style.display = elem.value === 'Ano' ? 'block' : 'none';
+  }
+}
+
+setupConditional('mother_health', 'q_mother_health_detail');
+setupConditional('father_health', 'q_father_health_detail');
+setupConditional('other_carer_status', 'q_other_carer_detail');
+setupConditional('mother_employed', 'q_mother_jobs_detail');
+setupConditional('father_employed', 'q_father_jobs_detail');
+setupConditional('has_siblings', 'q_siblings_detail');
+setupConditional('child_has_device', 'q_child_device_detail1');
+setupConditional('child_has_device', 'q_child_device_detail2');
+setupConditional('child_has_device', 'q_child_device_detail3');
+
+// Set "-" as baseline everywhere else too
+window.addEventListener('DOMContentLoaded', () => {
+  // For all selects
+  document.querySelectorAll('select').forEach(sel => {
+    if ([...sel.options].some(o => o.value === '-')) {
+      sel.value = '-';
     }
   });
+
+  // For all radio groups
+  const groups = [...new Set([...document.querySelectorAll('input[type="radio"]')].map(r => r.name))];
+  groups.forEach(name => {
+    const radios = document.getElementsByName(name);
+    const dash = [...radios].find(r => r.value === '-');
+    if (dash) dash.checked = true;
+  });
+});
+
 
   // Auto-expand long textareas
   document.querySelectorAll('textarea.long-text').forEach(area => {
@@ -654,7 +781,7 @@ siblingsCountInput.addEventListener('input', () => {
       <label><span>Jméno sourozence ${i}:</span><input class="short-text" type="text" name="sibling_${i}_name"></label>
       <label><span>Věk sourozence ${i}:</span><input type="number" name="sibling_${i}_age"></label>
       <div class="qa-block">
-        <span>Jsou dítě a sourozenec biologičtí příbuzní:</span>
+        <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
         <div class="select-group">
           <label><input type="radio" name="sibling_${i}_biological" value="-" checked><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
@@ -662,7 +789,7 @@ siblingsCountInput.addEventListener('input', () => {
         </div>
       </div>
       <div class="qa-block">
-        <span>Má dítě se sourozencem společné rodiče:</span>
+        <label><span>Má dítě se sourozencem společné rodiče:</span></label>
         <div class="select-group">
           <label><input type="radio" name="sibling_${i}_common_parents" value="-" checked><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
@@ -670,7 +797,7 @@ siblingsCountInput.addEventListener('input', () => {
         </div>
       </div>
       <div class="qa-block">
-        <span>Žijí ve stejné domácnosti:</span>
+        <label><span>Žijí ve stejné domácnosti:</span></label>
         <div class="select-group">
           <label><input type="radio" name="sibling_${i}_same_household" value="-" checked><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
@@ -691,6 +818,143 @@ siblingsCountInput.addEventListener('input', () => {
 });
 
 
+//saving
+
+const formStorageKey = 'child_questionnaire_data';
+
+function saveForm() {
+  const form = document.querySelector('form');
+  const data = {};
+
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'radio') {
+      if (el.checked) data[el.name] = el.value;
+    } else if (el.type === 'checkbox') {
+      data[el.name] = el.checked;
+    } else {
+      data[el.name] = el.value;
+    }
+  });
+
+  // Save dynamic carers
+  const carers = [];
+  document.querySelectorAll('#additional_carers_container fieldset').forEach(fs => {
+    const carerData = {};
+    fs.querySelectorAll('input, textarea').forEach(el => {
+      carerData[el.name] = el.value;
+    });
+    carers.push(carerData);
+  });
+  data['additional_carers'] = carers;
+
+  // Save dynamic siblings
+  const siblings = [];
+  document.querySelectorAll('#siblings_container fieldset').forEach(fs => {
+    const siblingData = {};
+    fs.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.type === 'radio') {
+        if (el.checked) siblingData[el.name] = el.value;
+      } else if (el.type === 'checkbox') {
+        siblingData[el.name] = el.checked;
+      } else {
+        siblingData[el.name] = el.value;
+      }
+    });
+    siblings.push(siblingData);
+  });
+  data['siblings'] = siblings;
+
+  localStorage.setItem(formStorageKey, JSON.stringify(data));
+  alert("Formulář byl uložen.");
+}
+
+// Load saved data
+function loadForm() {
+  const saved = localStorage.getItem(formStorageKey);
+  if (!saved) {
+    alert("Žádná uložená data nejsou k dispozici.");
+    return;
+  }
+  const data = JSON.parse(saved);
+  const form = document.querySelector('form');
+
+  // Reset form first
+  form.reset();
+  document.getElementById('additional_carers_container').innerHTML = '';
+  document.getElementById('siblings_container').innerHTML = '';
+
+  // Load static fields
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'radio') {
+      if (data[el.name] === el.value) el.checked = true;
+    } else if (el.type === 'checkbox') {
+      el.checked = !!data[el.name];
+    } else if (data[el.name] !== undefined) {
+      el.value = data[el.name];
+    }
+  });
+
+  // Recreate dynamic carers
+  if (data['additional_carers']) {
+    data['additional_carers'].forEach((carer, i) => {
+      const fs = document.createElement('fieldset');
+      fs.innerHTML = `
+        <legend>Další vychovávající osoba ${i + 1}</legend>
+        <label><span>Jméno osoby ${i + 1}:</span><input class="short-text" type="text" name="carer_${i+1}_name" value="${carer['carer_' + (i+1) + '_name'] || ''}"></label>
+        <label><span>Věk osoby ${i + 1}:</span><input type="number" name="carer_${i+1}_age" value="${carer['carer_' + (i+1) + '_age'] || ''}"></label>
+        <div class="qa-block"><label><span>Jaké jsou vaše vztahy s osobou ${i + 1}:</span></label><textarea class="long-text" name="carer_${i+1}_relation">${carer['carer_' + (i+1) + '_relation'] || ''}</textarea></div>
+        <div class="qa-block"><label><span>V jaké domácnosti osoba ${i + 1} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i+1}_household">${carer['carer_' + (i+1) + '_household'] || ''}</textarea></div>
+      `;
+      document.getElementById('additional_carers_container').appendChild(fs);
+    });
+  }
+
+  // Recreate dynamic siblings
+  if (data['siblings']) {
+    data['siblings'].forEach((sib, i) => {
+      const fs = document.createElement('fieldset');
+      fs.innerHTML = `
+        <legend>Sourozenec ${i + 1}</legend>
+        <label><span>Jméno sourozence ${i + 1}:</span><input class="short-text" type="text" name="sibling_${i+1}_name" value="${sib['sibling_' + (i+1) + '_name'] || ''}"></label>
+        <label><span>Věk sourozence ${i + 1}:</span><input type="number" name="sibling_${i+1}_age" value="${sib['sibling_' + (i+1) + '_age'] || ''}"></label>
+        <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
+        <select name="sibling_${i+1}_biological">
+          <option value="-" ${sib['sibling_' + (i+1) + '_biological']==='-'?'selected':''}>-</option>
+          <option value="Ano" ${sib['sibling_' + (i+1) + '_biological']==='Ano'?'selected':''}>Ano</option>
+          <option value="Ne" ${sib['sibling_' + (i+1) + '_biological']==='Ne'?'selected':''}>Ne</option>
+        </select>
+        <label><span>Má dítě se sourozencem společné rodiče:</span></label>
+        <select name="sibling_${i+1}_common_parents">
+          <option value="-" ${sib['sibling_' + (i+1) + '_common_parents']==='-'?'selected':''}>-</option>
+          <option value="Ano" ${sib['sibling_' + (i+1) + '_common_parents']==='Ano'?'selected':''}>Ano</option>
+          <option value="Ne" ${sib['sibling_' + (i+1) + '_common_parents']==='Ne'?'selected':''}>Ne</option>
+        </select>
+        <label><span>Žijí ve stejné domácnosti:</span></label>
+        <select name="sibling_${i+1}_same_household">
+          <option value="-" ${sib['sibling_' + (i+1) + '_same_household']==='-'?'selected':''}>-</option>
+          <option value="Ano" ${sib['sibling_' + (i+1) + '_same_household']==='Ano'?'selected':''}>Ano</option>
+          <option value="Ne" ${sib['sibling_' + (i+1) + '_same_household']==='Ne'?'selected':''}>Ne</option>
+        </select>
+        <div class="qa-block"><label><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i+1}_relationship">${sib['sibling_' + (i+1) + '_relationship'] || ''}</textarea></div>
+        <div class="qa-block"><label><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i+1}_diagnoses">${sib['sibling_' + (i+1) + '_diagnoses'] || ''}</textarea></div>
+      `;
+      document.getElementById('siblings_container').appendChild(fs);
+    });
+  }
+
+  alert("Formulář byl obnoven z poslední uložené verze.");
+}
+
+// Clear history
+function clearHistory() {
+  if (confirm("Opravdu chcete smazat uloženou historii?")) {
+    localStorage.removeItem(formStorageKey);
+    document.querySelector('form').reset();
+    document.getElementById('additional_carers_container').innerHTML = '';
+    document.getElementById('siblings_container').innerHTML = '';
+    alert("Historie byla smazána.");
+  }
+}
 
 </script>
 
