@@ -160,6 +160,7 @@ button.primary:hover {
   position: relative;
 }
 
+/* Print styles */
 @media print {
   fieldset > label,
   fieldset > input,
@@ -297,6 +298,11 @@ page-break-inside: avoid !important;
     white-space: pre-wrap;
     overflow: visible !important;
   }
+
+  textarea.long-text {
+  overflow: hidden;  /* hide scrollbars so JS auto-height works */
+  min-height: 50px;  /* reasonable starting height */
+}
 
   select {
     -webkit-appearance: none !important;
