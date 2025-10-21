@@ -177,41 +177,50 @@ button.primary:hover {
   }
 
 @media print {
-/* Keep dynamic fieldsets (siblings, carers) visually grouped */
-#additional_carers_container fieldset,
-#siblings_container fieldset {
-page-break-inside: avoid !important; /* never split mid-section */
-border: none !important;
-margin: 0 0 10mm 5mm !important; /* small left indent for hierarchy */
-padding: 0 !important;
-}
+  /* Keep dynamic fieldsets (siblings, carers) visually grouped */
+  #additional_carers_container fieldset,
+  #siblings_container fieldset {
+    page-break-inside: avoid !important; /* never split mid-section */
+    border: none !important;
+    margin: 0 0 10mm 8mm !important; /* slightly stronger left indent for hierarchy */
+    padding: 0 !important;
+  }
 
+  #additional_carers_container legend,
+  #siblings_container legend {
+    font-size: 13pt !important;
+    color: #000 !important;
+    font-weight: bold !important;
+    margin-left: 0 !important;
+    margin-bottom: 4mm !important;
+  }
 
-#additional_carers_container legend,
-#siblings_container legend {
-font-size: 13pt !important;
-color: #000 !important;
-font-weight: bold !important;
-margin-left: 0 !important;
-margin-bottom: 4mm !important;
-}
+  /* Consistent alignment inside generated carers/siblings */
+  #additional_carers_container .qa-block,
+  #siblings_container .qa-block {
+    margin-left: 0 !important; /* remove double-indent */
+    page-break-inside: avoid !important;
+  }
 
+  #additional_carers_container label,
+  #siblings_container label,
+  #additional_carers_container textarea,
+  #siblings_container textarea,
+  #additional_carers_container input,
+  #siblings_container input,
+  #additional_carers_container .qa-block,
+  #siblings_container .qa-block {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    page-break-inside: avoid !important;
+  }
 
-#additional_carers_container .qa-block,
-#siblings_container .qa-block {
-margin-left: 5mm !important; /* indent questions */
-page-break-inside: avoid !important;
-}
-
-
-#additional_carers_container label,
-#siblings_container label,
-#additional_carers_container textarea,
-#siblings_container textarea,
-#additional_carers_container input,
-#siblings_container input {
-page-break-inside: avoid !important;
-}
+  #additional_carers_container span,
+  #siblings_container span {
+    margin-left: 0 !important;
+    text-indent: 0 !important;
+  }
 }
 
   body {
@@ -393,8 +402,9 @@ page-break-inside: avoid !important;
 </head>
 <body>
 
-<h1>Anamnestický dotazník</h1>
 <form id="questionnaire">
+
+  <h1>Anamnestický dotazník</h1>
 
   <!-- Základní údaje -->
 <fieldset>
