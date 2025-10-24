@@ -85,7 +85,7 @@ button.primary:hover {
 
 
 
-/* Unified select-group alignment fix */
+/* Unified select-group alignment */
 .select-group {
   display: flex;
   flex-wrap: wrap;
@@ -156,6 +156,7 @@ button.primary:hover {
   padding: 14px 18px;
   margin: 20px 0;
   font-size: 15px;
+  font-style: italic;
   line-height: 1.6;
   color: #222;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -163,7 +164,8 @@ button.primary:hover {
 
 .tip-block::before {
   content: "💡 Proč se ptáme?";
-  font-weight: 600;
+  font-weight: 300;
+  font-style: normal;
   color: #0000dc;
   display: block;
   margin-bottom: 6px;
@@ -406,7 +408,7 @@ button.primary:hover {
   .hidden, button { display: none; }
 
 
-  .page-footer {
+ /*  .page-footer {
     display: block !important;
     position: relative;
     text-align: center;
@@ -423,6 +425,11 @@ button.primary:hover {
     margin: 1px 0;
     line-height: 1.2;
   }
+ */
+.page-footer {
+    display: none;
+  } 
+
 }
 
 
@@ -456,7 +463,7 @@ button.primary:hover {
   </div>
   <div class="qa-block">
     <label><span>Věk:</span></label>
-    <input type="text" name="child_age" id="child_age" readonly style="cursor:default; pointer-events: none;">
+    <input type="text" name="child_age" id="child_age" readonly style="cursor:default; pointer-events: none;" placeholder="Dopočítá se z data narození">
   </div>
 </fieldset>
 
@@ -641,6 +648,7 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>V jakém typu bydlení žijete?</span></label>
     <div class="select-group">
+      <label><input type="radio" name="housing_type" value="-"><span>-</span></label>
       <label><input type="radio" name="housing_type" value="Dům"><span>Dům</span></label>
       <label><input type="radio" name="housing_type" value="Byt"><span>Byt</span></label>
       <label><input type="radio" name="housing_type" value="Jiné"><span>Jiné</span></label>
@@ -683,7 +691,7 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Máte prostor s dítětem něco procvičovat?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="practice_with_child" value="-" checked><span>-</span></label>
+      <label><input type="radio" name="practice_with_child" value="-"><span>-</span></label>
       <label><input type="radio" name="practice_with_child" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="practice_with_child" value="Ne"><span>Ne</span></label>
     </div>
@@ -712,7 +720,7 @@ button.primary:hover {
   <div class="qa-block">
       <label><span>Má dítě přístup k telefonu nebo tabletu?</span></label>
       <div class="select-group">
-        <label><input type="radio" name="child_has_device" value="-" checked><span>-</span></label>
+        <label><input type="radio" name="child_has_device" value="-"><span>-</span></label>
         <label><input type="radio" name="child_has_device" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="child_has_device" value="Ne"><span>Ne</span></label>
       </div>
@@ -761,21 +769,45 @@ button.primary:hover {
 
 <script>
 
-  // Age calculation
-  const birthInput = document.getElementById('child_birthdate');
-  const ageInput = document.getElementById('child_age');
-  birthInput.addEventListener('change', () => {
-    const birthDate = new Date(birthInput.value);
-    if (!isNaN(birthDate)) {
-      const now = new Date();
-      let years = now.getFullYear() - birthDate.getFullYear();
-      let months = now.getMonth() - birthDate.getMonth();
-      if (months < 0) { years--; months += 12; }
-      ageInput.value = `${years} let, ${months} měsíců`;
-    } else {
-      ageInput.value = '';
-    }
-  });
+
+// Age calculation
+const birthInput = document.getElementById('child_birthdate');
+const ageInput = document.getElementById('child_age');
+
+function formatYearsCzech(years) {
+  if (years === 1) return '1 rok';
+  if (years >= 2 && years <= 4) return `${years} roky`;
+  return `${years} let`;
+}
+
+function formatMonthsCzech(months) {
+  if (months === 1) return '1 měsíc';
+  if (months >= 2 && months <= 4) return `${months} měsíce`;
+  return `${months} měsíců`;
+}
+
+birthInput.addEventListener('change', () => {
+  const birthDate = new Date(birthInput.value);
+  const today = new Date();
+
+  if (isNaN(birthDate) || birthDate > today) {
+    ageInput.value = 'Zkontrolujte, zda je datum narození dítěte zadáno správně.';
+    return;
+  }
+
+  let years = today.getFullYear() - birthDate.getFullYear();
+  let months = today.getMonth() - birthDate.getMonth();
+  if (months < 0) { 
+    years--; 
+    months += 12; 
+  }
+
+  const yearText = formatYearsCzech(years);
+  const monthText = formatMonthsCzech(months);
+  ageInput.value = `${yearText}, ${monthText}`;
+});
+
+
 
 // setupConditional that supports radio groups and <select>
 function setupConditional(selectName, detailId, triggerValue = 'Ano') {
@@ -787,10 +819,6 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
   const isRadioGroup = radios.length > 1 || (radios.length === 1 && radios[0].type === 'radio');
 
   if (isRadioGroup) {
-    // Select "-" by default if present
-    const dash = radios.find(r => r.value === '-');
-    if (dash) dash.checked = true;
-
     const update = () => {
       const checked = document.querySelector(`[name="${selectName}"]:checked`);
       detailDiv.style.display = checked && checked.value === triggerValue ? 'block' : 'none';
@@ -803,11 +831,6 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
     const elem = document.querySelector(`[name="${selectName}"]`);
     if (!elem) return;
 
-    if (elem.tagName === 'SELECT') {
-      const opt = Array.from(elem.options).find(o => o.value === '-');
-      if (opt) elem.value = '-';
-    }
-
     const update = () => {
       detailDiv.style.display = elem.value === triggerValue ? 'block' : 'none';
     };
@@ -816,6 +839,7 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
     update();
   }
 }
+
 
 setupConditional('mother_health', 'q_mother_health_detail', 'Ano');
 setupConditional('father_health', 'q_father_health_detail', 'Ano');
@@ -830,24 +854,6 @@ setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
 setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
 setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
 
-
-// Set "-" as baseline everywhere
-window.addEventListener('DOMContentLoaded', () => {
-  // For all selects
-  document.querySelectorAll('select').forEach(sel => {
-    if ([...sel.options].some(o => o.value === '-')) {
-      sel.value = '-';
-    }
-  });
-
-  // For all radio groups
-  const groups = [...new Set([...document.querySelectorAll('input[type="radio"]')].map(r => r.name))];
-  groups.forEach(name => {
-    const radios = document.getElementsByName(name);
-    const dash = [...radios].find(r => r.value === '-');
-    if (dash) dash.checked = true;
-  });
-});
 
 
   // Auto-expand long textareas
@@ -898,7 +904,7 @@ siblingsCountInput.addEventListener('input', () => {
       <div class="qa-block">
         <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_biological" value="-" checked><span>-</span></label>
+          <label><input type="radio" name="sibling_${i}_biological" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_biological" value="Ne"><span>Ne</span></label>
         </div>
@@ -906,7 +912,7 @@ siblingsCountInput.addEventListener('input', () => {
       <div class="qa-block">
         <label><span>Má dítě se sourozencem společné rodiče:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_common_parents" value="-" checked><span>-</span></label>
+          <label><input type="radio" name="sibling_${i}_common_parents" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_common_parents" value="Ne"><span>Ne</span></label>
         </div>
@@ -914,7 +920,7 @@ siblingsCountInput.addEventListener('input', () => {
       <div class="qa-block">
         <label><span>Žijí ve stejné domácnosti:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_same_household" value="-" checked><span>-</span></label>
+          <label><input type="radio" name="sibling_${i}_same_household" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_same_household" value="Ne"><span>Ne</span></label>
         </div>
