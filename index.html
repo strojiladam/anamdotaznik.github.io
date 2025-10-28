@@ -32,10 +32,31 @@
     font-family: "Times New Roman", Times, serif;
     vertical-align: middle;
   }
+
+  /* Add this block for consistent focus styles */
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    border-color: #0000dc; /* Change border to your accent color */
+    outline: none; /* Remove the default browser outline */
+  }
+
+  /* Hide arrows from number inputs - for Chrome, Safari, Edge, Opera */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Hide arrows from number inputs - for Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
   textarea.long-text {
     width: 100%;
     overflow-wrap: break-word;
-    resize: vertical;
+    resize: none;
     box-sizing: border-box;
     margin-top: 6px;
     margin-bottom: 22px;
@@ -863,18 +884,31 @@ setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
 
 
 
-  // Auto-expand long textareas with dynamic padding
-  function autoExpandTextarea(textarea) {
-    textarea.style.height = 'auto'; // Reset height to correctly calculate scrollHeight
-    const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 24; // Use a fallback
-    const numLines = Math.round(textarea.scrollHeight / lineHeight);
-    // Start adding padding after 2 lines. Add 10px for each additional line, up to a max of 1000px.
-    const padding = numLines > 2 ? Math.min((numLines - 2) * 10, 1000) : 0;
-    textarea.style.height = `${textarea.scrollHeight + padding}px`;
-  }
-  document.querySelectorAll('textarea.long-text').forEach(area => {
-    area.addEventListener('input', () => autoExpandTextarea(area));
-  });
+// Auto-expand and retract textarea with padding only after first character
+function autoExpandTextarea(textarea) {
+  textarea.style.height = 'auto'; // Reset height to recalc scrollHeight
+
+  const style = getComputedStyle(textarea);
+  const lineHeight = parseFloat(style.lineHeight) || 24;
+  const numLines = Math.round(textarea.scrollHeight / lineHeight);
+
+  // Only add padding if textarea has at least one character
+  const hasContent = textarea.value.trim().length > 0;
+  const basePadding = hasContent ? 10 : 0; // 0 if empty, else 10px
+  const extraPadding = hasContent ? (numLines - 1) * 10 : 0;
+  const padding = Math.min(basePadding + extraPadding, 1000);
+
+  textarea.style.height = `${textarea.scrollHeight + padding}px`;
+}
+
+// Apply to all long-text textareas
+document.querySelectorAll('textarea.long-text').forEach(area => {
+  area.addEventListener('input', () => autoExpandTextarea(area));
+  // Initialize height in case of prefilled content
+  autoExpandTextarea(area);
+});
+
+
 
 // Dynamic generation for additional carers
 const additionalCarersCountInput = document.getElementById('additional_carers_count');
@@ -898,6 +932,8 @@ additionalCarersCountInput.addEventListener('input', () => {
     additionalCarersContainer.appendChild(fs);
     fs.querySelectorAll('textarea.long-text').forEach(area => {
       area.addEventListener('input', () => autoExpandTextarea(area));
+            autoExpandTextarea(area); // Initialize height for newly created textareas
+
     });
   }
 });
@@ -948,6 +984,7 @@ siblingsCountInput.addEventListener('input', () => {
     siblingsContainer.appendChild(fs);
     fs.querySelectorAll('textarea.long-text').forEach(area => {
       area.addEventListener('input', () => autoExpandTextarea(area));
+            autoExpandTextarea(area); // Initialize height for newly created textareas
     });
   }
 });
