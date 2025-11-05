@@ -189,6 +189,27 @@ button.primary:hover {
   outline-offset: 2px;
 }
 
+
+/* --- Custom styling for "Bez odpovědi" --- */
+
+/* 1. Default state: Grey text for "Bez odpovědi" */
+.select-group input[value="Bez odpovědi"] + span {
+  color: #6c757d; /* A neutral grey */
+  transition: background-color 0.15s ease, color 0.15s ease; /* Smooth transition */
+}
+
+/* 2. Hover state: Highlight with a light red background */
+.select-group label:has(input[value="Bez odpovědi"]):hover span {
+  background-color: #dc354510; /* Light red background */
+}
+
+/* 3. Selected state: Red text and light red background */
+.select-group input[value="Bez odpovědi"]:checked + span {
+  color: #dc3545; /* Red text */
+  background-color: #dc354510; /* Light red background */
+}
+
+
   /* Tip / note block */
 .tip-block {
   background-color: #e9f1ff; /* light blue tone matching your accent */
@@ -434,6 +455,19 @@ button.primary:hover {
   /* Only hide conditional blocks that are NOT visible on screen */
   .qa-block.hidden:not(.is-visible) { display: none !important; }
 
+  /* Style for the unanswered question marker */
+  .unanswered-mark {
+    display: inline !important; /* Show the asterisk */
+    font-weight: bold;
+    color: #d00; /* Make it red to stand out */
+    margin-right: 6px;
+  }
+
+  /* Hide the live validation dot on print */
+  .unanswered-dot {
+    display: none !important;
+  }
+
 
  /*  .page-footer {
     display: block !important;
@@ -457,6 +491,26 @@ button.primary:hover {
     display: none;
   } 
 
+}
+
+/* --- Unanswered Question Dot (Live) --- */
+.unanswered-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #0000dc; /* Blue dot */
+  border-radius: 50%;
+  margin-right: 8px; /* Keep margin to prevent text jump */
+  vertical-align: middle;
+  transition: opacity 0.4s ease, width 0.4s ease, margin-right 0.4s ease; /* Animate width and margin */
+  opacity: 1;
+}
+
+
+.unanswered-dot.answered {
+  opacity: 0;
+  width: 0; /* Animate width to 0 */
+  margin-right: 0; /* Animate margin to 0 */
 }
 
 
@@ -515,42 +569,42 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Rodiče jsou:</span></label>
     <div class="select-group">
-      <label><input type="radio" name="parents_status" value="-"><span>-</span></label>
       <label><input type="radio" name="parents_status" value="Biologičtí"><span>Biologičtí</span></label>
       <label><input type="radio" name="parents_status" value="Vychovávající"><span>Vychovávající</span></label>
+      <label><input type="radio" name="parents_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Biologická matka je vychovávající matka?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="bio_mother_status" value="-"><span>-</span></label>
       <label><input type="radio" name="bio_mother_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_mother_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="bio_mother_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Biologický otec je vychovávající otec?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="bio_father_status" value="-"><span>-</span></label>
       <label><input type="radio" name="bio_father_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_father_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="bio_father_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Existuje další vychovávající rodič/pečovatel?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="additional_carer_status" value="-"><span>-</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ano - plná péče"><span>Ano - plná péče</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ano - střídavá péče"><span>Ano - střídavá péče</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="additional_carer_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Má matka nějaká zdravotní omezení?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="mother_health" value="-"><span>-</span></label>
       <label><input type="radio" name="mother_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_health" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="mother_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_mother_health_detail">
@@ -560,9 +614,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Má otec nějaká zdravotní omezení?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="father_health" value="-"><span>-</span></label>
       <label><input type="radio" name="father_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_health" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="father_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_father_health_detail">
@@ -572,9 +626,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Je matka dítěte momentálně zaměstnaná?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="mother_employed" value="-"><span>-</span></label>
       <label><input type="radio" name="mother_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_employed" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="mother_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_mother_jobs_detail">
@@ -584,9 +638,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Je otec dítěte momentálně zaměstnaný?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="father_employed" value="-"><span>-</span></label>
       <label><input type="radio" name="father_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_employed" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="father_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_father_jobs_detail">
@@ -596,9 +650,9 @@ button.primary:hover {
    <div class="qa-block">
     <label><span>Vychovává dítě i někdo jiný (podstatným způsobem zasahuje do života dítěte)?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="other_carer_status" value="-"><span>-</span></label>
       <label><input type="radio" name="other_carer_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="other_carer_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="other_carer_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_other_carer_detail">
@@ -609,9 +663,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Má dítě sourozence?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="has_siblings" value="-"><span>-</span></label>
       <label><input type="radio" name="has_siblings" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="has_siblings" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="has_siblings" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_siblings_detail">
@@ -626,9 +680,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="neurolog_exam" value="-"><span>-</span></label>
       <label><input type="radio" name="neurolog_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="neurolog_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_neurolog_exam_detail">
@@ -646,17 +700,17 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Byl dítěti někdy vyšetřen zrak?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="vision_exam" value="-"><span>-</span></label>
       <label><input type="radio" name="vision_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_exam" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="vision_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Má dítě se zrakem nějaké obtíže?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="vision_issues" value="-"><span>-</span></label>
       <label><input type="radio" name="vision_issues" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_issues" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="vision_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_vision_issues_detail">
@@ -675,10 +729,10 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>V jakém typu bydlení žijete?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="housing_type" value="-"><span>-</span></label>
       <label><input type="radio" name="housing_type" value="Dům"><span>Dům</span></label>
       <label><input type="radio" name="housing_type" value="Byt"><span>Byt</span></label>
       <label><input type="radio" name="housing_type" value="Jiné"><span>Jiné</span></label>
+      <label><input type="radio" name="housing_type" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
     <div class="qa-block hidden" id="q_housing_specification_detail">
@@ -696,17 +750,17 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Má dítě vlastní pokoj?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="child_own_room" value="-"><span>-</span></label>
       <label><input type="radio" name="child_own_room" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_room" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="child_own_room" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
     <label><span>Má dítě vlastní pracovní stůl?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="child_own_desk" value="-"><span>-</span></label>
       <label><input type="radio" name="child_own_desk" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_desk" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="child_own_desk" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   
@@ -718,9 +772,9 @@ button.primary:hover {
   <div class="qa-block">
     <label><span>Máte prostor s dítětem něco procvičovat?</span></label>
     <div class="select-group">
-      <label><input type="radio" name="practice_with_child" value="-"><span>-</span></label>
       <label><input type="radio" name="practice_with_child" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="practice_with_child" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="practice_with_child" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
 
@@ -747,9 +801,9 @@ button.primary:hover {
   <div class="qa-block">
       <label><span>Má dítě přístup k telefonu nebo tabletu?</span></label>
       <div class="select-group">
-        <label><input type="radio" name="child_has_device" value="-"><span>-</span></label>
         <label><input type="radio" name="child_has_device" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="child_has_device" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="child_has_device" value="Bez odpovědi"><span>Bez odpovědi</span></label>
       </div>
     </div>
 
@@ -776,7 +830,7 @@ button.primary:hover {
 
 
 <!-- Primary button -->
-<button type="button" class="primary" onclick="window.print()">Tisk / Uložit pdf</button>
+<button type="button" class="primary" onclick="printWithUnansweredMarks()">Tisk / Uložit pdf</button>
 
 <!-- Secondary save/load/clear buttons -->
 <div class="save-buttons">
@@ -880,7 +934,7 @@ setupConditional('child_has_device', 'q_child_device_detail2', 'Ano');
 setupConditional('child_has_device', 'q_child_device_detail3', 'Ano');
 setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
 setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
-setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
+setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné'); // This one is different
 
 
 
@@ -957,25 +1011,25 @@ siblingsCountInput.addEventListener('input', () => {
       <div class="qa-block">
         <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_biological" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_biological" value="Ne"><span>Ne</span></label>
+          <label><input type="radio" name="sibling_${i}_biological" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block">
         <label><span>Má dítě se sourozencem společné rodiče:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_common_parents" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_common_parents" value="Ne"><span>Ne</span></label>
+          <label><input type="radio" name="sibling_${i}_common_parents" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block">
         <label><span>Žijí ve stejné domácnosti:</span></label>
         <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_same_household" value="-"><span>-</span></label>
           <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="sibling_${i}_same_household" value="Ne"><span>Ne</span></label>
+          <label><input type="radio" name="sibling_${i}_same_household" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block"><label><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i}_relationship"></textarea></div>
@@ -1091,21 +1145,21 @@ function loadForm() {
         <label><span>Věk sourozence ${i + 1}:</span><input type="number" name="sibling_${i+1}_age" value="${sib['sibling_' + (i+1) + '_age'] || ''}"></label>
         <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
         <select name="sibling_${i+1}_biological">
-          <option value="-" ${sib['sibling_' + (i+1) + '_biological']==='-'?'selected':''}>-</option>
           <option value="Ano" ${sib['sibling_' + (i+1) + '_biological']==='Ano'?'selected':''}>Ano</option>
           <option value="Ne" ${sib['sibling_' + (i+1) + '_biological']==='Ne'?'selected':''}>Ne</option>
+          <option value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_biological']==='Bez odpovědi' || sib['sibling_' + (i+1) + '_biological']==='-' ?'selected':''}>Bez odpovědi</option>
         </select>
         <label><span>Má dítě se sourozencem společné rodiče:</span></label>
         <select name="sibling_${i+1}_common_parents">
-          <option value="-" ${sib['sibling_' + (i+1) + '_common_parents']==='-'?'selected':''}>-</option>
           <option value="Ano" ${sib['sibling_' + (i+1) + '_common_parents']==='Ano'?'selected':''}>Ano</option>
           <option value="Ne" ${sib['sibling_' + (i+1) + '_common_parents']==='Ne'?'selected':''}>Ne</option>
+          <option value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_common_parents']==='Bez odpovědi' || sib['sibling_' + (i+1) + '_common_parents']==='-' ?'selected':''}>Bez odpovědi</option>
         </select>
         <label><span>Žijí ve stejné domácnosti:</span></label>
         <select name="sibling_${i+1}_same_household">
-          <option value="-" ${sib['sibling_' + (i+1) + '_same_household']==='-'?'selected':''}>-</option>
           <option value="Ano" ${sib['sibling_' + (i+1) + '_same_household']==='Ano'?'selected':''}>Ano</option>
           <option value="Ne" ${sib['sibling_' + (i+1) + '_same_household']==='Ne'?'selected':''}>Ne</option>
+          <option value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_same_household']==='Bez odpovědi' || sib['sibling_' + (i+1) + '_same_household']==='-' ?'selected':''}>Bez odpovědi</option>
         </select>
         <div class="qa-block"><label><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i+1}_relationship">${sib['sibling_' + (i+1) + '_relationship'] || ''}</textarea></div>
         <div class="qa-block"><label><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i+1}_diagnoses">${sib['sibling_' + (i+1) + '_diagnoses'] || ''}</textarea></div>
@@ -1114,6 +1168,8 @@ function loadForm() {
       fs.querySelectorAll('textarea.long-text').forEach(area => autoExpandTextarea(area));
     });
   }
+  // After adding new fields, re-validate the form to show/hide dots
+  validateAllQuestions();
 
   alert("Formulář byl obnoven z poslední uložené verze.");
 }
@@ -1128,6 +1184,145 @@ function clearHistory() {
     alert("Historie byla smazána.");
   }
 }
+
+// --- Live Unanswered Question Validation ---
+
+function validateQuestionBlock(block) {
+  const label = block.querySelector('label > span');
+  if (!label) return;
+
+  let isUnanswered = false;
+
+  // Ignore the calculated age field
+  if (block.querySelector('#child_age')) {
+    return;
+  }
+
+  // Case 1: Text, number, date, or textarea inputs
+  const textInput = block.querySelector(':scope > input[type="text"], :scope > input[type="number"], :scope > input[type="date"], :scope > textarea, :scope > label > input[type="text"], :scope > label > input[type="number"]');
+  if (textInput && textInput.value.trim() === '') {
+    isUnanswered = true;
+  }
+
+  // Case 2: Radio button groups
+  const radioGroup = block.querySelector(':scope > .select-group input[type="radio"]');
+  if (radioGroup) {
+    const checkedRadio = block.querySelector(`:scope > .select-group input[name="${radioGroup.name}"]:checked`);
+    if (!checkedRadio) {
+      isUnanswered = true;
+    }
+  }
+
+  // Case 3: Checkbox groups (unanswered if none are checked)
+  const checkboxGroup = block.querySelector(':scope > .select-group input[type="checkbox"]');
+  if (checkboxGroup) {
+    const isAnyCheckboxChecked = block.querySelector(':scope > .select-group input[type="checkbox"]:checked');
+    if (!isAnyCheckboxChecked) {
+      isUnanswered = true;
+    }
+  }
+
+  const existingDot = label.querySelector('.unanswered-dot');
+
+  if (isUnanswered) {
+    if (!existingDot) {
+      const dot = document.createElement('span');
+      dot.className = 'unanswered-dot';
+      label.prepend(dot);
+    } else {
+      existingDot.classList.remove('answered'); // Make it visible again
+    }
+  } else if (existingDot) {
+    existingDot.classList.add('answered'); // Animate it out
+  }
+}
+
+function validateAllQuestions() {
+  document.querySelectorAll('.qa-block:not(.hidden), .qa-block.is-visible').forEach(validateQuestionBlock);
+}
+
+function setupLiveValidation() {
+  const form = document.getElementById('questionnaire');
+
+  form.addEventListener('input', (event) => {
+    const block = event.target.closest('.qa-block');
+    if (block) {
+      validateQuestionBlock(block);
+    }
+    // After adding new fields, re-validate the form to show/hide dots
+    setTimeout(() => {
+      validateAllQuestions();
+    }, 100); // Delay to ensure dynamic elements are fully rendered
+  });
+
+  // Initial validation on page load
+  validateAllQuestions();
+}
+
+
+
+// --- Print with Unanswered Marks ---
+
+function markUnansweredQuestions() {
+  // Find all question blocks that are currently visible
+  document.querySelectorAll('.qa-block:not(.hidden), .qa-block.is-visible').forEach(block => {
+    const label = block.querySelector('label > span');
+    if (!label) return;
+
+    let isUnanswered = false;
+
+    // Case 1: Text, number, date, or textarea inputs
+    // This selector handles both direct children and inputs nested inside the label.
+    const textInput = block.querySelector(':scope > input[type="text"], :scope > input[type="number"], :scope > input[type="date"], :scope > textarea, :scope > label > input[type="text"], :scope > label > input[type="number"]');
+
+    if (textInput && textInput.value.trim() === '') {
+      isUnanswered = true;
+    }
+
+    // Case 2: Radio button groups
+    const radioGroup = block.querySelector(':scope > .select-group input[type="radio"]');
+    if (radioGroup) {
+      const checkedRadio = block.querySelector(`:scope > .select-group input[name="${radioGroup.name}"]:checked`);
+      if (!checkedRadio || checkedRadio.value === 'Bez odpovědi') {
+        isUnanswered = true;
+      }
+    }
+
+    // Case 3: Checkbox groups (if none are checked)
+    const checkboxGroup = block.querySelector(':scope > .select-group input[type="checkbox"]');
+    if (checkboxGroup) {
+      const isAnyCheckboxChecked = block.querySelector(':scope > .select-group input[type="checkbox"]:checked');
+      if (!isAnyCheckboxChecked) isUnanswered = true;
+    }
+
+    // Add the asterisk if the question is unanswered
+    if (isUnanswered) {
+      const mark = document.createElement('span');
+      mark.className = 'unanswered-mark';
+      mark.style.display = 'none'; // Hide by default, shown by print styles
+      mark.textContent = '*';
+      label.prepend(mark);
+    }
+  });
+}
+
+function printWithUnansweredMarks() {
+  markUnansweredQuestions();
+  window.print();
+  // The 'afterprint' event will clean up the marks
+}
+
+window.addEventListener('afterprint', () => {
+  document.querySelectorAll('.unanswered-mark').forEach(mark => mark.remove());
+});
+
+// Initialize all dynamic functionalities on page load
+document.addEventListener('DOMContentLoaded', setupLiveValidation);
+
+
+
+
+
 
 </script>
 
