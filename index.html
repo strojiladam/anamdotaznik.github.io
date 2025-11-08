@@ -297,6 +297,18 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     align-items: center;
     padding: 0;
   }
+
+  /* Scale down the A4 preview on smaller screens */
+  @media (max-width: 230mm) {
+    .preview-mode-active form {
+      /* Calculate the scale factor to fit the viewport width */
+      transform: scale(calc(100vw / 230mm));
+      transform-origin: top center;
+      /* Adjust margin to account for scaling */
+      margin-top: calc(20px * (230mm / 100vw));
+      margin-bottom: calc(20px * (230mm / 100vw));
+    }
+  }
 }
 
 .print-preview.preview-mode-active body, .print-preview body {
@@ -1587,10 +1599,20 @@ function togglePrintPreview() {
       }
     });
 
+    // Reset textarea height for preview so CSS can take over
+    document.querySelectorAll('textarea.long-text').forEach(area => {
+        area.style.height = '';
+    });
+
   } else {
     removeUnansweredMarks();
     inputs.forEach(el => {
         el.readOnly = false;
+    });
+
+    // Re-apply auto-expand to textareas when exiting preview
+    document.querySelectorAll('textarea.long-text').forEach(area => {
+        autoExpandTextarea(area);
     });
   }
 }
