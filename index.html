@@ -79,6 +79,23 @@ button.primary:hover {
   background-color: #0000aa;
 }
 
+/* Secondary button style for preview controls */
+.preview-controls button.secondary {
+  background-color: white;
+  color: #0000dc;
+  border: 1px solid #0000dc;
+  margin-top: 0; /* Override default margin */
+}
+
+.preview-controls button.secondary:hover {
+  background-color: #e9f1ff; /* Light blue from tip-block */
+}
+
+/* Ensure all buttons in the preview controls have no top margin */
+.preview-controls button {
+  margin-top: 0;
+}
+
 /* Secondary buttons (save/load/clear) */
 .save-buttons button {
   margin-top: 20px;
@@ -173,12 +190,12 @@ button.primary:hover {
   height: auto;
 }
 
-.select-group label:hover span {
+html:not(.preview-mode-active) .select-group label:hover span {
   background-color: #0000dc08;
 }
 
-.select-group input[type="radio"]:checked + span,
-.select-group input[type="checkbox"]:checked + span {
+html:not(.preview-mode-active) .select-group input[type="radio"]:checked + span,
+html:not(.preview-mode-active) .select-group input[type="checkbox"]:checked + span {
   background-color: #0000dc10;
   color: #0000dc;
 }
@@ -199,12 +216,12 @@ button.primary:hover {
 }
 
 /* 2. Hover state: Highlight with a light red background */
-.select-group label:has(input[value="Bez odpovědi"]):hover span {
+html:not(.preview-mode-active) .select-group label:has(input[value="Bez odpovědi"]):hover span {
   background-color: #dc354510; /* Light red background */
 }
 
 /* 3. Selected state: Red text and light red background */
-.select-group input[value="Bez odpovědi"]:checked + span {
+html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checked + span {
   color: #dc3545; /* Red text */
   background-color: #dc354510; /* Light red background */
 }
@@ -246,8 +263,269 @@ button.primary:hover {
   position: relative;
 }
 
+/* --- Preview Floating Controls --- */
+.preview-controls {
+  display: none; /* Hidden by default */
+}
 
-/* Print styles */
+.preview-mode-active .preview-controls {
+  display: flex;
+  gap: 15px;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 25px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+  z-index: 1001;
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+
+
+
+/* --- A4 Preview Layout --- */
+@media screen {
+  .preview-mode-active {
+    background-color: #e0e0e0; /* Grey backdrop */
+  }
+  .preview-mode-active body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+}
+
+.print-preview.preview-mode-active body, .print-preview body {
+  background-color: #e0e0e0;
+}
+
+
+.print-preview fieldset > label,
+.print-preview fieldset > input,
+.print-preview fieldset > select,
+.print-preview fieldset > textarea,
+.print-preview fieldset > .select-group,
+.print-preview fieldset > .qa-block {
+  page-break-inside: avoid !important;
+}
+
+.print-preview #additional_carers_container fieldset,
+.print-preview #siblings_container fieldset {
+  border: none !important;
+  margin: 0 0 10mm 0 !important;
+  padding: 0 !important;
+}
+
+.print-preview #additional_carers_container legend,
+.print-preview #siblings_container legend {
+  font-size: 13pt !important;
+  color: #000 !important;
+  font-weight: bold !important;
+  margin-left: 0 !important;
+  margin-bottom: 4mm !important;
+}
+
+.print-preview #additional_carers_container .qa-block,
+.print-preview #siblings_container .qa-block {
+  margin-left: 8mm !important;
+}
+
+.print-preview #additional_carers_container span,
+.print-preview #siblings_container span {
+  margin-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+.print-preview h1 {
+  font-weight: bold;
+  font-size: 20pt;
+  color: #0000dc;
+  margin-bottom: 20px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.print-preview .tip-block {
+  display: none;
+}
+
+.preview-mode-active form {
+  width: 230mm;
+  min-height: 297mm;
+  margin: 20px 0; /* Add some vertical margin for spacing from screen edges */
+  padding: 20mm;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border-radius: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+.print-preview form {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.print-preview fieldset {
+  background: none;
+  border: none !important;
+  padding: 0 !important;
+  margin-bottom: 25px !important;
+  font-family: "Times New Roman", Times, serif;
+}
+.preview-mode-active fieldset {
+  border-radius: 0;
+}
+
+.print-preview legend {
+  color: #0000dc;
+  font-size: 14pt;
+  font-weight: normal;
+  border-bottom: none;
+  margin-left: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 25px !important;
+  text-align: left !important;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.print-preview label {
+  display: block !important;
+  justify-content: flex-start;
+  margin-bottom: 6px !important;
+  page-break-inside: avoid !important;
+  font-weight: normal;
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.print-preview label span {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: normal;
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.print-preview input,
+.print-preview select,
+.print-preview textarea {
+  display: block !important;
+  border: none;
+  background: none;
+  width: 100% !important;
+  font-weight: normal;
+  margin-left: 0 !important;
+  color: #444;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt !important;
+  page-break-inside: auto !important;
+  margin-bottom: 22px !important;
+}
+/* Make inputs non-editable in preview */
+.print-preview.preview-mode-active input,
+.print-preview.preview-mode-active select,
+.print-preview.preview-mode-active textarea {
+  pointer-events: none;
+  caret-color: transparent;
+}
+
+.print-preview textarea {
+  resize: none;
+  white-space: pre-wrap;
+  overflow: visible !important;
+}
+
+.print-preview .qa-block > label {
+  page-break-after: avoid !important;
+}
+
+.print-preview select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  pointer-events: none;
+}
+
+.print-preview select::-ms-expand { display: none !important; }
+
+.print-preview textarea::-webkit-scrollbar { display: none !important; }
+
+.print-preview .select-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  margin-top: 0 !important;
+  margin-bottom: 22px !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  page-break-inside: avoid !important;
+  pointer-events: none; /* Disable interaction on the whole group */
+}
+
+.print-preview .select-group label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-weight: normal !important;
+  font-size: 12pt !important;
+  color: #000 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
+  border: none !important;
+  cursor: default !important;
+}
+
+.print-preview .select-group input[type="radio"],
+.print-preview .select-group input[type="checkbox"] {
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0 !important;
+  accent-color: #000 !important;
+}
+
+.print-preview .select-group label span {
+  display: inline-block !important;
+  line-height: 1.2 !important;
+  color: #000 !important;
+  font-weight: normal !important;
+}
+
+.print-preview .select-group input[type="radio"]:checked + span,
+.print-preview .select-group input[type="checkbox"]:checked + span {
+  font-weight: bold !important;
+}
+
+.print-preview .qa-block {
+  display: block;
+  margin-bottom: 22px !important;
+}
+
+.print-preview #preview-button,
+.print-preview .save-buttons {
+ display: none !important; }
+
+.print-preview .qa-block.hidden:not(.is-visible) { display: none !important; }
+
+.print-preview .unanswered-mark {
+  display: inline !important;
+  font-weight: bold;
+  color: #d00;
+  margin-right: 6px;
+}
+
+.print-preview .unanswered-dot {
+  display: none !important;
+}
+
+.print-preview .page-footer {
+  display: none;
+}
+
 @media print {
   fieldset > label,
   fieldset > input,
@@ -261,6 +539,16 @@ button.primary:hover {
   @page { 
     size: A4; 
     margin: 20mm; 
+  }
+
+  html {
+    font-size: 12pt; /* Set a base font size for print to prevent scaling issues */
+  }
+
+
+  form {
+    box-shadow: none !important;
+    padding: 0 !important;
   }
 
   /* Keep dynamic fieldsets (siblings, carers) visually grouped */
@@ -466,6 +754,10 @@ button.primary:hover {
   /* Hide the live validation dot on print */
   .unanswered-dot {
     display: none !important;
+  }
+
+  .preview-controls {
+    display: none !important; /* Hide floating controls in the actual print output */
   }
 
 
@@ -830,7 +1122,7 @@ button.primary:hover {
 
 
 <!-- Primary button -->
-<button type="button" class="primary" onclick="printWithUnansweredMarks()">Tisk / Uložit pdf</button>
+<button type="button" class="primary" id="preview-button" onclick="togglePrintPreview()">Náhled tisku</button>
 
 <!-- Secondary save/load/clear buttons -->
 <div class="save-buttons">
@@ -847,6 +1139,12 @@ button.primary:hover {
 </footer>
 
 </form>
+
+<!-- Floating controls for Print Preview -->
+<div class="preview-controls">
+  <button type="button" class="primary secondary" onclick="togglePrintPreview()">Zpět</button>
+  <button type="button" class="primary" onclick="printWithUnansweredMarks()">Tisk PDF</button>
+</div>
 
 <script>
 
@@ -1263,14 +1561,52 @@ function setupLiveValidation() {
 
 // --- Print with Unanswered Marks ---
 
+function removeUnansweredMarks() {
+  document.querySelectorAll('.unanswered-mark').forEach(mark => mark.remove());
+}
+
+function togglePrintPreview() {
+  const body = document.body;
+  const html = document.documentElement;
+  const button = document.getElementById('preview-button');
+  const form = document.getElementById('questionnaire');
+  const isPreviewing = html.classList.toggle('preview-mode-active');
+  body.classList.toggle('print-preview', isPreviewing);
+
+  // Select all input fields
+  const inputs = form.querySelectorAll('input, textarea, select');
+
+  if (isPreviewing) {
+    markUnansweredQuestions();
+    window.scrollTo(0, 0); // Scroll to top
+
+    // Make all fields non-editable
+    inputs.forEach(el => {
+      if (el.tagName.toLowerCase() !== 'select' && el.type !== 'radio' && el.type !== 'checkbox') {
+        el.readOnly = true;
+      }
+    });
+
+  } else {
+    removeUnansweredMarks();
+    inputs.forEach(el => {
+        el.readOnly = false;
+    });
+  }
+}
+
 function markUnansweredQuestions() {
   // Find all question blocks that are currently visible
   document.querySelectorAll('.qa-block:not(.hidden), .qa-block.is-visible').forEach(block => {
     const label = block.querySelector('label > span');
     if (!label) return;
 
-    let isUnanswered = false;
+    // Ignore the calculated age field from being marked as unanswered
+    if (block.querySelector('#child_age')) {
+        return;
+    }
 
+    let isUnanswered = false;
     // Case 1: Text, number, date, or textarea inputs
     // This selector handles both direct children and inputs nested inside the label.
     const textInput = block.querySelector(':scope > input[type="text"], :scope > input[type="number"], :scope > input[type="date"], :scope > textarea, :scope > label > input[type="text"], :scope > label > input[type="number"]');
@@ -1307,13 +1643,15 @@ function markUnansweredQuestions() {
 }
 
 function printWithUnansweredMarks() {
-  markUnansweredQuestions();
+  // This function is now used for the "Tisk PDF" button in preview
   window.print();
-  // The 'afterprint' event will clean up the marks
 }
 
 window.addEventListener('afterprint', () => {
-  document.querySelectorAll('.unanswered-mark').forEach(mark => mark.remove());
+  // Only remove marks if we are NOT in preview mode.
+  if (!document.documentElement.classList.contains('preview-mode-active')) {
+    removeUnansweredMarks();
+  }
 });
 
 // Initialize all dynamic functionalities on page load
