@@ -1600,8 +1600,11 @@ function togglePrintPreview() {
     });
 
     // Reset textarea height for preview so CSS can take over
+    // Recalculate height to fit content exactly, removing auto-expand gaps.
     document.querySelectorAll('textarea.long-text').forEach(area => {
-        area.style.height = '';
+        area.style.height = 'auto'; // Reset height
+        area.style.height = `${area.scrollHeight}px`; // Set to content height
+        area.style.overflow = 'hidden'; // Hide scrollbar that might appear
     });
 
   } else {
@@ -1612,6 +1615,7 @@ function togglePrintPreview() {
 
     // Re-apply auto-expand to textareas when exiting preview
     document.querySelectorAll('textarea.long-text').forEach(area => {
+        area.style.overflow = ''; // Restore default overflow
         autoExpandTextarea(area);
     });
   }
