@@ -858,6 +858,16 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   margin-right: 0; /* Animate margin to 0 */
 }
 
+/* --- Mobile-specific adjustments --- */
+@media (max-width: 600px) {
+  body:not(.preview-mode-active) {
+    padding: 5px; /* Reduce body padding on small screens */
+  }
+  form:not(.preview-mode-active form) {
+    padding: 7px; /* Reduce form padding on small screens */
+  }
+}
+
 
 </style>
 </head>
