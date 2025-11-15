@@ -65,5 +65,6 @@ Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostu
 ---
 
 *Technické zpracování a design:*
+
 © Adam Strojil, 2025.  
 All rights reserved.
