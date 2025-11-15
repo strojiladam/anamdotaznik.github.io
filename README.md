@@ -1,5 +1,5 @@
-# anamdotaznik.github.io
-Dynamický anamnestický dotazník pro web **diagnostikaditete.cz**
+# Anamnestický dotazník
+Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostupné pro pužití v praxi.
 
 **Preview:** https://strojiladam.github.io/anamdotaznik.github.io/
 
@@ -9,15 +9,15 @@ Dynamický anamnestický dotazník pro web **diagnostikaditete.cz**
 
 ### 2.1
 #### Ukládání a práce s daty
-- Manuální průběžné uložení.
-- Automatické průběžné ukládání.
-- Manuální znovunačtení posledního automatického uložení.
-- Možnost vymazání historie a aktuálního průchodu.
-- **Export a import JSON souboru**:
+- Přidáno manuální průběžné uložení.
+- Přidáno automatické (i manuální) průběžné ukládání.
+- Přidáno manuální znovunačtení posledního průběžného uložení.
+- Přidána možnost možnost vymazání historie a aktuálního průchodu.
+- **Nový export a import JSON souboru**:
   - Umožňuje přenést průchod mezi zařízeními.
   - Klient může přinést vyplněný JSON soubor odborníkovi.
   - Alternativa při problémech exportu do PDF (např. na telefonu) — odborník si PDF vytvoří na svém zařízení.
-  - Někteří odborníci mohou upřednostnit ukládání a načítání editovatelných souborů ve formátu JSON přímo ve svém zařízení, namísto archivace výsledků ve fixním PDF.
+  - Někteří odborníci mohou upřednostnit ukládání a načítání editovatelných souborů ve formátu JSON přímo ve svém zařízení, namísto archivace výsledků ve fixním PDF nebo v tištěné podobě.
 
 #### Uživatelské rozhraní
 - Nový úvodní a závěrečný blok s přehledem funkcí (ukládání, export, instrukce).
@@ -64,5 +64,6 @@ Dynamický anamnestický dotazník pro web **diagnostikaditete.cz**
 
 ---
 
+*Technické zpracování a design:*
 © Adam Strojil, 2025.  
 All rights reserved.
