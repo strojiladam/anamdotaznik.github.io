@@ -10,7 +10,7 @@ Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostu
 ### 2.1
 #### Ukládání a práce s daty
 - Přidáno manuální průběžné uložení.
-- Přidáno automatické (i manuální) průběžné ukládání.
+- Přidáno automatické průběžné ukládání.
 - Přidáno manuální znovunačtení posledního průběžného uložení.
 - Přidána možnost možnost vymazání historie a aktuálního průchodu.
 - **Nový export a import JSON souboru**:
