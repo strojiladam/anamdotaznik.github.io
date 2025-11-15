@@ -16,10 +16,11 @@ Dynamický anamnestický dotazník pro web **diagnostikaditete.cz**
 - **Export a import JSON souboru**:
   - Umožňuje přenést průchod mezi zařízeními.
   - Klient může přinést vyplněný JSON soubor odborníkovi.
-  - Alternativa při problémech exportu do PDF na telefonu — odborník si PDF vytvoří na svém zařízení.
+  - Alternativa při problémech exportu do PDF (např. na telefonu) — odborník si PDF vytvoří na svém zařízení.
+  - Někteří odborníci mohou upřednostnit ukládání a načítání editovatelných souborů ve formátu JSON přímo ve svém zařízení, namísto archivace výsledků ve fixním PDF.
 
 #### Uživatelské rozhraní
-- Nový úvodní a závěrečný blok s přehledem funkcí (ukládání, export, průvodce).
+- Nový úvodní a závěrečný blok s přehledem funkcí (ukládání, export, instrukce).
 - Přidány nové sekce **Škola** a **Školka**.
 
 ---
