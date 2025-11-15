@@ -12,7 +12,7 @@ Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostu
 - Přidáno manuální průběžné uložení.
 - Přidáno automatické průběžné ukládání.
 - Přidáno manuální znovunačtení posledního průběžného uložení.
-- Přidána možnost možnost vymazání historie a aktuálního průchodu.
+- Přidána možnost vymazání historie a aktuálního průchodu.
 - **Nový export a import JSON souboru**:
   - Umožňuje přenést průchod mezi zařízeními.
   - Klient může přinést vyplněný JSON soubor odborníkovi.
