@@ -1,5 +1,5 @@
 # Anamnestický dotazník
-Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostupné pro pužití v praxi.
+Vývoj anamnestického dotazníku pro web **diagnostikaditete.cz**. Volně dostupné pro použití v praxi.
 
 **Preview:** https://strojiladam.github.io/anamdotaznik.github.io/
 
