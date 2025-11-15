@@ -15,9 +15,9 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 - Přidána možnost vymazání historie a aktuálního průchodu.
 - **Nový export a import JSON souboru**:
   - Umožňuje přenést průchod mezi zařízeními.
-  - Klient může přinést vyplněný JSON soubor odborníkovi.
-  - Alternativa při problémech exportu do PDF (např. na telefonu) — odborník si PDF vytvoří na svém zařízení.
-  - Někteří odborníci mohou upřednostnit ukládání a načítání editovatelných souborů ve formátu JSON přímo ve svém zařízení, namísto archivace výsledků ve fixním PDF nebo v tištěné podobě.
+  - Klient může přinést vyplněný dotazník v souboru JSON specialistovi.
+  - Alternativa při problémech exportu do PDF (např. na telefonu) — specialista si PDF vytvoří na svém zařízení.
+  - Někteří specialisté mohou upřednostnit ukládání a načítání editovatelných souborů ve formátu JSON přímo ve svém zařízení, namísto archivace výsledků ve fixním PDF nebo v tištěné podobě.
 
 #### Uživatelské rozhraní
 - Nový úvodní a závěrečný blok s přehledem funkcí (ukládání, export, instrukce).
@@ -35,8 +35,8 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 
 ### 1.1.2
 - Upraven design volby „Bez odpovědi“ (červené zvýraznění, přesun na konec nabídky).
-- Přidána dynamická indikace nezodpovězených otázek (puntík).
-- Tištěná verze nově označuje nezodpovězené položky červenou hvězdičkou „*“.
+- Přidána dynamická indikace nezodpovězených otázek (moddrý puntík).
+- Tištěná verze nově označuje nezodpovězené položky červenou hvězdičkou.
 
 ---
 
