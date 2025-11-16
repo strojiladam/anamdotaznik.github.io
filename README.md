@@ -22,6 +22,7 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 #### Uživatelské rozhraní
 - Nový úvodní a závěrečný blok s přehledem funkcí (ukládání, export, instrukce).
 - Přidány nové sekce **Škola** a **Školka**.
+- Drobné úpravy rozložení pro mobilní zařízení.
 
 ---
 
