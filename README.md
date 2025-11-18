@@ -7,7 +7,7 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 
 ## Patch Notes
 
-### 2.1
+### 2.1-alpha
 #### Ukládání a práce s daty
 - Přidáno manuální průběžné uložení.
 - Přidáno automatické průběžné ukládání.
@@ -26,7 +26,7 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 
 ---
 
-### 2.0
+### 2.0-alpha
 - **Nová funkce náhledu tisku**:
   - Zobrazuje orientační vzhled budoucí tištěné nebo PDF verze.
   - Pomáhá řešit problémy exportu do PDF na mobilních zařízeních.
@@ -34,20 +34,20 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 
 ---
 
-### 1.1.2
+### 1.1.2-alpha
 - Upraven design volby „Bez odpovědi“ (červené zvýraznění, přesun na konec nabídky).
-- Přidána dynamická indikace nezodpovězených otázek (moddrý puntík).
+- Přidána dynamická indikace nezodpovězených otázek (modrý puntík).
 - Tištěná verze nově označuje nezodpovězené položky červenou hvězdičkou.
 
 ---
 
-### 1.1.1
+### 1.1.1-alpha
 - Podmíněné zobrazování nově využívá plynulou animaci.
 - Sjednocen vzhled a chování napříč prohlížeči (písmo, styl aktivních polí, odstranění nativních prvků jako šipky a scrollbary).
 
 ---
 
-### 1.1
+### 1.1-alpha
 - Nahrazení rozbalovacích seznamů přehlednějšími multiple-choice položkami včetně volby „Bez odpovědi“ („–“).
 - Odpovědi jsou nyní umístěny pod otázkami pro lepší čitelnost.
 - Upravená struktura zamezuje rozdělování otázek a odpovědí při exportu do PDF.
@@ -59,7 +59,7 @@ Vývoj anamnestického dotazníku pro web [diagnostikaditete.cz](https://diagnos
 
 ---
 
-### 1.0 (Legacy)
+### 1.0-alpha
 - Vytvoření dotazníku s jednoduchým dynamickým zobrazováním otázek
 - Základní možnost tisku
 
