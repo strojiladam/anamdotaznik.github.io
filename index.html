@@ -235,15 +235,44 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   /* Tip / note block */
 .tip-block {
   background-color: #e9f1ff; /* light blue tone matching your accent */
-  border-left: 5px solid #0000dc;
+  border-bottom: 3px solid #B3C7FF;
   border-radius: 8px;
-  padding: 14px 18px;
-  margin: 20px 0;
-  font-size: 15px;
+  padding: 14px 18px; /* Keep padding consistent */
+  margin: 10px 0 20px;  font-size: 15px;
   font-style: italic;
   line-height: 1.6;
   color: #222;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative; /* Needed to position the arrow */
+}
+
+/* Arrow pointing DOWN (for tip blocks ABOVE a question) */
+.tip-block::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* Position the arrow just below the block */
+  left: 30px; /* Indent the arrow slightly */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #B3C7FF; /* Arrow color matches the block */
+}
+
+/* New modifier class for a tip block placed UNDER a question */
+.tip-block.tip-block-under {
+  margin-top: 0px; /* Creates space from the question above */
+  margin-bottom: 30px; /* Removes bottom margin */
+  border-bottom: 0;
+  border-top: 3px solid #B3C7FF; /* Change border to top */
+}
+
+/* Arrow pointing UP (for tip blocks UNDER a question) */
+.tip-block.tip-block-under::after {
+  bottom: auto; /* Unset the 'bottom' property from the default arrow */
+  top: -10px; /* Position the arrow just above the block */
+  border-top: none; /* Remove the downward-pointing arrow */
+  border-bottom: 10px solid #B3C7FF; /* Create an upward-pointing arrow */
 }
 
 .tip-block::before {
@@ -878,7 +907,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   <h1>Anamnestický dotazník</h1>
 
   <div class="instruction-block">
-    <p>Je možné, že vás některý ze specialistů pečujících o vaše dítě požádal o poskytnutí anamnestických informací. Tento dotazník vás provede otázkami zaměřenými na různé oblasti života vašeho dítěte. Anamnéza by měla být důkladná, aby specialistům umožnila vytvořit ucelený obraz o vašem dítěti a přesně zacílit následnou pomoc a doporučení. Snažte se proto odpovídat upřímně a poskytovat dostatečné detaily, které by mohly být užitečné pro tyto účely, zejména u otevřených odpovědí. U některých otázek však stačí i několik slov nebo jedna věta – je to na vašem uvážení.</p>
+    <p>Je možné, že vás některý ze specialistů pečujících o vaše dítě požádal o poskytnutí anamnestických informací. Tento dotazník vás provede otázkami zaměřenými na různé oblasti života vašeho dítěte. Anamnéza by měla být důkladná, aby specialistům umožnila vytvořit ucelený obraz o vašem dítěti a přesně zacílit následnou pomoc a doporučení. Snažte se proto odpovídat upřímně a u otevřených odpovědí poskytovat dostatečné detaily. U některých otázek však stačí i několik slov nebo jedna věta – je to na vašem uvážení.</p>
     <ul>
       <li>Dotazník není krátký a k pohodlnějšímu vyplňování tedy doporučujeme použít stolní počítač.</li>
       <li>Během vyplňování se budou na základě vašich odpovědí rozbalovat doplňující otázky.</li>
@@ -909,13 +938,18 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   <legend>Základní údaje</legend>
 
     <div class="tip-block">
-  Na tyto informace se ptáme, abychom poznali vaše dítě.
+  *PLACEHOLDER* Toto je blok "Proč se ptáme?" v úvodu sekce.
 </div>
 
   <div class="qa-block">
     <label><span>Jméno dítěte:</span></label>
     <input class="short-text" type="text" name="child_name">
   </div>
+
+  <div class="tip-block">
+  *PLACEHOLDER* Toto je blok "Proč se ptáme?" nad otázkou uvnitř sekce.
+</div>
+
   <div class="qa-block">
     <label><span>Jak si dítě přeje být oslovováno:</span></label>
     <input class="short-text" type="text" name="child_preferred_name">
@@ -924,6 +958,11 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     <label><span>Datum narození dítěte:</span></label>
     <input type="date" name="child_birthdate" id="child_birthdate">
   </div>
+
+   <div class="tip-block tip-block-under">
+  *PLACEHOLDER* Toto je blok "Proč se ptáme?" pod otázkou uvnitř sekce.
+</div>
+
   <div class="qa-block">
     <label><span>Věk:</span></label>
     <input type="text" name="child_age" id="child_age" readonly style="cursor:default; pointer-events: none;" placeholder="Dopočítá se z data narození">
@@ -931,7 +970,61 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 </fieldset>
 
 <fieldset>
+  <legend>Zdravotní anamnéza</legend>
+  <div class="qa-block">
+    <label><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="neurolog_exam" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="neurolog_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_neurolog_exam_detail">
+    <label><span>Jaké diagnózy stanovil/i:</span></label>
+    <textarea class="long-text" name="diagnoses"></textarea>
+  </div>
+  <div class="qa-block">
+    <label><span>Trpí dítě některými chronickými onemocněními?</span></label>
+    <textarea class="long-text" name="chronic_illnesses"></textarea>
+  </div>
+  <div class="qa-block">
+    <label><span>Prodělalo dítě v minulosti nějaké vážné zdravotní komplikace?</span></label>
+    <textarea class="long-text" name="past_health_issues"></textarea>
+  </div>
+  <div class="qa-block">
+    <label><span>Byl dítěti někdy vyšetřen zrak?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="vision_exam" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="vision_exam" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="vision_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block">
+    <label><span>Má dítě se zrakem nějaké obtíže?</span></label>
+    <div class="select-group">
+      <label><input type="radio" name="vision_issues" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="vision_issues" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="vision_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_vision_issues_detail">
+    <label><span>Dítě:</span></label>
+    <div class="select-group">
+      <label><input type="checkbox" name="vision_devices_glasses"><span>Nosí brýle</span></label>
+      <label><input type="checkbox" name="vision_devices_contacts"><span>Nosí kontaktní čočky</span></label>
+      <label><input type="checkbox" name="vision_devices_occluder"><span>Používá okluzory</span></label>
+      <label><input type="checkbox" name="vision_devices_surgery"><span>Podstoupilo operaci očí</span></label>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset>
   <legend>Rodinná anamnéza</legend>
+
+    <div class="tip-block">
+    V rodinném prostředí dítě tráví velkou část, často i většinu svého času. Rodina tak do značné míry určuje, jak má nastavené denní režimy, pravidla, i jaké míře zátěže je dlouhodobě vystaveno.
+    </div>
+
   <div class="qa-block">
     <label><span>Jméno matky:</span></label>
     <input class="short-text" type="text" name="mother_name">
@@ -1057,54 +1150,6 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   </div>
 </fieldset>
 
-<fieldset>
-  <legend>Zdravotní anamnéza</legend>
-  <div class="qa-block">
-    <label><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
-    <div class="select-group">
-      <label><input type="radio" name="neurolog_exam" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="neurolog_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-    </div>
-  </div>
-  <div class="qa-block hidden" id="q_neurolog_exam_detail">
-    <label><span>Jaké diagnózy stanovil/i:</span></label>
-    <textarea class="long-text" name="diagnoses"></textarea>
-  </div>
-  <div class="qa-block">
-    <label><span>Trpí dítě některými chronickými onemocněními?</span></label>
-    <textarea class="long-text" name="chronic_illnesses"></textarea>
-  </div>
-  <div class="qa-block">
-    <label><span>Prodělalo dítě v minulosti nějaké vážné zdravotní komplikace?</span></label>
-    <textarea class="long-text" name="past_health_issues"></textarea>
-  </div>
-  <div class="qa-block">
-    <label><span>Byl dítěti někdy vyšetřen zrak?</span></label>
-    <div class="select-group">
-      <label><input type="radio" name="vision_exam" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="vision_exam" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="vision_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-    </div>
-  </div>
-  <div class="qa-block">
-    <label><span>Má dítě se zrakem nějaké obtíže?</span></label>
-    <div class="select-group">
-      <label><input type="radio" name="vision_issues" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="vision_issues" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="vision_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-    </div>
-  </div>
-  <div class="qa-block hidden" id="q_vision_issues_detail">
-    <label><span>Dítě:</span></label>
-    <div class="select-group">
-      <label><input type="checkbox" name="vision_devices_glasses"><span>Nosí brýle</span></label>
-      <label><input type="checkbox" name="vision_devices_contacts"><span>Nosí kontaktní čočky</span></label>
-      <label><input type="checkbox" name="vision_devices_occluder"><span>Používá okluzory</span></label>
-      <label><input type="checkbox" name="vision_devices_surgery"><span>Podstoupilo operaci očí</span></label>
-    </div>
-  </div>
-</fieldset>
 
 <fieldset>
   <legend>Sociální anamnéza</legend>
@@ -1671,7 +1716,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
     <div class="save-buttons">
-      <button type="button" class="btn primary" id="preview-button" onclick="togglePrintPreview()">Náhled tisku</button>
+      <button type="button" class="btn primary" id="preview-button" onclick="togglePrintPreview()">Náhled tisku / PDF</button>
       <button type="button" class="btn primary" onclick="saveAsJsonFile()">Uložit do souboru</button>
     </div>
       <button type="button" class="btn btn-secondary" onclick="saveForm(true)" style="margin-left: auto;">Průběžně uložit</button>
@@ -2389,4 +2434,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
