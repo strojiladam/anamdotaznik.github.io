@@ -284,10 +284,10 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   margin-bottom: 6px;
 }
 
-/* Instruction block style (based on tip-block) */
+/* Instruction block style */
 .instruction-block {
   background-color: #f8f9fa;
-  border-left: 5px solid #6c757d; /* Neutral grey border */
+  border-left: 3px solid #6c757d; /* Neutral grey border */
   border-radius: 8px;
   padding: 14px 18px;
   margin: 20px 0 30px 0;
@@ -1016,6 +1016,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
       <label><input type="checkbox" name="vision_devices_surgery"><span>Podstoupilo operaci očí</span></label>
     </div>
   </div>
+
 </fieldset>
 
 <fieldset>
@@ -1153,6 +1154,11 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
 <fieldset>
   <legend>Sociální anamnéza</legend>
+
+<div class="tip-block">
+ Tato sekce mapuje sociální prostředí, ve kterém dítě žije (zda má stabilní bydlení, vlastní prostor pro plnění povinností i volný čas), možnosti pečujících osob s dítětem trávit čas a jejich společné záliby.
+    </div>
+
   <div class="qa-block">
     <label><span>V jakém typu bydlení žijete?</span></label>
     <div class="select-group">
@@ -1727,7 +1733,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   <p>© 2025 MUNI FSS - Diagnostika dítěte</p>
   <p>Garant: Mgr. Zuzana Masopustová, PhD.</p>
   <p>Volně dostupné na webu: <a href="https://diagnostikaditete.cz" target="_blank">diagnostikaditete.cz</a></p>
-  <p>Verze 2.1-alfa (<a href="https://github.com/strojiladam/anamdotaznik.github.io" target="_blank">o aplikaci</a>)</p>
+  <p>Verze 2.1-alpha (<a href="https://github.com/strojiladam/anamdotaznik.github.io" target="_blank">o aplikaci</a>)</p>
 </footer>
 
 </form>
@@ -2434,5 +2440,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
