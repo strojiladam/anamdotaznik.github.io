@@ -8,7 +8,7 @@
   body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f8; color: #333; margin: 0; padding: 20px; }
   h1 { color: #0000dc; text-align: center; margin-bottom: 30px; }
   form { max-width: 900px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-  fieldset { border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 20px; background-color: #fafafa; }
+  fieldset { border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 20px; background-color: #fafafa; min-width: 0; }
   legend { font-weight: bold; color: #0000dc; font-size: 16px; padding: 0 5px; }
   label {
     display: block;
@@ -31,6 +31,13 @@
     height: 40px;
     font-family: "Times New Roman", Times, serif;
     vertical-align: middle;
+  }
+
+  /* Fix for date inputs on mobile devices */
+  input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
   }
 
   /* Add this block for consistent focus styles */
@@ -937,18 +944,14 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 <fieldset>
   <legend>Základní údaje</legend>
 
-    <div class="tip-block">
-  *PLACEHOLDER* Toto je blok "Proč se ptáme?" v úvodu sekce.
+     <div class="tip-block tip-block-under">
+  *PLACEHOLDER* Toto je blok "Proč se ptáme?" pod otázkou uvnitř sekce.
 </div>
 
   <div class="qa-block">
     <label><span>Jméno dítěte:</span></label>
     <input class="short-text" type="text" name="child_name">
   </div>
-
-  <div class="tip-block">
-  *PLACEHOLDER* Toto je blok "Proč se ptáme?" nad otázkou uvnitř sekce.
-</div>
 
   <div class="qa-block">
     <label><span>Jak si dítě přeje být oslovováno:</span></label>
@@ -958,10 +961,6 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     <label><span>Datum narození dítěte:</span></label>
     <input type="date" name="child_birthdate" id="child_birthdate">
   </div>
-
-   <div class="tip-block tip-block-under">
-  *PLACEHOLDER* Toto je blok "Proč se ptáme?" pod otázkou uvnitř sekce.
-</div>
 
   <div class="qa-block">
     <label><span>Věk:</span></label>
