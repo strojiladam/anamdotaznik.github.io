@@ -481,6 +481,10 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   font-family: "Times New Roman", Times, serif;
 }
 
+.print-preview .print-only-header {
+  display: block;
+}
+
 .print-preview .tip-block,
 .print-preview .instruction-block {
   display: none;
@@ -665,6 +669,12 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     display: none !important;
 }
 
+.print-preview .header-wide {
+  display: none;
+}
+
+/* --- Print Styles --- */
+
 @media print {
   fieldset > label,
   fieldset > input,
@@ -734,6 +744,10 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     color: #0000dc;
     margin-bottom: 20px;
     font-family: "Times New Roman", Times, serif;
+  }
+
+  .print-only-header {
+    display: block !important;
   }
 
   .tip-block,
@@ -924,6 +938,9 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     display: none;
   } 
 
+  .header-wide {
+    display: none;
+  }
 }
 
 /* --- Unanswered Question Dot (Live) --- */
@@ -1041,6 +1058,102 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     }
 }
 
+/* Headline styles */
+
+:root {
+    --muni-blue: #0000dc;
+    --text-black: #000000;
+    --font-heavy: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.header-wide {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Pravostranné zarovnání */
+    font-family: var(--font-heavy);
+}
+
+/* Hlavní titul na jednom řádku */
+.title-single-line {
+    white-space: nowrap;
+    color: var(--muni-blue);
+    font-weight: 900;
+    font-size: 32pt;
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+/* Podnadpis pod titulem */
+.subtitle-wide {
+    color: var(--text-black);
+    font-weight: 700;
+    font-size: 14pt;
+    text-transform: uppercase;
+    margin: 10px 0 0 0;
+    letter-spacing: 2px;
+}
+
+/* Grafická lišta s linkou a tečkami */
+.accent-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.accent-line {
+    height: 2.5px;
+    background-color: var(--muni-blue);
+    flex-grow: 1;
+    max-width: 600px;
+    margin-right: 20px;
+}
+
+.dots-set {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dot { border-radius: 50%; }
+
+.dot-full {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--muni-blue);
+    background-color: var(--muni-blue);
+}
+
+.dot-outline {
+    width: 19px;
+    height: 19px;
+    border: 3px solid var(--muni-blue);
+    background-color: transparent;
+}
+
+/* Responzivní chování */
+@media (max-width: 850px) {
+    .title-single-line { font-size: 24pt; }
+    .accent-line { max-width: 300px; }
+}
+
+@media (max-width: 600px) {
+    .header-wide { align-items: center; text-align: center; }
+    .title-single-line { white-space: normal; font-size: 20pt; }
+    .accent-row { justify-content: center; }
+    .accent-line { display: none; }
+}
+
+/* Hide the plain header on screen, show only in print/preview */
+.print-only-header {
+    display: none;
+}
 
 </style>
 </head>
@@ -1065,7 +1178,22 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     </div>
 </div>
 
-  <h1>Anamnestický dotazník</h1>
+
+<header class="header-wide">
+    <h1 class="title-single-line">ANAMNESTICKÝ DOTAZNÍK</h1>
+    <h2 class="subtitle-wide">PRO DIAGNOSTIKU DÍTĚTE</h2>
+
+    <div class="accent-row">
+        <div class="accent-line"></div>
+        <div class="dots-set">
+            <div class="dot dot-full"></div>
+            <div class="dot dot-full"></div>
+            <div class="dot dot-outline"></div>
+        </div>
+    </div>
+</header>
+
+  <h1 class="print-only-header">Anamnestický dotazník</h1>
 
   <div class="instruction-block">
     <p>Je možné, že vás některý ze specialistů pečujících o vaše dítě požádal o poskytnutí anamnestických informací. Tento dotazník vás provede otázkami zaměřenými na různé oblasti života vašeho dítěte. Anamnéza by měla být důkladná, aby specialistům umožnila vytvořit ucelený obraz o vašem dítěti a přesně zacílit následnou pomoc a doporučení. Snažte se proto odpovídat upřímně a u otevřených odpovědí poskytovat dostatečné detaily. U některých otázek však stačí i několik slov nebo jedna věta – je to na vašem uvážení.</p>
