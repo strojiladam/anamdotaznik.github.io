@@ -1866,14 +1866,6 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
     <p>V závislosti na dohodě se specialistou vyberte preferovnou variantu. Pokud si nejste jisti, je lepší zvolit <strong>Uložit do souboru</strong> a soubor přinést specialistovi (například na USB). Specialista může kdykoli vaše odpovědi převést do PDF nebo vytisknout sám.</p>
     
-  <div class="manual-alert">
-    <strong>⚠️ Upozornění:</strong>
-    <span>Data v uloženém souboru nejsou šifrována a mohou být čitelná třetími stranami. 
-    Některé formy sdílení, například skrze e-mail, mohou nést rizika.</span><br><br>
-    <span>Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
-      <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
-    </span>
-  </div>
 
 
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
@@ -1883,6 +1875,16 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     </div>
       <button type="button" class="btn btn-secondary" onclick="saveForm(true)" style="margin-left: auto;">Průběžně uložit</button>
   </div>
+
+  <div class="manual-alert">
+    <strong>⚠️ Upozornění:</strong>
+    <span>Data v uloženém souboru nejsou šifrována a mohou být čitelná třetími stranami. 
+    Některé formy sdílení, například skrze e-mail, mohou nést rizika.</span><br><br>
+    <span>Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
+      <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
+    </span>
+  </div>
+
 </div>
 
 <footer class="page-footer">
