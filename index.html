@@ -125,6 +125,36 @@
   background-color: #dc354510; /* Light red, consistent with other hovers */
 }
 
+/* Styl pro nenápadné smazání dat */
+.btn-delete-link {
+    background: none;
+    border: none;
+    color: #888; /* Šedá barva, aby tlačítko "svítilo" co nejméně */
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+    font-family: inherit;
+    transition: color 0.2s ease;
+}
+
+.btn-delete-link:hover {
+    color: #dc3545; /* Zčervená až při najetí (vizuální varování) */
+}
+
+
+.alert-action-link {
+    color: inherit; /* Přebírá barvu okolního textu */
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: inherit; /* Vypadá jako běžný text */
+    transition: color 0.2s ease;
+}
+
+.alert-action-link:hover {
+    color: #dc3545; /* Zčervená při najetí (shoda s mazacím odkazem) */
+}
+
 
 /* Flex container for save buttons */
 .save-buttons {
@@ -318,9 +348,27 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .instruction-block ul {
-  padding-left: 25px; /* Add some padding to the list */
+  padding-left: 25px; 
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.manual-alert {
+    background-color: #f4f8ff;
+    border-left: 3px solid #0000dc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 15px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.manual-alert strong {
+    color: #0000dc;
+    display: block; 
+    margin-bottom: 4px; 
+    font-weight: 600;
 }
 
 
@@ -943,6 +991,11 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     gap: 25px;
 }
 
+.header-right {
+    color: #0000dc;
+    font-family: 'Roboto', sans-serif;
+}
+
 .header-link:hover {
     color: #0000dc;
 }
@@ -952,7 +1005,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .version-link {
-    font-family: monospace; /* Pro technický vzhled verze */
+    font-family: monospace;
     background: #f4f6f8;
     padding: 2px 8px;
     border-radius: 4px;
@@ -1007,9 +1060,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
             </a>
         </div>
         <div class="header-right">
-            <a href="https://github.com/strojiladam/anamdotaznik.github.io" target="_blank" class="version-link">
-                Verze 2.1-alpha <span class="changelog-text">(změny)</span>
-            </a>
+        Verze 2.1 alpha
         </div>
     </div>
 </div>
@@ -1027,7 +1078,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
     <p>Data, která budete zadávat jsou důvěrná a mohou být citlivé povahy. Tento dotazník nikdy neodesílá vaše odpovědi mimo vaše zařízení. Pro jistotu je dotazník automaticky ukládán lokálně ve vašem zařízení, případně dosavadní průchod uložíte tlačítkem <strong>Průběžně uložit</strong> nebo si stáhněte soubor se svými odpověďmi (tlačítko <strong>Uložit do souboru</strong>). Obě možnosti naleznete na konci dotazníku.</p>
 
-    <p>Vámi uložený soubor s odpověďmi (ve formátu JSON) načtete tlačítkem <strong>Načíst ze souboru (.json)</strong>. Pokud existuje průběžně uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.</p>
+    <p>Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru (.json)</strong>. Pokud existuje průběžně uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.</p>
 
 
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
@@ -1036,8 +1087,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
         <button type="button" class="btn btn-secondary" id="load-from-storage-btn" onclick="loadForm()">Načíst poslední průchod</button>
       </div>
       <div style="text-align: right; margin-left: auto;">
-        <button type="button" class="btn btn-danger" onclick="clearHistory()">Smazat data</button>
-        <p style="font-size: 12px; color: #6c757d; margin: 4px 0 0 0;">Smaže aktuální průchod i veškerou historii.</p>
+        <button type="button" class="btn-delete-link" onclick="clearHistory()">Smazat aktuální průchod a historii</button>
       </div>
     </div>
   </div>
@@ -1046,10 +1096,6 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   <!-- Základní údaje -->
 <fieldset>
   <legend>Základní údaje</legend>
-
-     <div class="tip-block tip-block-under">
-  *PLACEHOLDER* Toto je blok "Proč se ptáme?" pod otázkou uvnitř sekce.
-</div>
 
   <div class="qa-block">
     <label><span>Jméno dítěte:</span></label>
@@ -1819,8 +1865,16 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   </ul>
 
     <p>V závislosti na dohodě se specialistou vyberte preferovnou variantu. Pokud si nejste jisti, je lepší zvolit <strong>Uložit do souboru</strong> a soubor přinést specialistovi (například na USB). Specialista může kdykoli vaše odpovědi převést do PDF nebo vytisknout sám.</p>
+    
+  <div class="manual-alert">
+    <strong>⚠️ Upozornění:</strong>
+    <span>Data v uloženém souboru nejsou šifrována a mohou být čitelná třetími stranami. 
+    Některé formy sdílení, například skrze e-mail, mohou nést rizika.</span><br><br>
+    <span>Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
+      <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
+    </span>
+  </div>
 
-    <p><em>Upozornění: Data ve formátu JSON nejsou šifrována a mohou být čitelná třetími stranami. Některé formy sdílení, například skrze e-mail, mohou nést rizika.</em></p>
 
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
     <div class="save-buttons">
@@ -1872,7 +1926,7 @@ birthInput.addEventListener('change', () => {
   const today = new Date();
 
   if (isNaN(birthDate) || birthDate > today) {
-    ageInput.value = 'Zkontrolujte, zda je datum narození dítěte zadáno správně.';
+    ageInput.value = 'Datum narození je zadáno chybně.';
     return;
   }
 
