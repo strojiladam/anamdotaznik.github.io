@@ -2730,6 +2730,9 @@ function togglePrintPreview() {
         area.style.overflow = 'hidden'; // Hide scrollbar that might appear
     });
 
+    updatePreviewLayout();
+    window.addEventListener('resize', updatePreviewLayout);
+
   } else {
     removeUnansweredMarks();
     inputs.forEach(el => {
@@ -2741,6 +2744,28 @@ function togglePrintPreview() {
         area.style.overflow = ''; // Restore default overflow
         autoExpandTextarea(area);
     });
+
+    window.removeEventListener('resize', updatePreviewLayout);
+    form.style.marginBottom = '';
+  }
+}
+
+function updatePreviewLayout() {
+  const form = document.getElementById('questionnaire');
+  const html = document.documentElement;
+
+  if (!html.classList.contains('preview-mode-active')) {
+    form.style.marginBottom = '';
+    return;
+  }
+
+  if (window.matchMedia('(max-width: 230mm)').matches) {
+    const rect = form.getBoundingClientRect();
+    const layoutHeight = form.offsetHeight;
+    const emptySpace = layoutHeight - rect.height;
+    form.style.marginBottom = `-${emptySpace - 40}px`;
+  } else {
+    form.style.marginBottom = '';
   }
 }
 
