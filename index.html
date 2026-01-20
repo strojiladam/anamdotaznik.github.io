@@ -935,21 +935,23 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 /* --- Unanswered Question Dot (Live) --- */
 .unanswered-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #0000dc; /* Blue dot */
+  width: 9px;
+  height: 9px;
+  background-color: var(--muni-blue); /* Plná modrá pro nezodpovězené */
+  border: 1px solid var(--muni-blue);
   border-radius: 50%;
-  margin-right: 8px; /* Keep margin to prevent text jump */
+  margin-right: 9px;
   vertical-align: middle;
-  transition: opacity 0.4s ease, width 0.4s ease, margin-right 0.4s ease; /* Animate width and margin */
+  box-sizing: border-box;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
   opacity: 1;
 }
 
-
+/* Stav po zodpovězení: Tečka se "vyprázdní" */
 .unanswered-dot.answered {
-  opacity: 0;
-  width: 0; /* Animate width to 0 */
-  margin-right: 0; /* Animate margin to 0 */
+  background-color: transparent; /* Zmizí barva uvnitř */
+  border-color: var(--muni-blue); /* Zůstane jen modrý obrys */
+  opacity: 0.4; /* Mírné zprůhlednění, aby hotové otázky vizuálně ustoupily */
 }
 
 /* --- Mobile-specific adjustments --- */
@@ -1280,6 +1282,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
       <label><input type="checkbox" name="vision_devices_contacts"><span>Nosí kontaktní čočky</span></label>
       <label><input type="checkbox" name="vision_devices_occluder"><span>Používá okluzory</span></label>
       <label><input type="checkbox" name="vision_devices_surgery"><span>Podstoupilo operaci očí</span></label>
+      <label><input type="checkbox" name="vision_devices_other"><span>Má jiný problém</span></label>
     </div>
   </div>
 
@@ -1506,19 +1509,19 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
       </div>
     </div>
 
-  <div class="qa-block hidden" id="q_child_device_detail1">
-    <label for="child_device_use_relative"><span>Jak moc dítě podle vás používá mobil nebo tablet ve srovnání s vrstevníky?</span></label>
-    <textarea class="long-text" name="child_device_use_relative" id="child_device_use_relative"></textarea>
-  </div>
-
-  <div class="qa-block hidden" id="q_child_device_detail2">
-    <label for="child_device_usage"><span>Co dítě na telefonu nejčastěji dělá? (seřaďte podle frekvence)</span></label>
-    <textarea class="long-text" name="child_device_usage" id="child_device_usage"></textarea>
-  </div>
-
-  <div class="qa-block hidden" id="q_child_device_detail3">
-    <label for="child_device_control"><span>Pokoušíte se nějakým způsobem kontrolovat, co dítě na telefonu dělá? (např. výchovně nebo omezením přímo v telefonu)</span></label>
-    <textarea class="long-text" name="child_device_control" id="child_device_control"></textarea>
+  <div class="qa-block hidden" id="q_child_device_details">
+    <div class="qa-block">
+      <label for="child_device_use_relative"><span>Jak moc dítě podle vás používá mobil nebo tablet ve srovnání s vrstevníky?</span></label>
+      <textarea class="long-text" name="child_device_use_relative" id="child_device_use_relative"></textarea>
+    </div>
+    <div class="qa-block">
+      <label for="child_device_usage"><span>Co dítě na telefonu nejčastěji dělá? (seřaďte podle frekvence)</span></label>
+      <textarea class="long-text" name="child_device_usage" id="child_device_usage"></textarea>
+    </div>
+    <div class="qa-block">
+      <label for="child_device_control"><span>Pokoušíte se nějakým způsobem kontrolovat, co dítě na telefonu dělá? (např. výchovně nebo omezením přímo v telefonu)</span></label>
+      <textarea class="long-text" name="child_device_control" id="child_device_control"></textarea>
+    </div>
   </div>
 
   <div class="qa-block">
@@ -2137,7 +2140,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 </form>
 </main>
 
-<input type="file" id="json-file-input" accept=".json" style="display: none;">
+<input type="file" id="json-file-input" accept=".json" style="display: none;" aria-label="Načíst soubor JSON">
 
 <!-- Floating controls for Print Preview -->
 <aside class="preview-controls" aria-label="Ovládání náhledu">
@@ -2227,9 +2230,7 @@ function updateAllConditionals() {
   setupConditional('mother_employed', 'q_mother_jobs_detail', 'Ano');
   setupConditional('father_employed', 'q_father_jobs_detail', 'Ano');
   setupConditional('has_siblings', 'q_siblings_detail', 'Ano');
-  setupConditional('child_has_device', 'q_child_device_detail1', 'Ano');
-  setupConditional('child_has_device', 'q_child_device_detail2', 'Ano');
-  setupConditional('child_has_device', 'q_child_device_detail3', 'Ano');
+  setupConditional('child_has_device', 'q_child_device_details', 'Ano');
   setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
   setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
   setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
@@ -2255,9 +2256,7 @@ setupConditional('other_carer_status', 'q_other_carer_detail', 'Ano');
 setupConditional('mother_employed', 'q_mother_jobs_detail', 'Ano');
 setupConditional('father_employed', 'q_father_jobs_detail', 'Ano');
 setupConditional('has_siblings', 'q_siblings_detail', 'Ano');
-setupConditional('child_has_device', 'q_child_device_detail1', 'Ano');
-setupConditional('child_has_device', 'q_child_device_detail2', 'Ano');
-setupConditional('child_has_device', 'q_child_device_detail3', 'Ano');
+setupConditional('child_has_device', 'q_child_device_details', 'Ano');
 setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
 setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
 setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
@@ -2524,8 +2523,12 @@ function loadData(data) {
       const fs = document.createElement('fieldset');
       fs.innerHTML = `
         <legend>Další vychovávající osoba ${i + 1}</legend>
-        <label for="carer_${i+1}_name"><span>Jméno osoby ${i + 1}:</span></label><input class="short-text" type="text" name="carer_${i+1}_name" id="carer_${i+1}_name" value="${carer['carer_' + (i+1) + '_name'] || ''}">
-        <label for="carer_${i+1}_age"><span>Věk osoby ${i + 1}:</span></label><input type="number" name="carer_${i+1}_age" id="carer_${i+1}_age" value="${carer['carer_' + (i+1) + '_age'] || ''}">
+        <div class="qa-block">
+          <label for="carer_${i+1}_name"><span>Jméno osoby ${i + 1}:</span></label><input class="short-text" type="text" name="carer_${i+1}_name" id="carer_${i+1}_name" value="${carer['carer_' + (i+1) + '_name'] || ''}">
+        </div>
+        <div class="qa-block">
+          <label for="carer_${i+1}_age"><span>Věk osoby ${i + 1}:</span></label><input type="number" name="carer_${i+1}_age" id="carer_${i+1}_age" value="${carer['carer_' + (i+1) + '_age'] || ''}">
+        </div>
         <div class="qa-block"><label for="carer_${i+1}_relation"><span>Jaké jsou vaše vztahy s osobou ${i + 1}:</span></label><textarea class="long-text" name="carer_${i+1}_relation" id="carer_${i+1}_relation">${carer['carer_' + (i+1) + '_relation'] || ''}</textarea></div>
         <div class="qa-block"><label for="carer_${i+1}_household"><span>V jaké domácnosti osoba ${i + 1} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i+1}_household" id="carer_${i+1}_household">${carer['carer_' + (i+1) + '_household'] || ''}</textarea></div>
       `;
@@ -2608,6 +2611,7 @@ function clearHistory() {
     document.querySelector('form').reset();
     document.getElementById('additional_carers_container').innerHTML = '';
     document.getElementById('siblings_container').innerHTML = '';
+    updateAllConditionals();
     alert("Historie byla smazána.");
     document.getElementById('load-from-storage-btn').disabled = true;
     validateAllQuestions(); // Re-validate to show all dots again
