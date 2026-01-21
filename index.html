@@ -995,13 +995,14 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .header-left {
-    display: flex;
-    gap: 25px;
+    color: #0000dc;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
 }
 
 .header-right {
-    color: #0000dc;
-    font-family: 'Roboto', sans-serif;
+    display: flex;
+    gap: 25px;
 }
 
 .header-link:hover {
@@ -1044,7 +1045,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 @media (max-width: 600px) {
     .header-inner {
         flex-direction: column;
-        gap: 10px;
+        gap: 17px;
         text-align: center;
     }
 }
@@ -1157,15 +1158,15 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   <div class="survey-utility-header">
     <div class="header-inner">
         <div class="header-left">
-            <a href="manual.pdf" target="_blank" class="header-link">
+                  Verze 2.1 alpha | <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link feedback-link">diagnostikaditete.cz</a>
+        </div>
+        <div class="header-right">
+          <a href="manual.pdf" target="_blank" class="header-link">
                 <span class="icon">📖</span> Metodický manuál
             </a>
             <a href="https://forms.gle/EpxAt2FqTxr5nCu1A" target="_blank" class="header-link feedback-link">
                 <span class="icon">💬</span> Zpětná vazba
             </a>
-        </div>
-        <div class="header-right">
-        Verze 2.1 alpha | <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link feedback-link">diagnostikaditete.cz</a>
         </div>
     </div>
 </div>
