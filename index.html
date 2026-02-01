@@ -354,8 +354,8 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .manual-alert {
-    background-color: #f4f8ff;
-    border-left: 3px solid #0000dc;
+    background-color: #FFF9F0;
+    border-left: 3px solid #FF5900;
     border-radius: 8px;
     padding: 12px 16px;
     margin: 15px 0;
@@ -365,7 +365,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .manual-alert strong {
-    color: #0000dc;
+    color: #FF5900;
     display: block; 
     margin-bottom: 4px; 
     font-weight: 600;
@@ -1219,19 +1219,30 @@ input.input-error {
     top: 0;
     left: 0;
     width: 100%;
-    height: 17px;
-    background: white;
+    height: 18px; /* Mírně vyšší pro lepší manipulaci */
+    background: rgba(255, 255, 255, 0.9); /* Poloprůhledná bílá */
     z-index: 10000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    
+    /* Vrstvený stín: první je jemný a široký, druhý je ostřejší pro definici hrany */
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.08), 
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        inset 0 -1px 0 rgba(0, 0, 220, 0.1); /* Velmi jemná linka v MUNI modré na spodní hraně */
+
+    /* Skleněný efekt (rozostří obsah pod barem) */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     
-    /* --- Nové vlastnosti pro skrytí --- */
+    /* Animace zobrazení */
     opacity: 0;
-    transform: translateY(-100%); /* Vysunutí nahoru nad okraj */
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none; /* Aby neaktivní bar nepřekážel klikání */
+    transform: translateY(-100%);
+    transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    pointer-events: none;
 }
 
 /* Třída, kterou přidáme pomocí JS při scrollu */
@@ -1281,6 +1292,183 @@ input.input-error {
     }
     
 
+
+/* --- SOUHRNNÝ PANEL (SUMMARY) --- */
+.summary-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-left: 3px solid #0000dc; /* MUNI Modrá */
+    border-radius: 8px;
+    margin: 40px 0 30px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.summary-header {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.summary-header:hover { background-color: #e9f1ff; }
+
+.summary-stats { 
+    display: flex; 
+    gap: 30px; 
+    flex-wrap: wrap; 
+}
+
+.stat-item { 
+    text-align: center; 
+    min-width: 80px; 
+}
+
+.stat-value { 
+    display: block; 
+    font-weight: 800; 
+    font-size: 20px; 
+    line-height: 1.2; 
+}
+
+.stat-label { 
+    font-size: 11px; 
+    text-transform: uppercase; 
+    color: #666; 
+    letter-spacing: 0.5px; 
+    font-weight: 600; 
+    white-space: nowrap; 
+}
+
+/* Barvy statistik */
+.stat-answered .stat-value { color: #28a745; } /* Zelená */
+.stat-empty .stat-value { color: #dc3545; }    /* Červená */
+.stat-refused .stat-value { color: #fd7e14; }  /* Oranžová */
+
+.toggle-icon { 
+    font-size: 13px; 
+    color: #0000dc; 
+    font-weight: 600; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    margin-left: auto;
+}
+
+/* Detaily (rozbalovací část) */
+.summary-details {
+    max-height: 0;
+    overflow: hidden; /* Zrušen scrollbar pro plynulost */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #fff;
+    opacity: 0.5;
+}
+
+.summary-details.is-open { 
+    max-height: 3000px; /* Dostatečná výška pro obsah */
+    border-top: 1px solid #eee; 
+    opacity: 1;
+    transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in;
+}
+
+.summary-list { list-style: none; padding: 0; margin: 0; }
+
+.summary-list-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+.summary-list-item:hover { background-color: #f4f8ff; }
+
+.item-info { 
+    display: flex; 
+    flex-direction: column; 
+    flex: 1; 
+    min-width: 200px;
+}
+
+.item-section { font-size: 10px; text-transform: uppercase; color: #999; font-weight: 700; margin-bottom: 2px; }
+.item-question { font-size: 14px; font-weight: 500; color: #333; }
+
+.item-status { 
+    font-size: 11px; 
+    padding: 4px 8px; 
+    border-radius: 4px; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    white-space: nowrap; 
+    flex-shrink: 0;
+}
+.item-status.empty { background: #ffebeb; color: #dc3545; border: 1px solid #fadbd8; }
+.item-status.refused { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+
+/* Skrytí při tisku */
+@media print { .summary-container { display: none !important; } }
+
+  .preview-mode-active #summary-container {
+        display: none !important;
+    }
+
+/* Mobilní úprava */
+@media (max-width: 600px) {
+    .summary-stats { gap: 15px; justify-content: space-between; width: 100%; }
+    .stat-item { min-width: auto; flex: 1; }
+    .stat-value { font-size: 18px; }
+    .stat-label { font-size: 10px; }
+    .toggle-icon { width: 100%; justify-content: center; margin-top: 5px; padding-top: 5px; border-top: 1px solid #eee; }
+}
+
+
+/* Sjednocený stín pro informační bloky */
+.instruction-block, .manual-alert, .instruction-block.sharing-options {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- JEMNÁ PULZNÍ VČELKA (Subtilní verze) --- */
+
+/* Odstranění ořezu u bloku i u nadřazeného fieldsetu */
+.qa-block.highlighted-dot,
+fieldset.allow-overflow {
+    overflow: visible !important;
+}
+
+.qa-block.highlighted-dot .unanswered-dot {
+    background-color: #fd7e14 !important;
+    border-color: #fd7e14 !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 1000; /* Vystoupí nad vše ostatní */
+    /* Animace přesně podle vašeho návrhu: 2s, jemný puls */
+    animation: orange-pulse 3.5s ease-in-out forwards;
+}
+
+@keyframes orange-pulse {
+    /* PRVNÍ PULS */
+    0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7); }
+    25%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(253, 126, 20, 0); }
+    50%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0); } /* Úplný reset stínu */
+
+    /* KRÁTKÁ PAUZA (BEAT) */
+    55%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7); }
+
+    /* DRUHÝ PULS */
+    80%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(253, 126, 20, 0); }
+    100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0); }
+}
+
 </style>
 </head>
 <body>
@@ -1328,9 +1516,10 @@ input.input-error {
   <div class="instruction-block">
     <p>Je možné, že vás některý ze specialistů pečujících o vaše dítě požádal o poskytnutí anamnestických informací. Tento dotazník vás provede otázkami zaměřenými na různé oblasti života vašeho dítěte. Anamnéza by měla být důkladná, aby specialistům umožnila vytvořit ucelený obraz o vašem dítěti a přesně zacílit následnou pomoc a doporučení. Snažte se proto odpovídat upřímně a u otevřených odpovědí poskytovat dostatečné detaily. U některých otázek však stačí i několik slov nebo jedna věta – je to na vašem uvážení.</p>
     <ul>
-      <li>Dotazník není krátký a k pohodlnějšímu vyplňování tedy doporučujeme použít stolní počítač.</li>
+      <li>Dotazník není krátký a k pohodlnějšímu vyplňování tedy doporučujeme použít počítač/laptop.</li>
       <li>Během vyplňování se budou na základě vašich odpovědí rozbalovat doplňující otázky.</li>
       <li>Pro snadnější navigaci jsou nezodpovězené otázky označeny modrou tečkou.</li>
+      <li>Lišta nahoře bude ukazovat váš postup v sekcích dotazníku; zelená barva značí kompletně dokončenou část.</li>
       <li>Pokud si přejete položku nezodpovídat, vyberte možnost <em>“Bez odpovědi”</em> nebo nechte pole prázdné.</li>
     </ul>
 
@@ -2243,6 +2432,41 @@ input.input-error {
 </fieldset>
 
 
+<!-- Summary table -->
+<div class="summary-container" id="summary-container">
+    <div class="summary-header" onclick="toggleSummaryDetails()">
+        <div class="summary-stats">
+            <div class="stat-item stat-answered">
+                <span class="stat-value" id="count-answered">0</span>
+                <span class="stat-label">Odpovězené</span>
+            </div>
+            <div class="stat-item stat-refused">
+                <span class="stat-value" id="count-refused">0</span>
+                <span class="stat-label">Nechci odpovídat</span>
+            </div>
+            <div class="stat-item stat-empty">
+                <span class="stat-value" id="count-empty">0</span>
+                <span class="stat-label">Prázdné</span>
+            </div>
+        </div>
+        <div class="toggle-icon">
+            <span id="summary-toggle-text">Zobrazit detaily</span>
+            <span id="summary-arrow">▼</span>
+        </div>
+    </div>
+    
+    <div class="summary-details" id="summary-details-body">
+        <div id="summary-empty-msg" style="padding: 20px; text-align: center; color: #888; font-style: italic; display: none;">
+            Všechny položky jsou zodpovězené.
+        </div>
+        <ul class="summary-list" id="summary-list">
+            </ul>
+    </div>
+</div>
+
+
+
+
 <!-- Save and Share Options -->
 <div class="instruction-block sharing-options">
   <p>Dorazili jste na konec dotazníku. Nyní máte dvě možnosti, jak své odpovědi sdílet se specialistou.</p>
@@ -2431,6 +2655,7 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
       const shouldShow = checked && checked.value === triggerValue;
       detailDiv.classList.toggle('is-visible', shouldShow);
       updateProgressBar();
+      updateQuestionnaireSummary();
     };
 
     radios.forEach(r => r.addEventListener('change', update));
@@ -2444,6 +2669,7 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
       const shouldShow = elem.value === triggerValue;
       detailDiv.classList.toggle('is-visible', shouldShow);
       updateProgressBar();
+      updateQuestionnaireSummary();
     };
 
     elem.addEventListener('change', update);
@@ -2574,6 +2800,7 @@ additionalCarersCountInput.addEventListener('input', () => {
       updateProgressBar();
     });
   }
+  updateQuestionnaireSummary();
 });
 
 // Dynamic generation for siblings
@@ -2627,6 +2854,7 @@ siblingsCountInput.addEventListener('input', () => {
     });
     updateProgressBar();
   }
+  updateQuestionnaireSummary();
 });
 
 //saving
@@ -2828,6 +3056,9 @@ function loadData(data) {
 
   // Re-validate all questions for error messages
   Validator.checkAll();
+
+  // Summary update
+  updateQuestionnaireSummary();
 }
 
 // Load saved data
@@ -2853,6 +3084,8 @@ function clearHistory() {
     alert("Historie byla smazána.");
     document.getElementById('load-from-storage-btn').disabled = true;
     validateAllQuestions(); // Re-validate to show all dots again
+    updateQuestionnaireSummary();
+    updateProgressBar();
   }
 }
 
@@ -2903,8 +3136,15 @@ function validateQuestionBlock(block) {
     } else {
       existingDot.classList.remove('answered'); // Make it visible again
     }
-  } else if (existingDot) {
-    existingDot.classList.add('answered'); // Animate it out
+  } else { // The question is answered
+    if (!existingDot) {
+      // If answered but no dot exists (e.g. after loading data), create it.
+      const dot = document.createElement('span');
+      dot.className = 'unanswered-dot answered';
+      label.prepend(dot);
+    } else {
+      existingDot.classList.add('answered'); // Animate it out
+    }
   }
 }
 
@@ -2925,6 +3165,7 @@ function setupLiveValidation() {
   const form = document.getElementById('questionnaire');
   // Create a debounced auto-save function that saves silently.
   const autoSave = debounce(() => saveForm(false), 1500);
+  const debouncedSummaryUpdate = debounce(() => updateQuestionnaireSummary(), 500);
 
   form.addEventListener('input', (event) => {
     const block = event.target.closest('.qa-block');
@@ -2933,6 +3174,7 @@ function setupLiveValidation() {
       validateQuestionBlock(block);
     }
     updateProgressBar();
+    debouncedSummaryUpdate();
     // After adding new fields, re-validate the form to show/hide dots
     setTimeout(() => {
       validateAllQuestions();
@@ -3268,6 +3510,173 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+
+
+// Summary PANEL
+/* --- LOGIKA SOUHRNNÉHO PANELU --- */
+
+function updateQuestionnaireSummary() {
+    const allBlocks = Array.from(document.querySelectorAll('.qa-block'));
+    
+    let countAnswered = 0;
+    let countRefused = 0;
+    let countEmpty = 0;
+    
+    const attentionList = []; 
+
+    allBlocks.forEach(block => {
+        // Ignorujeme pomocné bloky (věk)
+        if (block.querySelector('#child_age')) return;
+
+        // 1. STRIKTNÍ KONTROLA VIDITELNOSTI
+        // Pokud je blok skrytý (nebo jeho rodič), zcela ho ignorujeme.
+        const isHidden = block.classList.contains('hidden') && !block.classList.contains('is-visible');
+        let parentHidden = false;
+        let currentEl = block.parentElement;
+        while (currentEl && currentEl.tagName !== 'FORM') {
+            if (currentEl.classList.contains('hidden') && !currentEl.classList.contains('is-visible')) {
+                parentHidden = true; break;
+            }
+            currentEl = currentEl.parentElement;
+        }
+
+        if (isHidden || parentHidden) {
+            return; // Neviditelné otázky se nepočítají
+        }
+
+        // 2. KONTROLA OBSAHU U VIDITELNÝCH
+        const fieldset = block.closest('fieldset');
+        const sectionName = fieldset ? fieldset.querySelector('legend').textContent : 'Obecné';
+        const labelEl = block.querySelector('label span');
+        const questionText = labelEl ? labelEl.textContent.replace(':', '') : 'Otázka';
+
+        const input = block.querySelector('input:not([type="radio"]):not([type="checkbox"]), textarea, select');
+        const radioChecked = block.querySelector('input[type="radio"]:checked');
+        const checkboxChecked = block.querySelector('input[type="checkbox"]:checked');
+        
+        const hasValue = (input && input.value.trim() !== "") || radioChecked || checkboxChecked;
+
+        if (hasValue) {
+            // Kontrola, zda je vybráno "Bez odpovědi"
+            const isRadioRefused = radioChecked && radioChecked.value === "Bez odpovědi";
+            
+            if (isRadioRefused) {
+                countRefused++;
+                attentionList.push({
+                    id: block,
+                    section: sectionName,
+                    question: questionText,
+                    type: 'refused',
+                    label: 'Nechci odpovídat'
+                });
+            } else {
+                countAnswered++;
+            }
+        } else {
+            // Viditelná, ale prázdná
+            countEmpty++;
+            attentionList.push({
+                id: block,
+                section: sectionName,
+                question: questionText,
+                type: 'empty',
+                label: 'Prázdné'
+            });
+        }
+    });
+
+    // 3. AKTUALIZACE DOM
+    document.getElementById('count-answered').textContent = countAnswered;
+    document.getElementById('count-refused').textContent = countRefused;
+    document.getElementById('count-empty').textContent = countEmpty;
+
+    // Generování seznamu detailů
+    const listContainer = document.getElementById('summary-list');
+    const emptyMsg = document.getElementById('summary-empty-msg');
+    listContainer.innerHTML = '';
+
+    if (attentionList.length === 0) {
+        emptyMsg.style.display = 'block';
+    } else {
+        emptyMsg.style.display = 'none';
+        attentionList.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'summary-list-item';
+            li.innerHTML = `
+                <div class="item-info">
+                    <span class="item-section">${item.section}</span>
+                    <span class="item-question">${item.question}</span>
+                </div>
+                <div class="item-status ${item.type}">${item.label}</div>
+            `;
+            
+            li.addEventListener('click', (e) => {
+                e.stopPropagation();
+                scrollToAndHighlight(item.id);
+            });
+            
+            listContainer.appendChild(li);
+        });
+    }
+}
+
+function scrollToAndHighlight(element) {
+    // 1. Reset předchozích zvýraznění
+    document.querySelectorAll('.qa-block').forEach(el => el.classList.remove('highlighted-dot'));
+    document.querySelectorAll('fieldset').forEach(fs => fs.classList.remove('allow-overflow'));
+
+    const parentFieldset = element.closest('fieldset');
+
+    // 2. Intersection Observer (spustí se až v momentě, kdy uživatel na prvek dokouká)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                element.classList.add('highlighted-dot');
+                if (parentFieldset) parentFieldset.classList.add('allow-overflow');
+
+                observer.disconnect();
+
+                // Odstranění tříd po 2.5 sekundách (animace trvá 2s + 0.5s rezerva)
+                setTimeout(() => {
+                    element.classList.remove('highlighted-dot');
+                    if (parentFieldset) parentFieldset.classList.remove('allow-overflow');
+                }, 4000);
+            }
+        });
+    }, { 
+        threshold: 0.4 
+    });
+
+    observer.observe(element);
+
+    // 3. Plynulý scroll na střed
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+
+function toggleSummaryDetails() {
+    const body = document.getElementById('summary-details-body');
+    const text = document.getElementById('summary-toggle-text');
+    const arrow = document.getElementById('summary-arrow');
+    const isOpen = body.classList.contains('is-open');
+
+    if (isOpen) {
+        body.classList.remove('is-open');
+        text.textContent = "Zobrazit detaily";
+        arrow.textContent = "▼";
+    } else {
+        body.classList.add('is-open');
+        text.textContent = "Skrýt detaily";
+        arrow.textContent = "▲";
+    }
+}
+
+// Spuštění po načtení
+document.addEventListener('DOMContentLoaded', updateQuestionnaireSummary);
+
+
+
 
 </script>
 
