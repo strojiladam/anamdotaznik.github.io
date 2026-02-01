@@ -1469,6 +1469,57 @@ fieldset.allow-overflow {
     100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0); }
 }
 
+
+
+/* --- INTEGROVANÝ SYSTÉM DIALOGŮ --- */
+#custom-confirm {
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+#custom-confirm::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* Varianta ORANŽOVÁ (Smazání / Varování) */
+#custom-confirm.type-warning {
+    background-color: #FFF9F0;
+    border-left: 4px solid #FF5900;
+}
+#custom-confirm.type-warning h3 { color: #FF5900; }
+
+/* Varianta MODRÁ (Uložení / Info) */
+#custom-confirm.type-success, 
+#custom-confirm.type-info {
+    background-color: #ffffff;
+    border-left: 4px solid #0000dc;
+}
+#custom-confirm.type-success h3,
+#custom-confirm.type-info h3 { color: #0000dc; }
+
+.dialog-inner { padding: 30px; }
+.dialog-inner h3 { margin: 0 0 10px 0; font-size: 20px; font-weight: 700; }
+.dialog-inner p { color: #333; line-height: 1.6; margin-bottom: 30px; font-size: 15px; }
+.dialog-buttons { display: flex; gap: 12px; justify-content: flex-end; }
+
+#custom-confirm[open] {
+    animation: dialog-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes dialog-appear {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+
 </style>
 </head>
 <body>
@@ -2907,16 +2958,13 @@ function getFormData() {
 }
 
 function saveForm(showNotification = false) {
-  const data = getFormData();
-  localStorage.setItem(formStorageKey, JSON.stringify(data));
-  if (showNotification) {
-    alert("Formulář byl uložen.");
-  }
-  // Enable the load button if it was disabled
-  const loadBtn = document.getElementById('load-from-storage-btn');
-  if (loadBtn && loadBtn.disabled) {
-    loadBtn.disabled = false;
-  }
+    const data = getFormData();
+    localStorage.setItem(formStorageKey, JSON.stringify(data));
+    if (showNotification) {
+        showCustomDialog("Uloženo", "Formulář byl úspěšně uložen do paměti prohlížeče.", "OK", "success");
+    }
+    const loadBtn = document.getElementById('load-from-storage-btn');
+    if (loadBtn && loadBtn.disabled) { loadBtn.disabled = false; }
 }
 
 async function saveAsJsonFile() {
@@ -3062,31 +3110,42 @@ function loadData(data) {
 }
 
 // Load saved data
-function loadForm() {
-  const saved = localStorage.getItem(formStorageKey);
-  if (!saved) {
-    alert("Žádná uložená data nejsou k dispozici.");
-    return;
-  }
-  const data = JSON.parse(saved);
-  loadData(data);
-  alert("Formulář byl obnoven z poslední uložené verze.");
+async function loadForm() {
+    const saved = localStorage.getItem(formStorageKey);
+    if (!saved) {
+        await showCustomDialog("Chyba", "Žádná uložená data nebyla nalezena.", "OK", "info");
+        return;
+    }
+    const data = JSON.parse(saved);
+    loadData(data);
+    await showCustomDialog("Obnoveno", "Data byla úspěšně načtena z prohlížeče.", "OK", "success");
 }
 
-// Clear history
-function clearHistory() {
-  if (confirm("Opravdu chcete smazat uloženou historii?\n\nTato akce trvale odstraní veškerá data uložená v prohlížeči a vymaže aktuálně vyplněný formulář.")) {
-    localStorage.removeItem(formStorageKey);
-    document.querySelector('form').reset();
-    document.getElementById('additional_carers_container').innerHTML = '';
-    document.getElementById('siblings_container').innerHTML = '';
-    updateAllConditionals();
-    alert("Historie byla smazána.");
-    document.getElementById('load-from-storage-btn').disabled = true;
-    validateAllQuestions(); // Re-validate to show all dots again
-    updateQuestionnaireSummary();
-    updateProgressBar();
-  }
+
+// --- Clear History ---
+async function clearHistory() {
+    const confirmed = await showCustomDialog(
+        "Smazat historii?", 
+        "Opravdu chcete smazat uloženou historii? Tato akce trvale odstraní veškerá data uložená v prohlížeči a vymaže aktuálně vyplněný formulář.",
+        "Smazat vše",
+        "warning"
+    );
+
+    if (confirmed) {
+        localStorage.removeItem(formStorageKey);
+        document.querySelector('form').reset();
+        document.getElementById('additional_carers_container').innerHTML = '';
+        document.getElementById('siblings_container').innerHTML = '';
+        updateAllConditionals();
+        validateAllQuestions();
+        updateProgressBar();
+        updateQuestionnaireSummary();
+        
+        await showCustomDialog("Smazáno", "Veškerá data byla vymazána.", "OK", "success");
+        
+        const loadBtn = document.getElementById('load-from-storage-btn');
+        if (loadBtn) loadBtn.disabled = true;
+    }
 }
 
 // --- Live Unanswered Question Validation ---
@@ -3484,19 +3543,18 @@ document.addEventListener('DOMContentLoaded', () => {
   fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const data = JSON.parse(e.target.result);
         loadData(data);
-        alert("Data byla úspěšně načtena ze souboru.");
+        await showCustomDialog("Soubor načten", "Data byla úspěšně nahrána do formuláře.", "OK", "success");
       } catch (error) {
-        alert("Chyba při čtení souboru. Ujistěte se, že se jedná o platný JSON soubor.");
+        await showCustomDialog("Chyba souboru", "Soubor se nepodařilo zpracovat. Ujistěte se, že jde o platný JSON.", "Zavřít", "warning");
       }
     };
     reader.readAsText(file);
-    fileInput.value = ''; // Reset input so the same file can be loaded again
+    fileInput.value = '';
   });
 
   Validator.checkAll();
@@ -3655,6 +3713,40 @@ function scrollToAndHighlight(element) {
 }
 
 
+
+/** Custom dialogy */
+async function showCustomDialog(title, message, confirmText = "OK", type = "info") {
+    const dialog = document.getElementById('custom-confirm');
+    const titleEl = document.getElementById('dialog-title');
+    const messageEl = document.getElementById('dialog-message');
+    const confirmBtn = document.getElementById('dialog-confirm');
+    const cancelBtn = document.getElementById('dialog-cancel');
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    confirmBtn.textContent = confirmText;
+
+    dialog.className = ''; 
+    dialog.classList.add(`type-${type}`);
+
+    if (type === 'warning') {
+        confirmBtn.className = "btn btn-danger";
+        cancelBtn.style.display = "inline-block";
+    } else {
+        confirmBtn.className = "btn primary";
+        cancelBtn.style.display = (confirmText === "OK") ? "none" : "inline-block";
+    }
+
+    dialog.showModal();
+
+    return new Promise((resolve) => {
+        confirmBtn.onclick = () => { dialog.close(); resolve(true); };
+        cancelBtn.onclick = () => { dialog.close(); resolve(false); };
+        dialog.onclick = (e) => { if (e.target === dialog) { dialog.close(); resolve(false); } };
+    });
+}
+
+
 function toggleSummaryDetails() {
     const body = document.getElementById('summary-details-body');
     const text = document.getElementById('summary-toggle-text');
@@ -3679,6 +3771,19 @@ document.addEventListener('DOMContentLoaded', updateQuestionnaireSummary);
 
 
 </script>
+
+
+
+<dialog id="custom-confirm">
+    <div class="dialog-inner">
+        <h3 id="dialog-title">Potvrzení</h3>
+        <p id="dialog-message">Zpráva...</p>
+        <div class="dialog-buttons">
+            <button id="dialog-cancel" class="btn btn-secondary">Zrušit</button>
+            <button id="dialog-confirm">OK</button>
+        </div>
+    </div>
+</dialog>
 
 </body>
 </html>
