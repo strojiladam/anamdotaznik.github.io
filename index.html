@@ -1488,9 +1488,18 @@ fieldset.allow-overflow {
     -webkit-backdrop-filter: blur(4px);
 }
 
+/* VARIANTA 3: ČERVENÁ (Kritické smazání) */
+#custom-confirm.type-delete {
+    background-color: #ffffff;    /* Bílé pozadí dle přání */
+    border-left: 4px solid #dc3545; /* Červený pruh (MUNI/Bootstrap danger) */
+}
+#custom-confirm.type-delete h3 { 
+    color: #dc3545; /* Červený nadpis */
+}
+
 /* Varianta ORANŽOVÁ (Smazání / Varování) */
 #custom-confirm.type-warning {
-    background-color: #FFF9F0;
+    background-color: #ffffff;
     border-left: 4px solid #FF5900;
 }
 #custom-confirm.type-warning h3 { color: #FF5900; }
@@ -3113,7 +3122,12 @@ function loadData(data) {
 async function loadForm() {
     const saved = localStorage.getItem(formStorageKey);
     if (!saved) {
-        await showCustomDialog("Chyba", "Žádná uložená data nebyla nalezena.", "OK", "info");
+        await showCustomDialog(
+            "Data nenalezena", 
+            "V paměti tohoto prohlížeče nebyl nalezen žádný rozpracovaný dotazník. Ujistěte se, že používáte stejný prohlížeč, jako posledně", 
+            "Zavřít", 
+            "warning" 
+        );
         return;
     }
     const data = JSON.parse(saved);
@@ -3128,7 +3142,8 @@ async function clearHistory() {
         "Smazat historii?", 
         "Opravdu chcete smazat uloženou historii? Tato akce trvale odstraní veškerá data uložená v prohlížeči a vymaže aktuálně vyplněný formulář.",
         "Smazat vše",
-        "warning"
+        "delete",
+        true
     );
 
     if (confirmed) {
@@ -3550,7 +3565,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadData(data);
         await showCustomDialog("Soubor načten", "Data byla úspěšně nahrána do formuláře.", "OK", "success");
       } catch (error) {
-        await showCustomDialog("Chyba souboru", "Soubor se nepodařilo zpracovat. Ujistěte se, že jde o platný JSON.", "Zavřít", "warning");
+        await showCustomDialog("Chyba souboru", "Soubor se nepodařilo zpracovat. Ujistěte se, že jde o platný soubor formátu JSON.", "Zavřít", "warning");
       }
     };
     reader.readAsText(file);
@@ -3715,7 +3730,7 @@ function scrollToAndHighlight(element) {
 
 
 /** Custom dialogy */
-async function showCustomDialog(title, message, confirmText = "OK", type = "info") {
+async function showCustomDialog(title, message, confirmText = "OK", type = "info", showCancel = false) {
     const dialog = document.getElementById('custom-confirm');
     const titleEl = document.getElementById('dialog-title');
     const messageEl = document.getElementById('dialog-message');
@@ -3725,16 +3740,19 @@ async function showCustomDialog(title, message, confirmText = "OK", type = "info
     titleEl.textContent = title;
     messageEl.textContent = message;
     confirmBtn.textContent = confirmText;
-
+    
     dialog.className = ''; 
     dialog.classList.add(`type-${type}`);
 
-    if (type === 'warning') {
+    // Tlačítko Zrušit se ukáže jen pro potvrzovací dialogy
+    cancelBtn.style.display = showCancel ? "inline-block" : "none";
+
+    // Nastavení barvy hlavního tlačítka
+    // Pokud je typ 'warning' nebo 'delete', dáme červené tlačítko
+    if (type === 'warning' || type === 'delete') {
         confirmBtn.className = "btn btn-danger";
-        cancelBtn.style.display = "inline-block";
     } else {
         confirmBtn.className = "btn primary";
-        cancelBtn.style.display = (confirmText === "OK") ? "none" : "inline-block";
     }
 
     dialog.showModal();
