@@ -405,6 +405,22 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   border-bottom: none;
 }
 
+/* --- Print Text Replacement (Shadow DIV) --- */
+.print-text-replacement {
+  display: none; /* Normálně neviditelné */
+  white-space: pre-wrap; /* Zachová odřádkování */
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12pt;
+  color: #444; /* Shoda s barvou inputů při tisku */
+  line-height: 1.5;
+  margin-bottom: 22px;
+  width: 100%;
+  overflow-wrap: break-word;
+  min-height: 1.5em; /* Zajistí alespoň jeden řádek místa */
+  padding: 6px; /* Odsazení textu stejně jako u inputů */
+  box-sizing: border-box;
+  margin-top: 6px;
+}
 
 
 /* --- A4 Preview Layout --- */
@@ -513,6 +529,11 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   font-family: "Times New Roman", Times, serif;
 }
 
+.print-preview .qa-block {
+  display: block;
+  page-break-inside: auto !important; /* Povolí roztržení bloku vejpůl */
+}
+
 .print-preview fieldset {
   background: none;
   border: none !important;
@@ -569,18 +590,20 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   page-break-inside: auto !important;
   margin-bottom: 22px !important;
 }
+
+.print-preview textarea {
+  display: none !important;
+}
+.print-preview .print-text-replacement {
+  display: block !important;
+}
+
 /* Make inputs non-editable in preview */
 .print-preview.preview-mode-active input,
 .print-preview.preview-mode-active select,
 .print-preview.preview-mode-active textarea {
   pointer-events: none;
   caret-color: transparent;
-}
-
-.print-preview textarea {
-  resize: none;
-  white-space: pre-wrap;
-  overflow: visible !important;
 }
 
 .print-preview .qa-block > label {
@@ -643,11 +666,6 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 .print-preview .select-group input[type="radio"]:checked + span,
 .print-preview .select-group input[type="checkbox"]:checked + span {
   font-weight: bold !important;
-}
-
-.print-preview .qa-block {
-  display: block;
-  margin-bottom: 22px !important;
 }
 
 .print-preview #preview-button,
@@ -824,6 +842,14 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     margin-bottom: 22px !important; /* Keep consistent spacing */
   }
 
+  /* Hide textareas and show replacement divs for better pagination */
+  textarea {
+    display: none !important;
+  }
+  .print-text-replacement {
+    display: block !important;
+  }
+
   textarea {
     resize: none;
     white-space: pre-wrap;
@@ -894,8 +920,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
   .qa-block {
     display: block;
-    margin-bottom: 22px !important;
-    /* The page-break-after:avoid on the label is more effective for this. */
+    page-break-inside: auto !important; /* Allow breaking inside long text blocks */
   }
 
   /* Hide buttons and other non-printable elements */
@@ -1441,7 +1466,7 @@ input.input-error {
 
 /* Odstranění ořezu u bloku i u nadřazeného fieldsetu */
 .qa-block.highlighted-dot,
-fieldset.allow-overflow {
+.allow-overflow {
     overflow: visible !important;
 }
 
@@ -1896,7 +1921,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-  <div class="qa-block hidden" id="q_child_device_details" data-controlled-by="child_has_device">
+  <div class="qa-block qa-group hidden" id="q_child_device_details" data-controlled-by="child_has_device">
     <div class="qa-block">
       <label for="child_device_use_relative"><span>Jak moc dítě podle vás používá mobil nebo tablet ve srovnání s vrstevníky?</span></label>
       <textarea class="long-text" name="child_device_use_relative" id="child_device_use_relative"></textarea>
@@ -1929,7 +1954,7 @@ fieldset.allow-overflow {
     </div>
   </div>
 
-  <div class="qa-block hidden" id="q_kindergarten_details" data-controlled-by="attends_kindergarten">
+  <div class="qa-block qa-group hidden" id="q_kindergarten_details" data-controlled-by="attends_kindergarten">
 
     <div class="qa-block">
       <label for="kg_how_many"><span>Do kolika školek vaše dítě chodí?</span></label>
@@ -2064,7 +2089,7 @@ fieldset.allow-overflow {
     </div>
   </div>
 
-  <div class="qa-block hidden" id="q_school_details" data-controlled-by="attends_school">
+  <div class="qa-block qa-group hidden" id="q_school_details" data-controlled-by="attends_school">
 
     <div class="qa-block">
       <label><span>Je dítě aktuálně v první třídě?</span></label>
@@ -2144,7 +2169,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-      <div class="qa-block hidden" id="q_school_homework_detail" data-controlled-by="school_homework_exists">
+      <div class="qa-block qa-group hidden" id="q_school_homework_detail" data-controlled-by="school_homework_exists">
 
     <div class="qa-block">
       <label><span>Stěžují si vyučující, že dítě neplní domácí úkoly?</span></label>
@@ -2164,7 +2189,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-    <div class="qa-block hidden" id="q_school_homework_tracking_detail" data-controlled-by="school_homework_tracking">
+    <div class="qa-block qa-group hidden" id="q_school_homework_tracking_detail" data-controlled-by="school_homework_tracking">
       <div class="qa-block">
         <label><span>Má dítě úkolníček nebo jinou pomůcku, do které si úkoly zaznamenává?</span></label>
         <div class="select-group">
@@ -2252,7 +2277,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-    <div class="qa-block hidden" id="q_school_seating_pair_details" data-controlled-by="school_seating_type" data-trigger-value="Po dvou">
+    <div class="qa-block qa-group hidden" id="q_school_seating_pair_details" data-controlled-by="school_seating_type" data-trigger-value="Po dvou">
       <div class="qa-block">
         <label><span>Dítě sedí:</span></label>
         <div class="select-group">
@@ -2310,7 +2335,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-    <div class="qa-block hidden" id="q_school_friends_detail" data-controlled-by="school_talks_about_friends">
+    <div class="qa-block qa-group hidden" id="q_school_friends_detail" data-controlled-by="school_talks_about_friends">
       <div class="qa-block">
         <label><span>Má někoho, koho považuje za kamaráda/kamarádku?</span></label>
         <div class="select-group">
@@ -2337,7 +2362,7 @@ fieldset.allow-overflow {
       </div>
     </div>
 
-    <div class="qa-block hidden" id="q_school_complains_peers_detail" data-controlled-by="school_complains_about_peers">
+    <div class="qa-block qa-group hidden" id="q_school_complains_peers_detail" data-controlled-by="school_complains_about_peers">
       <div class="qa-block">
         <label><span>Stěžuje si na někoho dlouhodobě?</span></label>
         <div class="select-group">
@@ -2394,7 +2419,7 @@ fieldset.allow-overflow {
     </div>
   </div>
 
-  <div class="qa-block hidden" id="q_hobbies_clubs_detail" data-controlled-by="hobbies_clubs_exists">
+  <div class="qa-block qa-group hidden" id="q_hobbies_clubs_detail" data-controlled-by="hobbies_clubs_exists">
     <div class="qa-block">
       <label for="hobbies_clubs_count"><span>Kolik kroužků navštěvuje?</span></label>
       <input type="number" name="hobbies_clubs_count" id="hobbies_clubs_count" min="0">
@@ -2422,7 +2447,7 @@ fieldset.allow-overflow {
     </div>
   </div>
 
-  <div class="qa-block hidden" id="q_home_chores_detail" data-controlled-by="home_chores_exists">
+  <div class="qa-block qa-group hidden" id="q_home_chores_detail" data-controlled-by="home_chores_exists">
     <div class="qa-block">
       <label for="home_chores_expectation"><span>Jaké domácí povinnosti by dítě podle Vás mělo být schopno splnit?</span></label>
       <input class="short-text" type="text" name="home_chores_expectation" id="home_chores_expectation">
@@ -2465,7 +2490,7 @@ fieldset.allow-overflow {
     </div>
   </div>
 
-  <div class="qa-block hidden" id="q_home_conflicts_detail" data-controlled-by="home_conflicts_exists">
+  <div class="qa-block qa-group hidden" id="q_home_conflicts_detail" data-controlled-by="home_conflicts_exists">
     <div class="qa-block">
       <label><span>Máte pocit, že konflikty zvládáte řešit tak, jak byste chtěl*a?</span></label>
       <div class="select-group">
@@ -3259,6 +3284,27 @@ function setupLiveValidation() {
   validateAllQuestions();
 }
 
+// --- Print Text Replacement Generator ---
+function generatePrintReplacements() {
+    // Najdeme všechny viditelné textarey
+    const textareas = document.querySelectorAll('textarea');
+
+    textareas.forEach(textarea => {
+        // Zkontrolujeme, zda už náhradu nemá
+        let replacementDiv = textarea.nextElementSibling;
+        
+        // Pokud element za textareou není naše náhrada, vytvoříme novou
+        if (!replacementDiv || !replacementDiv.classList.contains('print-text-replacement')) {
+            replacementDiv = document.createElement('div');
+            replacementDiv.className = 'print-text-replacement';
+            // Vložíme ji do DOMu hned za textareu
+            textarea.parentNode.insertBefore(replacementDiv, textarea.nextSibling);
+        }
+
+        // Zkopírujeme text
+        replacementDiv.textContent = textarea.value;
+    });
+}
 
 
 // --- Print with Unanswered Marks ---
@@ -3279,6 +3325,7 @@ function togglePrintPreview() {
   const inputs = form.querySelectorAll('input, textarea, select');
 
   if (isPreviewing) {
+    generatePrintReplacements(); // Generování stínových divů pro tisk
     markUnansweredQuestions();
     window.scrollTo(0, 0); // Scroll to top
 
@@ -3386,6 +3433,7 @@ function markUnansweredQuestions() {
 
 function printWithUnansweredMarks() {
   // This function is now used for the "Tisk PDF" button in preview
+  generatePrintReplacements(); // Pro jistotu přegenerovat aktuální texty
   window.print();
 }
 
@@ -3590,7 +3638,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /* --- LOGIKA SOUHRNNÉHO PANELU --- */
 
 function updateQuestionnaireSummary() {
-    const allBlocks = Array.from(document.querySelectorAll('.qa-block'));
+    // Vybereme pouze bloky, které nejsou označené jako skupina (qa-group)
+    const allBlocks = Array.from(document.querySelectorAll('.qa-block:not(.qa-group)'));
     
     let countAnswered = 0;
     let countRefused = 0;
@@ -3622,6 +3671,7 @@ function updateQuestionnaireSummary() {
         const fieldset = block.closest('fieldset');
         const sectionName = fieldset ? fieldset.querySelector('legend').textContent : 'Obecné';
         const labelEl = block.querySelector('label span');
+
         const questionText = labelEl ? labelEl.textContent.replace(':', '') : 'Otázka';
 
         const input = block.querySelector('input:not([type="radio"]):not([type="checkbox"]), textarea, select');
@@ -3696,24 +3746,32 @@ function updateQuestionnaireSummary() {
 
 function scrollToAndHighlight(element) {
     // 1. Reset předchozích zvýraznění
-    document.querySelectorAll('.qa-block').forEach(el => el.classList.remove('highlighted-dot'));
-    document.querySelectorAll('fieldset').forEach(fs => fs.classList.remove('allow-overflow'));
+    document.querySelectorAll('.highlighted-dot').forEach(el => el.classList.remove('highlighted-dot'));
+    document.querySelectorAll('.allow-overflow').forEach(el => el.classList.remove('allow-overflow'));
 
-    const parentFieldset = element.closest('fieldset');
+    // Najdeme všechny předky, kteří by mohli oříznout obsah (qa-block, fieldset)
+    const ancestorsToUnclip = [];
+    let curr = element.parentElement;
+    while (curr && curr.tagName !== 'FORM') {
+        if (curr.classList.contains('qa-block') || curr.tagName === 'FIELDSET') {
+            ancestorsToUnclip.push(curr);
+        }
+        curr = curr.parentElement;
+    }
 
     // 2. Intersection Observer (spustí se až v momentě, kdy uživatel na prvek dokouká)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 element.classList.add('highlighted-dot');
-                if (parentFieldset) parentFieldset.classList.add('allow-overflow');
+                ancestorsToUnclip.forEach(el => el.classList.add('allow-overflow'));
 
                 observer.disconnect();
 
                 // Odstranění tříd po 2.5 sekundách (animace trvá 2s + 0.5s rezerva)
                 setTimeout(() => {
                     element.classList.remove('highlighted-dot');
-                    if (parentFieldset) parentFieldset.classList.remove('allow-overflow');
+                    ancestorsToUnclip.forEach(el => el.classList.remove('allow-overflow'));
                 }, 4000);
             }
         });
