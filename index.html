@@ -184,6 +184,12 @@
   margin-bottom: 22px !important; /* Restore original spacing */
 }
 
+/* Kompenzace pro qa-group, aby se šipka tip-blocku neořízla, ale nevznikla velká mezera */
+.qa-group.hidden.is-visible {
+  margin-top: -12px !important;
+  padding-top: 12px !important;
+}
+
 
 /* Unified select-group alignment */
 .select-group {
@@ -298,7 +304,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
 /* New modifier class for a tip block placed UNDER a question */
 .tip-block.tip-block-under {
-  margin-top: 0px; /* Creates space from the question above */
+  margin-top: 0px; /* Reset na 0px, ořezání šipky řešíme posunem rodiče (.qa-group) */
   margin-bottom: 30px; /* Removes bottom margin */
   border-bottom: 0;
   border-top: 3px solid #B3C7FF; /* Change border to top */
@@ -1610,12 +1616,12 @@ input.input-error {
 
     <p>Data, která budete zadávat, mohou být citlivé povahy. Tento dotazník nikdy neodesílá data mimo vaše zařízení. Pro jistotu jsou vaše odpovědi automaticky ukládány lokálně ve vašem prohlížeči (umožňuje obnovu v případě zavření dotazníku apod.). Dosavadní průchod také můžete uložit tlačítkem <strong>Průběžně uložit</strong> nebo si stáhněte soubor se svými odpověďmi (tlačítko <strong>Uložit do souboru</strong>). Obě možnosti naleznete na konci dotazníku.</p>
 
-    <p>Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru (.json)</strong>. Pokud existuje průběžně uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.</p>
+    <p>Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru</strong>. Pokud existuje průběžně uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.</p>
 
 
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button type="button" class="btn btn-secondary" onclick="document.getElementById('json-file-input').click()">Načíst ze souboru (.json)</button>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('json-file-input').click()">Načíst ze souboru</button>
         <button type="button" class="btn btn-secondary" id="load-from-storage-btn" onclick="loadForm()">Načíst poslední průchod</button>
       </div>
       <div style="text-align: right; margin-left: auto;">
@@ -1651,9 +1657,14 @@ input.input-error {
 
 <fieldset>
   <legend>Zdravotní anamnéza</legend>
+
+<div class="tip-block tip-block-under">
+Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustředit se, učit se, zvládat běžný den ve škole i doma a regulovat svoje chování. Řada obtíží, se kterými se ve školním prostředí může dítě potýkat (nesoustředěnost, pomalé tempo, vyrušování, emoční výbuchy), může být ovlivněna také tím, jak vidí a slyší, ale také chronickými nemocemi nebo bolestmi.    
+</div>
+
   <div class="qa-block">
-    <label><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
-    <div class="select-group">
+    <label id="lbl_neurolog_exam"><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_neurolog_exam">
       <label><input type="radio" name="neurolog_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="neurolog_exam" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="neurolog_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1664,37 +1675,91 @@ input.input-error {
     <textarea class="long-text" name="diagnoses" id="diagnoses"></textarea>
   </div>
   <div class="qa-block">
-    <label for="chronic_illnesses"><span>Trpí dítě některými chronickými onemocněními?</span></label>
-    <textarea class="long-text" name="chronic_illnesses" id="chronic_illnesses"></textarea>
+    <label id="lbl_chronic_illnesses_status"><span>Trpí dítě některými chronickými onemocněními?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_chronic_illnesses_status">
+      <label><input type="radio" name="chronic_illnesses_status" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="chronic_illnesses_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="chronic_illnesses_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_chronic_illnesses_detail" data-controlled-by="chronic_illnesses_status">
+    <label for="chronic_illnesses_detail"><span>Jakými chronickými onemocněními?</span></label>
+    <textarea class="long-text" name="chronic_illnesses_detail" id="chronic_illnesses_detail"></textarea>
   </div>
   <div class="qa-block">
-    <label for="past_health_issues"><span>Prodělalo dítě v minulosti nějaké vážné zdravotní komplikace?</span></label>
-    <textarea class="long-text" name="past_health_issues" id="past_health_issues"></textarea>
+    <label id="lbl_past_health_issues_status"><span>Prodělalo dítě v minulosti nějaké vážné zdravotní komplikace (hospitalizace, chirurgický zákrok, apod.)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_past_health_issues_status">
+      <label><input type="radio" name="past_health_issues_status" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="past_health_issues_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="past_health_issues_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_past_health_issues_detail" data-controlled-by="past_health_issues_status">
+    <label for="past_health_issues_detail"><span>Jaké zdravotní komplikace to byly?</span></label>
+    <textarea class="long-text" name="past_health_issues_detail" id="past_health_issues_detail"></textarea>
   </div>
   <div class="qa-block">
-    <label><span>Byl dítěti někdy vyšetřen zrak?</span></label>
-    <div class="select-group">
+    <label id="lbl_vision_exam"><span>Byl dítěti někdy vyšetřen zrak?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_vision_exam">
       <label><input type="radio" name="vision_exam" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_exam" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="vision_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Má dítě se zrakem nějaké obtíže?</span></label>
-    <div class="select-group">
+    <label id="lbl_vision_issues"><span>Má dítě se zrakem nějaké obtíže?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_vision_issues">
       <label><input type="radio" name="vision_issues" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="vision_issues" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="vision_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block hidden" id="q_vision_issues_detail" data-controlled-by="vision_issues">
-    <label><span>Dítě:</span></label>
-    <div class="select-group">
+    <label id="lbl_vision_devices"><span>Dítě:</span></label>
+    <div class="select-group" role="group" aria-labelledby="lbl_vision_devices">
       <label><input type="checkbox" name="vision_devices_glasses"><span>Nosí brýle</span></label>
       <label><input type="checkbox" name="vision_devices_contacts"><span>Nosí kontaktní čočky</span></label>
       <label><input type="checkbox" name="vision_devices_occluder"><span>Používá okluzory</span></label>
       <label><input type="checkbox" name="vision_devices_surgery"><span>Podstoupilo operaci očí</span></label>
       <label><input type="checkbox" name="vision_devices_other"><span>Má jiný problém</span></label>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <label id="lbl_hearing_exam"><span>Byl dítěti někdy vyšetřen sluch (například na ORL)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_hearing_exam">
+      <label><input type="radio" name="hearing_exam" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="hearing_exam" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="hearing_exam" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block">
+    <label id="lbl_hearing_issues"><span>Má dítě se sluchem nějaké dlouhodobé obtíže?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_hearing_issues">
+      <label><input type="radio" name="hearing_issues" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="hearing_issues" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="hearing_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block hidden" id="q_hearing_issues_detail" data-controlled-by="hearing_issues">
+    <label for="hearing_issues_detail"><span>Jaké sluchové obtíže to jsou?</span></label>
+    <textarea class="long-text" name="hearing_issues_detail" id="hearing_issues_detail"></textarea>
+  </div>
+
+  <div class="qa-block">
+    <label id="lbl_speech_therapist_visit"><span>Dochází nebo docházelo dítě k logopedovi?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_speech_therapist_visit">
+      <label><input type="radio" name="speech_therapist_visit" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="speech_therapist_visit" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="speech_therapist_visit" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+  <div class="qa-block">
+    <label id="lbl_speech_difficulties"><span>Dochází u dítěte k řečovým obtížím?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_speech_difficulties">
+      <label><input type="radio" name="speech_difficulties" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="speech_difficulties" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="speech_difficulties" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
 
@@ -1724,32 +1789,32 @@ input.input-error {
     <input type="number" name="father_age" id="father_age">
   </div>
   <div class="qa-block">
-    <label><span>Rodiče jsou:</span></label>
-    <div class="select-group">
+    <label id="lbl_parents_status"><span>Rodiče jsou:</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_parents_status">
       <label><input type="radio" name="parents_status" value="Biologičtí"><span>Biologičtí</span></label>
       <label><input type="radio" name="parents_status" value="Vychovávající"><span>Vychovávající</span></label>
       <label><input type="radio" name="parents_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Biologická matka je vychovávající matka?</span></label>
-    <div class="select-group">
+    <label id="lbl_bio_mother_status"><span>Biologická matka je vychovávající matka?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_mother_status">
       <label><input type="radio" name="bio_mother_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_mother_status" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="bio_mother_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Biologický otec je vychovávající otec?</span></label>
-    <div class="select-group">
+    <label id="lbl_bio_father_status"><span>Biologický otec je vychovávající otec?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_father_status">
       <label><input type="radio" name="bio_father_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="bio_father_status" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="bio_father_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Existuje další vychovávající rodič/pečovatel?</span></label>
-    <div class="select-group">
+    <label id="lbl_additional_carer_status"><span>Existuje další vychovávající rodič/pečovatel?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_additional_carer_status">
       <label><input type="radio" name="additional_carer_status" value="Ano - plná péče"><span>Ano - plná péče</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ano - střídavá péče"><span>Ano - střídavá péče</span></label>
       <label><input type="radio" name="additional_carer_status" value="Ne"><span>Ne</span></label>
@@ -1757,8 +1822,8 @@ input.input-error {
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Má matka nějaká zdravotní omezení?</span></label>
-    <div class="select-group">
+    <label id="lbl_mother_health"><span>Má matka nějaká zdravotní omezení?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_mother_health">
       <label><input type="radio" name="mother_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_health" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="mother_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1769,8 +1834,8 @@ input.input-error {
     <textarea class="long-text" name="mother_health_detail" id="mother_health_detail"></textarea>
   </div>
   <div class="qa-block">
-    <label><span>Má otec nějaká zdravotní omezení?</span></label>
-    <div class="select-group">
+    <label id="lbl_father_health"><span>Má otec nějaká zdravotní omezení?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_father_health">
       <label><input type="radio" name="father_health" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_health" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="father_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1781,8 +1846,8 @@ input.input-error {
     <textarea class="long-text" name="father_health_detail" id="father_health_detail"></textarea>
   </div>
   <div class="qa-block">
-    <label><span>Je matka dítěte momentálně zaměstnaná?</span></label>
-    <div class="select-group">
+    <label id="lbl_mother_employed"><span>Je matka dítěte momentálně zaměstnaná?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_mother_employed">
       <label><input type="radio" name="mother_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="mother_employed" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="mother_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1793,8 +1858,8 @@ input.input-error {
     <textarea class="long-text" name="mother_jobs" id="mother_jobs"></textarea>
   </div>
   <div class="qa-block">
-    <label><span>Je otec dítěte momentálně zaměstnaný?</span></label>
-    <div class="select-group">
+    <label id="lbl_father_employed"><span>Je otec dítěte momentálně zaměstnaný?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_father_employed">
       <label><input type="radio" name="father_employed" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="father_employed" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="father_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1805,8 +1870,8 @@ input.input-error {
     <textarea class="long-text" name="father_jobs" id="father_jobs"></textarea>
   </div>
    <div class="qa-block">
-    <label><span>Vychovává dítě i někdo jiný (podstatným způsobem zasahuje do života dítěte)?</span></label>
-    <div class="select-group">
+    <label id="lbl_other_carer_status"><span>Vychovává dítě i někdo jiný (podstatným způsobem zasahuje do života dítěte)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_carer_status">
       <label><input type="radio" name="other_carer_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="other_carer_status" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="other_carer_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1818,8 +1883,8 @@ input.input-error {
   <div id="additional_carers_container"></div>
   </div>
   <div class="qa-block">
-    <label><span>Má dítě sourozence?</span></label>
-    <div class="select-group">
+    <label id="lbl_has_siblings"><span>Má dítě sourozence?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_has_siblings">
       <label><input type="radio" name="has_siblings" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="has_siblings" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="has_siblings" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1841,8 +1906,8 @@ input.input-error {
     </div>
 
   <div class="qa-block">
-    <label><span>V jakém typu bydlení žijete?</span></label>
-    <div class="select-group">
+    <label id="lbl_housing_type"><span>V jakém typu bydlení žijete?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_housing_type">
       <label><input type="radio" name="housing_type" value="Dům"><span>Dům</span></label>
       <label><input type="radio" name="housing_type" value="Byt"><span>Byt</span></label>
       <label><input type="radio" name="housing_type" value="Jiné"><span>Jiné</span></label>
@@ -1862,16 +1927,16 @@ input.input-error {
     <input type="number" name="household_count" id="household_count">
   </div>
   <div class="qa-block">
-    <label><span>Má dítě vlastní pokoj?</span></label>
-    <div class="select-group">
+    <label id="lbl_child_own_room"><span>Má dítě vlastní pokoj?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_child_own_room">
       <label><input type="radio" name="child_own_room" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_room" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="child_own_room" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
   <div class="qa-block">
-    <label><span>Má dítě vlastní pracovní stůl?</span></label>
-    <div class="select-group">
+    <label id="lbl_child_own_desk"><span>Má dítě vlastní pracovní stůl?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_child_own_desk">
       <label><input type="radio" name="child_own_desk" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="child_own_desk" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="child_own_desk" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1879,13 +1944,46 @@ input.input-error {
   </div>
   
   <div class="qa-block">
-    <label for="time_with_children"><span>Kolik hodin denně trávíte (vy nebo další rodiče / pečovatelé) doma s dětmi?</span></label>
-    <input type="number" name="time_with_children" id="time_with_children">
+    <label id="lbl_time_with_children"><span>Kolik času denně trávíte vy osobně s dítětem (stačí pouhá přítomnost doma)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_children">
+      <label><input type="radio" name="time_with_children" value="do 1 hodiny"><span>do 1 hodiny</span></label>
+      <label><input type="radio" name="time_with_children" value="1-2 hodiny"><span>1-2 hodiny</span></label>
+      <label><input type="radio" name="time_with_children" value="2-3 hodiny"><span>2-3 hodiny</span></label>
+      <label><input type="radio" name="time_with_children" value="3-4 hodiny"><span>3-4 hodiny</span></label>
+      <label><input type="radio" name="time_with_children" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_children" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
   </div>
 
   <div class="qa-block">
-    <label><span>Máte prostor s dítětem něco procvičovat?</span></label>
-    <div class="select-group">
+    <label id="lbl_time_with_child_active"><span>Kolik času denně se dítěti vy osobně přímo věnujete (hra, společné činnosti, rozhovor)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_child_active">
+      <label><input type="radio" name="time_with_child_active" value="do 1 hodiny"><span>do 1 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_active" value="1-2 hodiny"><span>1-2 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_active" value="2-3 hodiny"><span>2-3 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_active" value="3-4 hodiny"><span>3-4 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_active" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_child_active" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+
+  <div class="qa-block">
+    <label id="lbl_time_with_child_others"><span>Kolik času denně se dítěti věnují další osoby (hra, společné činnosti, rozhovor)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_child_others">
+      <label><input type="radio" name="time_with_child_others" value="do 1 hodiny"><span>do 1 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_others" value="1-2 hodiny"><span>1-2 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_others" value="2-3 hodiny"><span>2-3 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_others" value="3-4 hodiny"><span>3-4 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_others" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_child_others" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    </div>
+  </div>
+
+  
+
+  <div class="qa-block">
+    <label id="lbl_practice_with_child"><span>Máte prostor s dítětem něco procvičovat?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_practice_with_child">
       <label><input type="radio" name="practice_with_child" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="practice_with_child" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="practice_with_child" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1913,8 +2011,8 @@ input.input-error {
   </div>
 
   <div class="qa-block">
-      <label><span>Má dítě přístup k telefonu nebo tabletu?</span></label>
-      <div class="select-group">
+      <label id="lbl_child_has_device"><span>Má dítě přístup k telefonu nebo tabletu?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_child_has_device">
         <label><input type="radio" name="child_has_device" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="child_has_device" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="child_has_device" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1944,10 +2042,9 @@ input.input-error {
 
 <fieldset>
   <legend>Školka</legend>
-
   <div class="qa-block">
-    <label><span>Navštěvuje vaše dítě školku?</span></label>
-    <div class="select-group">
+    <label id="lbl_attends_kindergarten"><span>Navštěvuje vaše dítě školku?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_attends_kindergarten">
       <label><input type="radio" name="attends_kindergarten" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="attends_kindergarten" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="attends_kindergarten" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1955,6 +2052,10 @@ input.input-error {
   </div>
 
   <div class="qa-block qa-group hidden" id="q_kindergarten_details" data-controlled-by="attends_kindergarten">
+
+    <div class="tip-block tip-block-under">
+Tato sekce mapuje zkušenosti dítěte s předškolním vzděláváním - zda a v jakém režimu dítě školku navštěvuje, jak probíhá adaptace na prostředí, fungování v dětském kolektivu nebo zvládání předškolní přípravy. Ve školce má dítě možnost rozvíjet sociální dovednosti, vrstevnické vztahy, sebeobsluhu, schopnost fungovat mimo rodinu a také odolnost vůči změnám a zátěži.
+</div>
 
     <div class="qa-block">
       <label for="kg_how_many"><span>Do kolika školek vaše dítě chodí?</span></label>
@@ -1972,8 +2073,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Kdybyste měl/a zhodnotit, jak probíhá ranní vypravování do školky – má s ním dítě nějaké obtíže?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_morning_issues"><span>Kdybyste měl/a zhodnotit, jak probíhá ranní vypravování do školky – má s ním dítě nějaké obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_morning_issues">
         <label><input type="radio" name="kg_morning_issues" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_morning_issues" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_morning_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -1986,8 +2087,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Má dítě problém se rozloučit při odchodu do školky?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_separation_issues"><span>Má dítě problém se rozloučit při odchodu do školky?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_separation_issues">
         <label><input type="radio" name="kg_separation_issues" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_separation_issues" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_separation_issues" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2005,8 +2106,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Mluví s vámi dítě o svém dni ve školce?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_talks_about_day"><span>Mluví s vámi dítě o svém dni ve školce?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_talks_about_day">
         <label><input type="radio" name="kg_talks_about_day" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_talks_about_day" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_talks_about_day" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2029,8 +2130,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Stěžují si učitelky ve školce na vaše dítě?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_teachers_complain"><span>Stěžují si učitelky ve školce na vaše dítě?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_teachers_complain">
         <label><input type="radio" name="kg_teachers_complain" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_teachers_complain" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_teachers_complain" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2038,8 +2139,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Vnímají učitelky problém, se kterým do poradny přicházíte?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_teachers_see_problem"><span>Zmiňují učitelky problém, kvůli kterému bude nyní dítě podstupovat vyšetření?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_teachers_see_problem">
         <label><input type="radio" name="kg_teachers_see_problem" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_teachers_see_problem" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_teachers_see_problem" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2047,16 +2148,16 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Probíhá ve školce nějaká forma předškolní přípravy?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_preschool_prep"><span>Probíhá ve školce nějaká forma předškolní přípravy?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_preschool_prep">
         <label><input type="radio" name="kg_preschool_prep" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_preschool_prep" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_preschool_prep" value="Bez odpovědi"><span>Bez odpovědi</span></label>
       </div>
     </div>
 
-    <div class="qa-block">
-      <label for="kg_prep_progress"><span>Jak vašemu dítěti jde školní příprava?</span></label>
+    <div class="qa-block hidden" id="q_kg_prep_progress_detail" data-controlled-by="kg_preschool_prep">
+      <label for="kg_prep_progress"><span>Jak učitelky hodnotí fungování dítěte při školní přípravě?</span></label>
       <textarea class="long-text" name="kg_prep_progress" id="kg_prep_progress"></textarea>
     </div>
 
@@ -2066,8 +2167,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Nastupuje dítě v nejbližší době do první třídy?</span></label>
-      <div class="select-group">
+      <label id="lbl_kg_starting_school"><span>Nastupuje dítě v nejbližší době do první třídy?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_kg_starting_school">
         <label><input type="radio" name="kg_starting_school" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="kg_starting_school" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="kg_starting_school" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2081,8 +2182,8 @@ input.input-error {
   <legend>Škola</legend>
 
   <div class="qa-block">
-    <label><span>Navštěvuje dítě školu?</span></label>
-    <div class="select-group">
+    <label id="lbl_attends_school"><span>Navštěvuje dítě školu?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_attends_school">
       <label><input type="radio" name="attends_school" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="attends_school" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="attends_school" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2091,18 +2192,49 @@ input.input-error {
 
   <div class="qa-block qa-group hidden" id="q_school_details" data-controlled-by="attends_school">
 
+    <div class="tip-block tip-block-under">
+Školní docházka může pro děti představovat velkou výzvu - vyžaduje dlouhodobou pozornost, regulaci emocí i chování, organizaci, práci podle instrukcí a schopnost vztahovat se adekvátním způsobem k ostatním dětem i vyučujícím. V dotazníku se snažíme získat co nejvíce informací o tom, jak konkrétně vypadá školní režim, uspořádání třídy a školní povinnosti dítěte. Všechny tyto faktory se mohou promítat do školního výkonu i psychické pohody dítěte. 
+</div>
+
     <div class="qa-block">
-      <label><span>Je dítě aktuálně v první třídě?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_first_grade"><span>Je dítě aktuálně v první třídě?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_first_grade">
         <label><input type="radio" name="school_first_grade" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_first_grade" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_first_grade" value="Bez odpovědi"><span>Bez odpovědi</span></label>
       </div>
     </div>
 
+    <div class="qa-block qa-group hidden" id="q_school_first_grade_history" data-controlled-by="school_first_grade">
+
+      <div class="tip-block tip-block-under">
+      Tato část dotazníku se vrací k období předškolního věku, kdy se začínají objevovat první náznaky potíží či naopak silných stránek, které mohou ovlivňovat fungování dítěte ve škole i dnes. Vaše odpovědi nám pomohou získat představu o tom, jaká doporučení nebo podpůrná opatření by dítěti ve škole mohla prospívat.</div>
+
+      <div class="qa-block">
+        <label for="school_history_kg_obedience"><span>Jak bylo vaše dítě ve školce poslušné podle učitelek?</span></label>
+        <textarea class="long-text" name="school_history_kg_obedience" id="school_history_kg_obedience"></textarea>
+      </div>
+      <div class="qa-block">
+        <label for="school_history_kg_participation"><span>Jak se vaše dítě podle učitelek zapojovalo do dění ve školce?</span></label>
+        <textarea class="long-text" name="school_history_kg_participation" id="school_history_kg_participation"></textarea>
+      </div>
+      <div class="qa-block">
+        <label for="school_history_kg_peer_behavior"><span>Jak učitelky ve školce hodnotily chování vašeho dítěte k jiným dětem? (hraje si s nimi / nezlobí je apod.)</span></label>
+        <textarea class="long-text" name="school_history_kg_peer_behavior" id="school_history_kg_peer_behavior"></textarea>
+      </div>
+      <div class="qa-block">
+        <label for="school_history_kg_prep_progress"><span>Jak učitelky ve školce hodnotily fungování dítěte při školní přípravě?</span></label>
+        <textarea class="long-text" name="school_history_kg_prep_progress" id="school_history_kg_prep_progress"></textarea>
+      </div>
+      <div class="qa-block">
+        <label for="school_history_kg_prep_see_problem"><span>Zmiňovaly učitelky ve školce problém, kvůli kterému bude nyní dítě podstupovat vyšetření?</span></label>
+        <textarea class="long-text" name="school_history_kg_prep_see_problem" id="school_history_kg_prep_see_problem"></textarea>
+      </div>
+    </div>
+
     <div class="qa-block">
-      <label><span>Má dítě ve škole nějaké oblíbené vyučovací předměty?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_fav_subjects_exists"><span>Má dítě ve škole nějaké oblíbené vyučovací předměty?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_fav_subjects_exists">
         <label><input type="radio" name="school_fav_subjects_exists" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_fav_subjects_exists" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_fav_subjects_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2115,8 +2247,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Jsou nějaké předměty, které dítě nemá rádo?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_disliked_subjects_exists"><span>Jsou nějaké předměty, které dítě nemá rádo?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_disliked_subjects_exists">
         <label><input type="radio" name="school_disliked_subjects_exists" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_disliked_subjects_exists" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_disliked_subjects_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2134,8 +2266,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Jaký typ hodnocení se ve škole, kterou dítě navštěvuje, používá?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_grading_type"><span>Jaký typ hodnocení se ve škole, kterou dítě navštěvuje, používá?</span></label>
+      <div class="select-group" role="group" aria-labelledby="lbl_school_grading_type">
         <label><input type="checkbox" name="school_grading_type_grades"><span>Známkování</span></label>
         <label><input type="checkbox" name="school_grading_type_verbal"><span>Slovní hodnocení</span></label>
         <label><input type="checkbox" name="school_grading_type_self"><span>Sebehodnocení dítěte</span></label>
@@ -2143,8 +2275,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Dítěti se z hlediska hodnocení školního prospěchu ve škole daří spíše:</span></label>
-      <div class="select-group">
+      <label id="lbl_school_performance"><span>Dítěti se z hlediska hodnocení školního prospěchu ve škole daří spíše:</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_performance">
         <label><input type="radio" name="school_performance" value="Dobře"><span>Dobře</span></label>
         <label><input type="radio" name="school_performance" value="Špatně"><span>Špatně</span></label>
         <label><input type="radio" name="school_performance" value="Něco mezi"><span>Něco mezi</span></label>
@@ -2153,16 +2285,16 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Škola pro komunikaci s rodiči ohledně známek, domácích úkolů nebo absence využívá:</span></label>
-      <div class="select-group">
+      <label id="lbl_school_comm_app"><span>Škola pro komunikaci s rodiči ohledně známek, domácích úkolů nebo absence využívá:</span></label>
+      <div class="select-group" role="group" aria-labelledby="lbl_school_comm_app">
         <label><input type="checkbox" name="school_comm_app"><span>Elektronickou komunikaci, např. systém Bakaláři</span></label>
         <label><input type="checkbox" name="school_comm_notebook"><span>Žákovskou knížku ve fyzické podobě</span></label>
       </div>
     </div>
 
     <div class="qa-block">
-      <label><span>Dostává dítě ve škole domácí úkoly?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_homework_exists"><span>Dostává dítě ve škole domácí úkoly?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_exists">
         <label><input type="radio" name="school_homework_exists" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_homework_exists" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_homework_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2172,8 +2304,8 @@ input.input-error {
       <div class="qa-block qa-group hidden" id="q_school_homework_detail" data-controlled-by="school_homework_exists">
 
     <div class="qa-block">
-      <label><span>Stěžují si vyučující, že dítě neplní domácí úkoly?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_homework_complaints"><span>Stěžují si vyučující, že dítě neplní domácí úkoly?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_complaints">
         <label><input type="radio" name="school_homework_complaints" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_homework_complaints" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_homework_complaints" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2181,8 +2313,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Je třeba, aby si dítě ve škole samo zaznamenávalo úkoly, které má vypracovat doma?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_homework_tracking"><span>Je třeba, aby si dítě ve škole samo zaznamenávalo úkoly, které má vypracovat doma?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_tracking">
         <label><input type="radio" name="school_homework_tracking" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_homework_tracking" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_homework_tracking" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2191,24 +2323,24 @@ input.input-error {
 
     <div class="qa-block qa-group hidden" id="q_school_homework_tracking_detail" data-controlled-by="school_homework_tracking">
       <div class="qa-block">
-        <label><span>Má dítě úkolníček nebo jinou pomůcku, do které si úkoly zaznamenává?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_homework_notebook_exists"><span>Má dítě úkolníček nebo jinou pomůcku, do které si úkoly zaznamenává?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_notebook_exists">
           <label><input type="radio" name="school_homework_notebook_exists" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="school_homework_notebook_exists" value="Ne"><span>Ne</span></label>
           <label><input type="radio" name="school_homework_notebook_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block">
-        <label><span>Myslíte si, že se dítěti daří poznamenat si ve škole všechny domácí úkoly?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_homework_tracking_success"><span>Myslíte si, že se dítěti daří poznamenat si ve škole všechny domácí úkoly?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_tracking_success">
           <label><input type="radio" name="school_homework_tracking_success" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="school_homework_tracking_success" value="Ne"><span>Ne</span></label>
           <label><input type="radio" name="school_homework_tracking_success" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block">
-        <label><span>Dítě doma kontroluje úkolníček nebo jinou pomůcku pro zaznamenávání úkolů:</span></label>
-        <div class="select-group">
+        <label id="lbl_school_homework_check"><span>Dítě doma kontroluje úkolníček nebo jinou pomůcku pro zaznamenávání úkolů:</span></label>
+        <div class="select-group" role="group" aria-labelledby="lbl_school_homework_check">
           <label><input type="checkbox" name="school_homework_check_self"><span>Samo</span></label>
           <label><input type="checkbox" name="school_homework_check_parent"><span>Se mnou</span></label>
           <label><input type="checkbox" name="school_homework_check_other"><span>S jinou vychovávající osobou</span></label>
@@ -2216,8 +2348,8 @@ input.input-error {
       </div>
     </div>
     <div class="qa-block">
-      <label><span>Očekáváte od dítěte, že bude domácí úkoly vypracovávat samo?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_homework_expectation_self"><span>Očekáváte od dítěte, že bude domácí úkoly vypracovávat samo?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_homework_expectation_self">
         <label><input type="radio" name="school_homework_expectation_self" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_homework_expectation_self" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_homework_expectation_self" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2225,8 +2357,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Dítě vypracovává domácí úkoly:</span></label>
-      <div class="select-group">
+      <label id="lbl_school_homework_do"><span>Dítě vypracovává domácí úkoly:</span></label>
+      <div class="select-group" role="group" aria-labelledby="lbl_school_homework_do">
         <label><input type="checkbox" name="school_homework_do_self"><span>Samo</span></label>
         <label><input type="checkbox" name="school_homework_do_parent"><span>Se mnou</span></label>
         <label><input type="checkbox" name="school_homework_do_other"><span>S jinou vychovávající osobou</span></label>
@@ -2242,8 +2374,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Stěžují si vyučující opakovaně na něco, co se týká Vašeho dítěte?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_teacher_complaints_general"><span>Stěžují si vyučující opakovaně na něco, co se týká Vašeho dítěte?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_teacher_complaints_general">
         <label><input type="radio" name="school_teacher_complaints_general" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_teacher_complaints_general" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_teacher_complaints_general" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2256,8 +2388,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Chválí vyučující dítě za něco?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_teacher_praise_exists"><span>Chválí vyučující dítě za něco?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_teacher_praise_exists">
         <label><input type="radio" name="school_teacher_praise_exists" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_teacher_praise_exists" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_teacher_praise_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2270,8 +2402,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Školní třída je uspořádána:</span></label>
-      <div class="select-group">
+      <label id="lbl_school_seating_type"><span>Školní třída je uspořádána:</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_seating_type">
         <label><input type="radio" name="school_seating_type" value="Po dvou"><span>V lavicích po dvou</span></label>
         <label><input type="radio" name="school_seating_type" value="Jiné"><span>Jiné uspořádání</span></label>
       </div>
@@ -2279,8 +2411,8 @@ input.input-error {
 
     <div class="qa-block qa-group hidden" id="q_school_seating_pair_details" data-controlled-by="school_seating_type" data-trigger-value="Po dvou">
       <div class="qa-block">
-        <label><span>Dítě sedí:</span></label>
-        <div class="select-group">
+        <label id="lbl_school_seating_partner"><span>Dítě sedí:</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_seating_partner">
           <label><input type="radio" name="school_seating_partner" value="Samo"><span>Samo</span></label>
           <label><input type="radio" name="school_seating_partner" value="S jiným dítětem"><span>S jiným dítětem</span></label>
           <label><input type="radio" name="school_seating_partner" value="S asistentem"><span>S asistentem/kou</span></label>
@@ -2288,15 +2420,23 @@ input.input-error {
         </div>
       </div>
       <div class="qa-block">
-        <label for="school_seating_desk_row"><span>Ve které lavici dítě sedí?</span></label>
-        <textarea class="long-text" name="school_seating_desk_row" id="school_seating_desk_row"></textarea>
+        <label id="lbl_school_seating_desk_row"><span>V kolikáté lavici dítě sedí? (počítejte od tabule)</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_seating_desk_row">
+          <label><input type="radio" name="school_seating_desk_row" value="1. lavice"><span>1. lavice</span></label>
+          <label><input type="radio" name="school_seating_desk_row" value="2. lavice"><span>2. lavice</span></label>
+          <label><input type="radio" name="school_seating_desk_row" value="3. lavice"><span>3. lavice</span></label>
+          <label><input type="radio" name="school_seating_desk_row" value="4. lavice nebo další"><span>4. lavice nebo další</span></label>
+          <label><input type="radio" name="school_seating_desk_row" value="Nelze říci"><span>Nelze říci</span></label>
+          <label><input type="radio" name="school_seating_desk_row" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+        </div>
       </div>
       <div class="qa-block">
-        <label><span>Ve které části třídy dítě sedí?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_seating_location"><span>Ve které části třídy dítě sedí?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_seating_location">
           <label><input type="radio" name="school_seating_location" value="U dveří"><span>U dveří</span></label>
           <label><input type="radio" name="school_seating_location" value="Uprostřed"><span>Uprostřed</span></label>
           <label><input type="radio" name="school_seating_location" value="U okna"><span>U okna</span></label>
+          <label><input type="radio" name="school_seating_location" value="Nelze říci"><span>Nelze říci</span></label>
           <label><input type="radio" name="school_seating_location" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
@@ -2308,8 +2448,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Má školní třída relaxační část?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_relax_zone_exists"><span>Má školní třída relaxační část?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_relax_zone_exists">
         <label><input type="radio" name="school_relax_zone_exists" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_relax_zone_exists" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_relax_zone_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2327,8 +2467,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Mluví dítě doma o kamarádech?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_talks_about_friends"><span>Mluví dítě doma o kamarádech?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_talks_about_friends">
         <label><input type="radio" name="school_talks_about_friends" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_talks_about_friends" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_talks_about_friends" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2337,16 +2477,16 @@ input.input-error {
 
     <div class="qa-block qa-group hidden" id="q_school_friends_detail" data-controlled-by="school_talks_about_friends">
       <div class="qa-block">
-        <label><span>Má někoho, koho považuje za kamaráda/kamarádku?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_has_friends"><span>Má někoho, koho považuje za kamaráda/kamarádku?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_has_friends">
           <label><input type="radio" name="school_has_friends" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="school_has_friends" value="Ne"><span>Ne</span></label>
           <label><input type="radio" name="school_has_friends" value="Bez odpovědi"><span>Bez odpovědi</span></label>
         </div>
       </div>
       <div class="qa-block">
-        <label><span>Má nějaké kamarády/ky, o kterých mluví dlouhodobě?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_has_longterm_friends"><span>Má nějaké kamarády/ky, o kterých mluví dlouhodobě?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_has_longterm_friends">
           <label><input type="radio" name="school_has_longterm_friends" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="school_has_longterm_friends" value="Ne"><span>Ne</span></label>
           <label><input type="radio" name="school_has_longterm_friends" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2354,8 +2494,8 @@ input.input-error {
       </div>
     </div>
     <div class="qa-block">
-      <label><span>Stěžuje si na některé spolužáky nebo spolužačky?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_complains_about_peers"><span>Stěžuje si na některé spolužáky nebo spolužačky?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_complains_about_peers">
         <label><input type="radio" name="school_complains_about_peers" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_complains_about_peers" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_complains_about_peers" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2364,8 +2504,8 @@ input.input-error {
 
     <div class="qa-block qa-group hidden" id="q_school_complains_peers_detail" data-controlled-by="school_complains_about_peers">
       <div class="qa-block">
-        <label><span>Stěžuje si na někoho dlouhodobě?</span></label>
-        <div class="select-group">
+        <label id="lbl_school_complains_peers_longterm"><span>Stěžuje si na někoho dlouhodobě?</span></label>
+        <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_complains_peers_longterm">
           <label><input type="radio" name="school_complains_peers_longterm" value="Ano"><span>Ano</span></label>
           <label><input type="radio" name="school_complains_peers_longterm" value="Ne"><span>Ne</span></label>
           <label><input type="radio" name="school_complains_peers_longterm" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2373,8 +2513,8 @@ input.input-error {
       </div>
     </div>
     <div class="qa-block">
-      <label><span>Stěžuje si dítě na něco jiného ohledně školy?</span></label>
-      <div class="select-group">
+      <label id="lbl_school_complains_other"><span>Stěžuje si dítě na něco jiného ohledně školy?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_school_complains_other">
         <label><input type="radio" name="school_complains_other" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="school_complains_other" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="school_complains_other" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2396,9 +2536,13 @@ input.input-error {
 <fieldset>
   <legend>Kroužky a zájmy</legend>
 
+  <div class="tip-block tip-block-under">
+Volnočasové aktivity tvoří důležitou součást života dítěte a mohou přispívat k jeho psychické pohodě, sociálním dovednostem i schopnosti regulovat chování. Způsob, jakým dítě tráví volný čas, nám zároveň napovídá, v jakých oblastech může zažívat úspěch a z čeho naopak může být vyčerpané. 
+</div>
+
   <div class="qa-block">
-    <label><span>Má dítě nějakou volnočasovou aktivitu, která jej hodně baví nebo jí dokáže trávit hodně času?</span></label>
-    <div class="select-group">
+    <label id="lbl_hobbies_fav_exists"><span>Má dítě nějakou volnočasovou aktivitu, která jej hodně baví nebo jí dokáže trávit hodně času?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_hobbies_fav_exists">
       <label><input type="radio" name="hobbies_fav_exists" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="hobbies_fav_exists" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="hobbies_fav_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2411,8 +2555,8 @@ input.input-error {
   </div>
 
   <div class="qa-block">
-    <label><span>Navštěvuje dítě nějaké zájmové kroužky?</span></label>
-    <div class="select-group">
+    <label id="lbl_hobbies_clubs_exists"><span>Navštěvuje dítě nějaké zájmové kroužky?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_hobbies_clubs_exists">
       <label><input type="radio" name="hobbies_clubs_exists" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="hobbies_clubs_exists" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="hobbies_clubs_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2438,9 +2582,13 @@ input.input-error {
 <fieldset>
   <legend>Doma</legend>
 
+  <div class="tip-block tip-block-under">
+V domácím prostředí dítě odpočívá, učí se, hraje si a tráví velkou část času mimo školu. Způsob, jakým dítě doma funguje, významně ovlivňuje nejen jeho emoční stabilitu, ale i schopnost zvládat požadavky školy.
+</div>
+
   <div class="qa-block">
-    <label><span>Má dítě nějaké domácí povinnosti (např. úklid pokoje)?</span></label>
-    <div class="select-group">
+    <label id="lbl_home_chores_exists"><span>Má dítě nějaké domácí povinnosti (např. úklid pokoje)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_chores_exists">
       <label><input type="radio" name="home_chores_exists" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="home_chores_exists" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="home_chores_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2454,8 +2602,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Daří se mu domácí povinnosti plnit?</span></label>
-      <div class="select-group">
+      <label id="lbl_home_chores_success"><span>Daří se mu domácí povinnosti plnit?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_chores_success">
         <label><input type="radio" name="home_chores_success" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="home_chores_success" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="home_chores_success" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2463,8 +2611,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Dokáže si dítě samo kontrolovat plnění domácích povinností?</span></label>
-      <div class="select-group">
+      <label id="lbl_home_chores_self_check"><span>Dokáže si dítě samo kontrolovat plnění domácích povinností?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_chores_self_check">
         <label><input type="radio" name="home_chores_self_check" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="home_chores_self_check" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="home_chores_self_check" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2473,8 +2621,8 @@ input.input-error {
   </div>
 
   <div class="qa-block">
-    <label><span>Zvládne dítě doma udělat něco, o co jej požádáte (např. něco donést, s něčím pomoci)?</span></label>
-    <div class="select-group">
+    <label id="lbl_home_request_compliance"><span>Zvládne dítě doma udělat něco, o co jej požádáte (např. něco donést, s něčím pomoci)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_request_compliance">
       <label><input type="radio" name="home_request_compliance" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="home_request_compliance" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="home_request_compliance" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2482,8 +2630,8 @@ input.input-error {
   </div>
 
   <div class="qa-block">
-    <label><span>Máte doma s dítětem často konflikty?</span></label>
-    <div class="select-group">
+    <label id="lbl_home_conflicts_exists"><span>Máte doma s dítětem často konflikty?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_conflicts_exists">
       <label><input type="radio" name="home_conflicts_exists" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="home_conflicts_exists" value="Ne"><span>Ne</span></label>
       <label><input type="radio" name="home_conflicts_exists" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2492,8 +2640,8 @@ input.input-error {
 
   <div class="qa-block qa-group hidden" id="q_home_conflicts_detail" data-controlled-by="home_conflicts_exists">
     <div class="qa-block">
-      <label><span>Máte pocit, že konflikty zvládáte řešit tak, jak byste chtěl*a?</span></label>
-      <div class="select-group">
+      <label id="lbl_home_conflicts_resolution"><span>Máte pocit, že konflikty zvládáte řešit tak, jak byste chtěl*a?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_conflicts_resolution">
         <label><input type="radio" name="home_conflicts_resolution" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="home_conflicts_resolution" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="home_conflicts_resolution" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2501,8 +2649,8 @@ input.input-error {
     </div>
 
     <div class="qa-block">
-      <label><span>Ocenil*a byste radu nebo pomoc ohledně toho, jak konflikty řešit?</span></label>
-      <div class="select-group">
+      <label id="lbl_home_conflicts_help"><span>Ocenil*a byste radu nebo pomoc ohledně toho, jak konflikty řešit?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_home_conflicts_help">
         <label><input type="radio" name="home_conflicts_help" value="Ano"><span>Ano</span></label>
         <label><input type="radio" name="home_conflicts_help" value="Ne"><span>Ne</span></label>
         <label><input type="radio" name="home_conflicts_help" value="Bez odpovědi"><span>Bez odpovědi</span></label>
@@ -2556,18 +2704,18 @@ input.input-error {
 <div class="instruction-block sharing-options">
   <p>Dorazili jste na konec dotazníku. Nyní máte dvě možnosti, jak své odpovědi sdílet se specialistou.</p>
   <ul>
+    <li><strong>Uložit do souboru:</strong> Stáhne vaše odpovědi jako soubor, který můžete předat specialistovi nebo si jej uložit pro příště.</li>
     <li><strong>Náhled tisku/PDF:</strong> Zobrazí vaše odpovědi ve formátu diagnostické zprávy pro tisk nebo uložení do PDF.</li>
-    <li><strong>Uložit do souboru:</strong> Stáhne vaše odpovědi jako soubor (.json), který můžete předat specialistovi nebo si jej uložit pro příště.</li>
   </ul>
 
-    <p>V závislosti na dohodě se specialistou vyberte preferovnou variantu. Pokud si nejste jisti, je lepší zvolit <strong>Uložit do souboru</strong> a soubor přinést specialistovi (například na USB disku). Specialista může kdykoli vaše odpovědi převést do PDF nebo vytisknout sám.</p>
+    <p>V závislosti na dohodě se specialistou vyberte preferovnou variantu. Pokud si nejste jisti, je lepší zvolit <strong>Uložit do souboru</strong> a soubor přinést specialistovi (například na USB disku). Specialista může vaše odpovědi převést do PDF později sám.</p>
     
 
 
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
     <div class="save-buttons">
-      <button type="button" class="btn primary" id="preview-button" onclick="togglePrintPreview()">Náhled tisku / PDF</button>
       <button type="button" class="btn primary" onclick="saveAsJsonFile()">Uložit do souboru</button>
+      <button type="button" class="btn primary" id="preview-button" onclick="togglePrintPreview()">Náhled tisku / PDF</button>
     </div>
       <button type="button" class="btn btn-secondary" onclick="saveForm(true)" style="margin-left: auto;">Průběžně uložit</button>
   </div>
@@ -2727,6 +2875,8 @@ document.addEventListener('DOMContentLoaded', handleProgressBarVisibility);
 
 
 // setupConditional that supports radio groups and <select>
+const conditionalUpdateFunctions = [];
+
 function setupConditional(selectName, detailId, triggerValue = 'Ano') {
   const detailDiv = document.getElementById(detailId);
   if (!detailDiv) return; // Exit if the detail element doesn't exist
@@ -2734,8 +2884,10 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
   const radios = Array.from(document.querySelectorAll(`[name="${selectName}"]`));
   const isRadioGroup = radios.length > 1 || (radios.length === 1 && radios[0].type === 'radio');
 
+  let update;
+
   if (isRadioGroup) {
-    const update = () => {
+    update = () => {
       const checked = document.querySelector(`[name="${selectName}"]:checked`);
       const shouldShow = checked && checked.value === triggerValue;
       detailDiv.classList.toggle('is-visible', shouldShow);
@@ -2744,13 +2896,12 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
     };
 
     radios.forEach(r => r.addEventListener('change', update));
-    update(); // Initial check
   } else {
     // Single select or input
     const elem = document.querySelector(`[name="${selectName}"]`);
     if (!elem) return;
 
-    const update = () => {
+    update = () => {
       const shouldShow = elem.value === triggerValue;
       detailDiv.classList.toggle('is-visible', shouldShow);
       updateProgressBar();
@@ -2758,36 +2909,16 @@ function setupConditional(selectName, detailId, triggerValue = 'Ano') {
     };
 
     elem.addEventListener('change', update);
-    update();
+  }
+
+  if (update) {
+    update(); // Initial check
+    conditionalUpdateFunctions.push(update);
   }
 }
 
 function updateAllConditionals() {
-  // Re-run all conditional checks to show/hide fields based on loaded data.
-  setupConditional('mother_health', 'q_mother_health_detail', 'Ano');
-  setupConditional('father_health', 'q_father_health_detail', 'Ano');
-  setupConditional('other_carer_status', 'q_other_carer_detail', 'Ano');
-  setupConditional('mother_employed', 'q_mother_jobs_detail', 'Ano');
-  setupConditional('father_employed', 'q_father_jobs_detail', 'Ano');
-  setupConditional('has_siblings', 'q_siblings_detail', 'Ano');
-  setupConditional('child_has_device', 'q_child_device_details', 'Ano');
-  setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
-  setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
-  setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
-  setupConditional('attends_kindergarten', 'q_kindergarten_details', 'Ano');
-  setupConditional('kg_morning_issues', 'q_morning_issues_detail', 'Ano');
-  setupConditional('attends_school', 'q_school_details', 'Ano');
-  setupConditional('school_fav_subjects_exists', 'q_school_fav_subjects_detail', 'Ano');
-  setupConditional('school_disliked_subjects_exists', 'q_school_disliked_subjects_detail', 'Ano');
-  setupConditional('school_homework_tracking', 'q_school_homework_tracking_detail', 'Ano');
-  setupConditional('school_teacher_complaints_general', 'q_school_teacher_complaints_detail', 'Ano');
-  setupConditional('school_teacher_praise_exists', 'q_school_teacher_praise_detail', 'Ano');
-  setupConditional('school_seating_type', 'q_school_seating_pair_details', 'Po dvou');
-  setupConditional('school_seating_type', 'q_school_seating_other_detail', 'Jiné');
-  setupConditional('school_relax_zone_exists', 'q_school_relax_zone_detail', 'Ano');
-  setupConditional('school_talks_about_friends', 'q_school_friends_detail', 'Ano');
-  setupConditional('school_complains_about_peers', 'q_school_complains_peers_detail', 'Ano');
-  setupConditional('school_complains_other', 'q_school_complains_other_detail', 'Ano');
+  conditionalUpdateFunctions.forEach(fn => fn());
 }
 
 setupConditional('mother_health', 'q_mother_health_detail', 'Ano');
@@ -2798,14 +2929,19 @@ setupConditional('father_employed', 'q_father_jobs_detail', 'Ano');
 setupConditional('has_siblings', 'q_siblings_detail', 'Ano');
 setupConditional('child_has_device', 'q_child_device_details', 'Ano');
 setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
+setupConditional('chronic_illnesses_status', 'q_chronic_illnesses_detail', 'Ano');
+setupConditional('past_health_issues_status', 'q_past_health_issues_detail', 'Ano');
 setupConditional('vision_issues', 'q_vision_issues_detail', 'Ano');
+setupConditional('hearing_issues', 'q_hearing_issues_detail', 'Ano');
 setupConditional('housing_type', 'q_housing_specification_detail', 'Jiné');
 
 setupConditional('attends_kindergarten', 'q_kindergarten_details', 'Ano');
 setupConditional('kg_morning_issues', 'q_morning_issues_detail', 'Ano');
 
 // --- Logika pro sekci Škola ---
+setupConditional('kg_preschool_prep', 'q_kg_prep_progress_detail', 'Ano');
 setupConditional('attends_school', 'q_school_details', 'Ano');
+setupConditional('school_first_grade', 'q_school_first_grade_history', 'Ano');
 setupConditional('school_fav_subjects_exists', 'q_school_fav_subjects_detail', 'Ano');
 setupConditional('school_disliked_subjects_exists', 'q_school_disliked_subjects_detail', 'Ano');
 setupConditional('school_homework_tracking', 'q_school_homework_tracking_detail', 'Ano');
@@ -2863,28 +2999,39 @@ const additionalCarersContainer = document.getElementById('additional_carers_con
 additionalCarersCountInput.addEventListener('input', () => {
   let count = parseInt(additionalCarersCountInput.value) || 0;
   if (count > 10) count = 10;
-  additionalCarersContainer.innerHTML = '';
-  for (let i = 1; i <= count; i++) {
-    const fs = document.createElement('fieldset');
-    fs.innerHTML = `
-      <legend>Další vychovávající osoba ${i}</legend>
-      <div class="qa-block">
-      <label for="carer_${i}_name"><span>Jméno osoby ${i}:</span></label><input class="short-text" type="text" name="carer_${i}_name" id="carer_${i}_name">
-            </div>
-            <div class="qa-block">
-      <label for="carer_${i}_age"><span>Věk osoby ${i}:</span></label><input type="number" name="carer_${i}_age" id="carer_${i}_age">
-            </div>
-      <div class="qa-block"><label for="carer_${i}_relation"><span>Jaké jsou vaše vztahy s osobou ${i}:</span></label><textarea class="long-text" name="carer_${i}_relation" id="carer_${i}_relation"></textarea></div>
-      <div class="qa-block"><label for="carer_${i}_household"><span>V jaké domácnosti osoba ${i} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i}_household" id="carer_${i}_household"></textarea></div>
-    `;
-    additionalCarersContainer.appendChild(fs);
-    fs.querySelectorAll('textarea.long-text').forEach(area => {
-      area.addEventListener('input', () => autoExpandTextarea(area));
-            autoExpandTextarea(area); // Initialize height for newly created textareas
+  if (count < 0) count = 0;
 
-      updateProgressBar();
-    });
+  const currentCount = additionalCarersContainer.children.length;
+
+  if (count > currentCount) {
+    // Add only new fields
+    for (let i = currentCount + 1; i <= count; i++) {
+      const fs = document.createElement('fieldset');
+      fs.innerHTML = `
+        <legend>Další vychovávající osoba ${i}</legend>
+        <div class="qa-block">
+          <label for="carer_${i}_name"><span>Jméno osoby ${i}:</span></label><input class="short-text" type="text" name="carer_${i}_name" id="carer_${i}_name">
+        </div>
+        <div class="qa-block">
+          <label for="carer_${i}_age"><span>Věk osoby ${i}:</span></label><input type="number" name="carer_${i}_age" id="carer_${i}_age">
+        </div>
+        <div class="qa-block"><label for="carer_${i}_relation"><span>Jaké jsou vaše vztahy s osobou ${i}:</span></label><textarea class="long-text" name="carer_${i}_relation" id="carer_${i}_relation"></textarea></div>
+        <div class="qa-block"><label for="carer_${i}_household"><span>V jaké domácnosti osoba ${i} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i}_household" id="carer_${i}_household"></textarea></div>
+      `;
+      additionalCarersContainer.appendChild(fs);
+      fs.querySelectorAll('textarea.long-text').forEach(area => {
+        area.addEventListener('input', () => autoExpandTextarea(area));
+        autoExpandTextarea(area);
+      });
+    }
+  } else if (count < currentCount) {
+    // Remove fields from the end
+    while (additionalCarersContainer.children.length > count) {
+      additionalCarersContainer.lastElementChild.remove();
+    }
   }
+  validateAllQuestions();
+  updateProgressBar();
   updateQuestionnaireSummary();
 });
 
@@ -2894,57 +3041,120 @@ const siblingsContainer = document.getElementById('siblings_container');
 siblingsCountInput.addEventListener('input', () => {
   let count = parseInt(siblingsCountInput.value) || 0;
   if (count > 10) count = 10;
-  siblingsContainer.innerHTML = '';
-  for (let i = 1; i <= count; i++) {
-    const fs = document.createElement('fieldset');
-    fs.innerHTML = `
-      <legend>Sourozenec ${i}</legend>
-      <div class="qa-block">
-      <label for="sibling_${i}_name"><span>Jméno sourozence ${i}:</span></label><input class="short-text" type="text" name="sibling_${i}_name" id="sibling_${i}_name">
-            </div>
-          <div class="qa-block">
-      <label for="sibling_${i}_age"><span>Věk sourozence ${i}:</span></label><input type="number" name="sibling_${i}_age" id="sibling_${i}_age">
-            </div>
-      <div class="qa-block">
-        <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
-        <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
-          <label><input type="radio" name="sibling_${i}_biological" value="Ne"><span>Ne</span></label>
-          <label><input type="radio" name="sibling_${i}_biological" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+  if (count < 0) count = 0;
+
+  const currentCount = siblingsContainer.children.length;
+
+  if (count > currentCount) {
+    for (let i = currentCount + 1; i <= count; i++) {
+      const fs = document.createElement('fieldset');
+      fs.innerHTML = `
+        <legend>Sourozenec ${i}</legend>
+        <div class="qa-block">
+          <label for="sibling_${i}_name"><span>Jméno sourozence ${i}:</span></label><input class="short-text" type="text" name="sibling_${i}_name" id="sibling_${i}_name">
         </div>
-      </div>
-      <div class="qa-block">
-        <label><span>Má dítě se sourozencem společné rodiče:</span></label>
-        <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
-          <label><input type="radio" name="sibling_${i}_common_parents" value="Ne"><span>Ne</span></label>
-          <label><input type="radio" name="sibling_${i}_common_parents" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+        <div class="qa-block">
+          <label for="sibling_${i}_age"><span>Věk sourozence ${i}:</span></label><input type="number" name="sibling_${i}_age" id="sibling_${i}_age">
         </div>
-      </div>
-      <div class="qa-block">
-        <label><span>Žijí ve stejné domácnosti:</span></label>
-        <div class="select-group">
-          <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
-          <label><input type="radio" name="sibling_${i}_same_household" value="Ne"><span>Ne</span></label>
-          <label><input type="radio" name="sibling_${i}_same_household" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+        <div class="qa-block">
+          <label id="lbl_sibling_${i}_biological"><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_biological">
+            <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
+            <label><input type="radio" name="sibling_${i}_biological" value="Ne"><span>Ne</span></label>
+            <label><input type="radio" name="sibling_${i}_biological" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+          </div>
         </div>
-      </div>
-      <div class="qa-block"><label for="sibling_${i}_relationship"><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i}_relationship" id="sibling_${i}_relationship"></textarea></div>
-      <div class="qa-block"><label for="sibling_${i}_diagnoses"><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i}_diagnoses" id="sibling_${i}_diagnoses"></textarea></div>
-    `;
-    siblingsContainer.appendChild(fs);
-    fs.querySelectorAll('textarea.long-text').forEach(area => {
-      area.addEventListener('input', () => autoExpandTextarea(area));
-            autoExpandTextarea(area); // Initialize height for newly created textareas
-    });
-    updateProgressBar();
+        <div class="qa-block">
+          <label id="lbl_sibling_${i}_common_parents"><span>Má dítě se sourozencem společné rodiče:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_common_parents">
+            <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
+            <label><input type="radio" name="sibling_${i}_common_parents" value="Ne"><span>Ne</span></label>
+            <label><input type="radio" name="sibling_${i}_common_parents" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+          </div>
+        </div>
+        <div class="qa-block">
+          <label id="lbl_sibling_${i}_same_household"><span>Žijí ve stejné domácnosti:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_same_household">
+            <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
+            <label><input type="radio" name="sibling_${i}_same_household" value="Ne"><span>Ne</span></label>
+            <label><input type="radio" name="sibling_${i}_same_household" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+          </div>
+        </div>
+        <div class="qa-block"><label for="sibling_${i}_relationship"><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i}_relationship" id="sibling_${i}_relationship"></textarea></div>
+        <div class="qa-block"><label for="sibling_${i}_diagnoses"><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i}_diagnoses" id="sibling_${i}_diagnoses"></textarea></div>
+      `;
+      siblingsContainer.appendChild(fs);
+      fs.querySelectorAll('textarea.long-text').forEach(area => {
+        area.addEventListener('input', () => autoExpandTextarea(area));
+        autoExpandTextarea(area);
+      });
+    }
+  } else if (count < currentCount) {
+    while (siblingsContainer.children.length > count) {
+      siblingsContainer.lastElementChild.remove();
+    }
   }
+  validateAllQuestions();
+  updateProgressBar();
   updateQuestionnaireSummary();
 });
 
 //saving
 
 const formStorageKey = 'child_questionnaire_data';
+
+const Security = {
+    _secret: 'MuniFssDiagnostic2026',
+
+    async _getKey() {
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.digest("SHA-256", enc.encode(this._secret));
+        return crypto.subtle.importKey(
+            "raw",
+            keyMaterial,
+            { name: "AES-GCM" },
+            false,
+            ["encrypt", "decrypt"]
+        );
+    },
+
+    async encrypt(data) {
+        const key = await this._getKey();
+        const iv = crypto.getRandomValues(new Uint8Array(12)); 
+        const enc = new TextEncoder();
+        const encodedData = enc.encode(JSON.stringify(data));
+
+        const encryptedContent = await crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            encodedData
+        );
+
+        return {
+            iv: Array.from(iv),
+            content: Array.from(new Uint8Array(encryptedContent)),
+            version: "1.0"
+        };
+    },
+
+    async decrypt(encryptedObj) {
+        const key = await this._getKey();
+        const iv = new Uint8Array(encryptedObj.iv);
+        const content = new Uint8Array(encryptedObj.content);
+
+        const decryptedContent = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            content
+        );
+
+        const dec = new TextDecoder();
+        return JSON.parse(dec.decode(decryptedContent));
+    }
+};
 
 function getFormData() {
   const form = document.querySelector('form');
@@ -3003,7 +3213,9 @@ function saveForm(showNotification = false) {
 
 async function saveAsJsonFile() {
   const data = getFormData();
-  const jsonData = JSON.stringify(data, null, 2); // Pretty print JSON
+  // Šifrování dat před uložením
+  const encryptedData = await Security.encrypt(data);
+  const jsonData = JSON.stringify(encryptedData, null, 2); // Pretty print JSON
   const blob = new Blob([jsonData], { type: 'application/json' });
 
   const date = new Date();
@@ -3094,24 +3306,24 @@ function loadData(data) {
           <label for="sibling_${i+1}_age"><span>Věk sourozence ${i + 1}:</span></label><input type="number" name="sibling_${i+1}_age" id="sibling_${i+1}_age" value="${sib['sibling_' + (i+1) + '_age'] || ''}">
         </div>
         <div class="qa-block">
-          <label><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
-          <div class="select-group">
+          <label id="lbl_sibling_${i+1}_biological"><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_biological">
             <label><input type="radio" name="sibling_${i+1}_biological" value="Ano" ${sib['sibling_' + (i+1) + '_biological'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
             <label><input type="radio" name="sibling_${i+1}_biological" value="Ne" ${sib['sibling_' + (i+1) + '_biological'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
             <label><input type="radio" name="sibling_${i+1}_biological" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_biological'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
           </div>
         </div>
         <div class="qa-block">
-          <label><span>Má dítě se sourozencem společné rodiče:</span></label>
-          <div class="select-group">
+          <label id="lbl_sibling_${i+1}_common_parents"><span>Má dítě se sourozencem společné rodiče:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_common_parents">
             <label><input type="radio" name="sibling_${i+1}_common_parents" value="Ano" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
             <label><input type="radio" name="sibling_${i+1}_common_parents" value="Ne" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
             <label><input type="radio" name="sibling_${i+1}_common_parents" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
           </div>
         </div>
         <div class="qa-block">
-          <label><span>Žijí ve stejné domácnosti:</span></label>
-          <div class="select-group">
+          <label id="lbl_sibling_${i+1}_same_household"><span>Žijí ve stejné domácnosti:</span></label>
+          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_same_household">
             <label><input type="radio" name="sibling_${i+1}_same_household" value="Ano" ${sib['sibling_' + (i+1) + '_same_household'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
             <label><input type="radio" name="sibling_${i+1}_same_household" value="Ne" ${sib['sibling_' + (i+1) + '_same_household'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
             <label><input type="radio" name="sibling_${i+1}_same_household" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_same_household'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
@@ -3609,7 +3821,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
-        const data = JSON.parse(e.target.result);
+        const parsedData = JSON.parse(e.target.result);
+        let data = parsedData;
+
+        // Pokud data vypadají jako šifrovaná (mají iv a content), dešifrujeme je
+        if (parsedData.iv && parsedData.content) {
+            data = await Security.decrypt(parsedData);
+        }
+
         loadData(data);
         await showCustomDialog("Soubor načten", "Data byla úspěšně nahrána do formuláře.", "OK", "success");
       } catch (error) {
