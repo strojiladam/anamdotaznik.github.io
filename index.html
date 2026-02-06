@@ -116,13 +116,13 @@
 /* Danger button style */
 .btn.btn-danger {
   background-color: white;
-  color: #dc3545; /* Bootstrap danger red */
-  border: 1px solid #dc3545;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
   font-weight: 500;
 }
 
 .btn.btn-danger:hover:not(:disabled) {
-  background-color: #dc354510; /* Light red, consistent with other hovers */
+  background-color: rgba(176, 42, 55, 0.1); /* Light red, consistent with other hovers */
 }
 
 /* Styl pro nenápadné smazání dat */
@@ -139,7 +139,7 @@
 }
 
 .btn-delete-link:hover {
-    color: #dc3545; /* Zčervená až při najetí (vizuální varování) */
+    color: var(--color-error); /* Zčervená až při najetí (vizuální varování) */
 }
 
 
@@ -152,9 +152,58 @@
 }
 
 .alert-action-link:hover {
-    color: #dc3545; /* Zčervená při najetí (shoda s mazacím odkazem) */
+    color: var(--color-error); /* Zčervená při najetí (shoda s mazacím odkazem) */
 }
 
+/* Styl pro dynamické pole (style-soft) */
+.style-soft {
+    background: #fff;
+    /* Změna: Používám vaši proměnnou barvu, pokud by se měnila, ať se změní i tu. 
+       Pro náhled dávám natvrdo #0000dc */
+    border: 1px solid #0000dc; 
+    border-radius: 8px;
+    margin-bottom: 20px;
+    /* Přidán jemný stín, aby bílá karta "nesplynula" úplně s bílým pozadím formuláře */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 0 !important; /* Override default fieldset padding */
+}
+.style-soft-header {
+    padding: 15px 20px 10px; /* Menší padding dole */
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #f0f0f0; /* Velmi jemná linka oddělující hlavičku */
+}
+.style-soft-header legend {
+    font-weight: 700; color: #0000dc; font-size: 16px; margin: 0 !important;
+    border-bottom: none !important;
+    padding: 0;
+}
+.style-soft-body { padding: 15px 20px 20px; }
+
+/* Inputy v tomto stylu */
+
+/* UPRAVENÉ TLAČÍTKO ODEBRAT */
+.btn-remove-3 {
+    background: none;
+    border: 1px solid transparent; /* Rezerva pro rámeček při hoveru */
+    color: #666;
+    font-size: 14px; /* Menší písmo pro text */
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; /* Zarovnání ikony a textu */
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.btn-remove-3:hover {
+    color: #c62828; /* Červená */
+    background-color: #fff5f5; /* Jemně červené pozadí */
+    border-color: #ffd6d6;
+}
+
+.preview-mode-active .btn-add-item, 
+.preview-mode-active .btn-remove-3 {
+    display: none !important;
+}
 
 /* Flex container for save buttons */
 .save-buttons {
@@ -265,13 +314,13 @@ html:not(.preview-mode-active) .select-group input[type="checkbox"]:checked + sp
 
 /* 2. Hover state: Highlight with a light red background */
 html:not(.preview-mode-active) .select-group label:has(input[value="Bez odpovědi"]):hover span {
-  background-color: #dc354510; /* Light red background */
+  background-color: rgba(176, 42, 55, 0.1); /* Light red background */
 }
 
 /* 3. Selected state: Red text and light red background */
 html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checked + span {
-  color: #dc3545; /* Red text */
-  background-color: #dc354510; /* Light red background */
+  color: var(--color-error); /* Red text */
+  background-color: rgba(176, 42, 55, 0.1); /* Light red background */
 }
 
 
@@ -330,6 +379,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 /* Instruction block style */
 .instruction-block {
   background-color: #f8f9fa;
+  border: 1px solid #ccc;
   border-left: 3px solid #6c757d; /* Neutral grey border */
   border-radius: 8px;
   padding: 14px 18px;
@@ -360,18 +410,20 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 }
 
 .manual-alert {
-    background-color: #FFF9F0;
-    border-left: 3px solid #FF5900;
+    background-color: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-left: 4px solid var(--color-warning-accent);
     border-radius: 8px;
     padding: 12px 16px;
     margin: 15px 0;
     font-size: 14px;
     line-height: 1.5;
-    color: #333;
+    color: var(--color-warning-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .manual-alert strong {
-    color: #FF5900;
+    color: var(--color-warning);
     display: block; 
     margin-bottom: 4px; 
     font-weight: 600;
@@ -684,7 +736,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 .print-preview .unanswered-mark {
   display: inline !important;
   font-weight: bold;
-  color: #d00;
+  color: var(--color-error);
   margin-right: 6px;
 }
 
@@ -940,7 +992,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
   .unanswered-mark {
     display: inline !important; /* Show the asterisk */
     font-weight: bold;
-    color: #d00; /* Make it red to stand out */
+    color: var(--color-error); /* Make it red to stand out */
     margin-right: 6px;
   }
 
@@ -1087,6 +1139,15 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     --muni-blue: #0000dc;
     --text-black: #000000;
     --font-heavy: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    /* Unified Accessible Colors (WCAG AA compliant) */
+    --color-success: #1a7a33; 
+    --color-error: #c62828;   
+    --color-warning: #BF360C;        /* Pro nadpis a ikony */
+    --color-warning-text: #4E342E;   /* Pro hlavní text - High Contrast */
+    --color-warning-bg: #FFF9F0;     /* Pozadí */
+    --color-warning-accent: #E65100; /* Tlustá čára vlevo */
+    --color-warning-border: #FFCC80; /* Jemný rámeček kolem */
 }
 
 .header-wide {
@@ -1183,12 +1244,12 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 /* Kontejner pro bublinu, který zajišťuje plynulé vysunutí */
 .error-bubble {
     background-color: #fff5f5;  /* Velmi jemná červená */
-    border-left: 4px solid #dc3545;
+    border-left: 4px solid var(--color-error);
     border-radius: 4px;
     padding: 0 12px;           /* Vertikální padding animujeme přes max-height */
     margin-top: -15px;         /* Kompenzace marginu pod inputem */
     margin-bottom: 20px;
-    color: #b02a37;
+    color: var(--color-error);
     font-size: 13px;
     font-weight: 500;
     line-height: 1.4;
@@ -1198,7 +1259,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
     max-height: 0;
     opacity: 0;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.1);
+    box-shadow: 0 2px 5px rgba(176, 42, 55, 0.1);
 }
 
 /* Třída pro aktivní zobrazení bubliny */
@@ -1211,7 +1272,7 @@ html:not(.preview-mode-active) .select-group input[value="Bez odpovědi"]:checke
 
 /* Červené ohraničení pro samotný input */
 input.input-error {
-    border-color: #dc3545 !important;
+    border-color: var(--color-error) !important;
 }
 
 /* Vypnuto pro tisk a preview */
@@ -1310,7 +1371,7 @@ input.input-error {
 
 /* Zelená barva pro dokončený segment */
 .progress-segment.completed .segment-fill {
-    background: #28a745;
+    background: var(--color-success);
 }
 
 /* Skrytí progress baru při tisku */
@@ -1378,9 +1439,9 @@ input.input-error {
 }
 
 /* Barvy statistik */
-.stat-answered .stat-value { color: #28a745; } /* Zelená */
-.stat-empty .stat-value { color: #dc3545; }    /* Červená */
-.stat-refused .stat-value { color: #fd7e14; }  /* Oranžová */
+.stat-answered .stat-value { color: var(--color-success); } /* Zelená */
+.stat-empty .stat-value { color: var(--color-error); }    /* Červená */
+.stat-refused .stat-value { color: var(--color-warning); }  /* Oranžová/Hnědá */
 
 .toggle-icon { 
     font-size: 13px; 
@@ -1442,8 +1503,8 @@ input.input-error {
     white-space: nowrap; 
     flex-shrink: 0;
 }
-.item-status.empty { background: #ffebeb; color: #dc3545; border: 1px solid #fadbd8; }
-.item-status.refused { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.item-status.empty { background: #ffebeb; color: var(--color-error); border: 1px solid #fadbd8; }
+.item-status.refused { background: var(--color-warning-bg); color: var(--color-warning-text); border: 1px solid var(--color-warning-border); }
 
 
 /* Skrytí při tisku */
@@ -1463,12 +1524,9 @@ input.input-error {
 }
 
 
-/* Sjednocený stín pro informační bloky */
-.instruction-block, .manual-alert, .instruction-block.sharing-options {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
 
-/* --- JEMNÁ PULZNÍ VČELKA (Subtilní verze) --- */
+
+/* --- PULZNÍ VČELKA --- */
 
 /* Odstranění ořezu u bloku i u nadřazeného fieldsetu */
 .qa-block.highlighted-dot,
@@ -1477,8 +1535,8 @@ input.input-error {
 }
 
 .qa-block.highlighted-dot .unanswered-dot {
-    background-color: #fd7e14 !important;
-    border-color: #fd7e14 !important;
+    background-color: var(--color-warning-accent) !important;
+    border-color: var(--color-warning-accent) !important;
     opacity: 1 !important;
     position: relative;
     z-index: 1000; /* Vystoupí nad vše ostatní */
@@ -1488,16 +1546,16 @@ input.input-error {
 
 @keyframes orange-pulse {
     /* PRVNÍ PULS */
-    0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7); }
-    25%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(253, 126, 20, 0); }
-    50%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0); } /* Úplný reset stínu */
+    0%   { transform: scale(1);   box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.7); }
+    25%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(230, 81, 0, 0); }
+    50%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); } /* Úplný reset stínu */
 
     /* KRÁTKÁ PAUZA (BEAT) */
-    55%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7); }
+    55%  { transform: scale(1);   box-shadow: 0 0 0 0 rgba(230, 81, 0, 0.7); }
 
     /* DRUHÝ PULS */
-    80%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(253, 126, 20, 0); }
-    100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(253, 126, 20, 0); }
+    80%  { transform: scale(1.25); box-shadow: 0 0 0 15px rgba(230, 81, 0, 0); }
+    100% { transform: scale(1);   box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
 }
 
 
@@ -1522,18 +1580,18 @@ input.input-error {
 /* VARIANTA 3: ČERVENÁ (Kritické smazání) */
 #custom-confirm.type-delete {
     background-color: #ffffff;    /* Bílé pozadí dle přání */
-    border-left: 4px solid #dc3545; /* Červený pruh (MUNI/Bootstrap danger) */
+    border-left: 4px solid var(--color-error); /* Červený pruh */
 }
 #custom-confirm.type-delete h3 { 
-    color: #dc3545; /* Červený nadpis */
+    color: var(--color-error); /* Červený nadpis */
 }
 
 /* Varianta ORANŽOVÁ (Smazání / Varování) */
 #custom-confirm.type-warning {
     background-color: #ffffff;
-    border-left: 4px solid #FF5900;
+    border-left: 4px solid var(--color-warning-accent);
 }
-#custom-confirm.type-warning h3 { color: #FF5900; }
+#custom-confirm.type-warning h3 { color: var(--color-warning); }
 
 /* Varianta MODRÁ (Uložení / Info) */
 #custom-confirm.type-success, 
@@ -1574,7 +1632,7 @@ input.input-error {
   <div class="survey-utility-header">
     <div class="header-inner">
         <div class="header-left">
-                  Verze 2.1 alpha | <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link feedback-link">diagnostikaditete.cz</a>
+                  Verze 1.0 beta | <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link feedback-link">diagnostikaditete.cz</a>
         </div>
         <div class="header-right">
           <a href="manual.pdf" target="_blank" class="header-link">
@@ -1658,9 +1716,9 @@ input.input-error {
 <fieldset>
   <legend>Zdravotní anamnéza</legend>
 
-<div class="tip-block tip-block-under">
-Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustředit se, učit se, zvládat běžný den ve škole i doma a regulovat svoje chování. Řada obtíží, se kterými se ve školním prostředí může dítě potýkat (nesoustředěnost, pomalé tempo, vyrušování, emoční výbuchy), může být ovlivněna také tím, jak vidí a slyší, ale také chronickými nemocemi nebo bolestmi.    
-</div>
+    <div class="tip-block tip-block-under">
+    Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustředit se, učit se, zvládat běžný den ve škole i doma a regulovat svoje chování. Řada obtíží, se kterými se ve školním prostředí může dítě potýkat (nesoustředěnost, pomalé tempo, vyrušování, emoční výbuchy), může být ovlivněna také tím, jak vidí a slyší, ale také chronickými nemocemi nebo bolestmi.    
+    </div>
 
   <div class="qa-block">
     <label id="lbl_neurolog_exam"><span>Bylo dítě někdy vyšetřeno neurologem, psychiatrem nebo klinickým psychologem?</span></label>
@@ -1773,104 +1831,419 @@ Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustřed
     </div>
 
   <div class="qa-block">
-    <label for="mother_name"><span>Jméno matky:</span></label>
-    <input class="short-text" type="text" name="mother_name" id="mother_name">
-  </div>
-  <div class="qa-block">
-    <label for="mother_age"><span>Věk matky:</span></label>
-    <input type="number" name="mother_age" id="mother_age">
-  </div>
-  <div class="qa-block">
-    <label for="father_name"><span>Jméno otce:</span></label>
-    <input class="short-text" type="text" name="father_name" id="father_name">
-  </div>
-  <div class="qa-block">
-    <label for="father_age"><span>Věk otce:</span></label>
-    <input type="number" name="father_age" id="father_age">
-  </div>
-  <div class="qa-block">
-    <label id="lbl_parents_status"><span>Rodiče jsou:</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_parents_status">
-      <label><input type="radio" name="parents_status" value="Biologičtí"><span>Biologičtí</span></label>
-      <label><input type="radio" name="parents_status" value="Vychovávající"><span>Vychovávající</span></label>
-      <label><input type="radio" name="parents_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    <label id="lbl_respondent_relation"><span>V jakém vztahu jste k dítěti vy?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_respondent_relation">
+      <label><input type="radio" name="respondent_relation" value="Biologický rodič"><span>Biologický rodič</span></label>
+      <label><input type="radio" name="respondent_relation" value="Vychovávající rodič"><span>Vychovávající rodič</span></label>
+      <label><input type="radio" name="respondent_relation" value="Jiný vztah"><span>Jiný vztah</span></label>
+      <label><input type="radio" name="respondent_relation" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
+
+
+
+  <!-- Bio parent -->
+
+  <div class="qa-block qa-group hidden" id="group_bio_parents_combined" data-controlled-by="respondent_relation" data-trigger-value="Biologický rodič">
+
+
+  <fieldset>
+    <legend>Údaje o Vás</legend>
+
   <div class="qa-block">
-    <label id="lbl_bio_mother_status"><span>Biologická matka je vychovávající matka?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_mother_status">
-      <label><input type="radio" name="bio_mother_status" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="bio_mother_status" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="bio_mother_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    <label for="bio_p1_age"><span>Váš věk:</span></label>
+    <input type="number" name="bio_p1_age" id="bio_p1_age">
+  </div>
+
+  <div class="qa-block">
+    <label id="lbl_bio_p1_job_status"><span>Jste zaměstnaný/á?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p1_job_status">
+      <label><input type="radio" name="bio_p1_job_status" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="bio_p1_job_status" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="bio_p1_job_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
+  <div class="qa-block hidden" id="q_bio_p1_job_detail" data-controlled-by="bio_p1_job_status" data-trigger-value="Ano">
+    <label for="bio_p1_job_text"><span>Jaké je vaše zaměstnání?</span></label>
+    <input class="short-text" type="text" name="bio_p1_job_text" id="bio_p1_job_text">
+  </div>
+
   <div class="qa-block">
-    <label id="lbl_bio_father_status"><span>Biologický otec je vychovávající otec?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_father_status">
-      <label><input type="radio" name="bio_father_status" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="bio_father_status" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="bio_father_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    <label id="lbl_bio_p1_mental"><span>Máte nějaké duševní obtíže?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p1_mental">
+      <label><input type="radio" name="bio_p1_mental" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="bio_p1_mental" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="bio_p1_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
+  <div class="qa-block hidden" id="q_bio_p1_mental_detail" data-controlled-by="bio_p1_mental" data-trigger-value="Ano">
+    <label for="bio_p1_mental_text"><span>Jaké duševní obtíže to jsou?</span></label>
+    <textarea class="long-text" name="bio_p1_mental_text" id="bio_p1_mental_text"></textarea>
+  </div>
+
   <div class="qa-block">
-    <label id="lbl_additional_carer_status"><span>Existuje další vychovávající rodič/pečovatel?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_additional_carer_status">
-      <label><input type="radio" name="additional_carer_status" value="Ano - plná péče"><span>Ano - plná péče</span></label>
-      <label><input type="radio" name="additional_carer_status" value="Ano - střídavá péče"><span>Ano - střídavá péče</span></label>
-      <label><input type="radio" name="additional_carer_status" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="additional_carer_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    <label id="lbl_bio_p1_physical"><span>Máte nějaká fyzická omezení (např. nemoci)?</span></label>
+    <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p1_physical">
+      <label><input type="radio" name="bio_p1_physical" value="Ano"><span>Ano</span></label>
+      <label><input type="radio" name="bio_p1_physical" value="Ne"><span>Ne</span></label>
+      <label><input type="radio" name="bio_p1_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
-  <div class="qa-block">
-    <label id="lbl_mother_health"><span>Má matka nějaká zdravotní omezení?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_mother_health">
-      <label><input type="radio" name="mother_health" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="mother_health" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="mother_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+  <div class="qa-block hidden" id="q_bio_p1_physical_detail" data-controlled-by="bio_p1_physical" data-trigger-value="Ano">
+    <label for="bio_p1_physical_text"><span>Jaká fyzická omezení to jsou?</span></label>
+    <textarea class="long-text" name="bio_p1_physical_text" id="bio_p1_physical_text"></textarea>
+  </div>
+
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Druhý biologický rodič</legend>
+
+    <div class="qa-block">
+      <label for="bio_p2_age"><span>Věk:</span></label>
+      <input type="number" name="bio_p2_age" id="bio_p2_age">
     </div>
-  </div>
-  <div class="qa-block hidden" id="q_mother_health_detail" data-controlled-by="mother_health">
-    <label for="mother_health_detail"><span>Pokud ano, uveďte prosím jaká omezení:</span></label>
-    <textarea class="long-text" name="mother_health_detail" id="mother_health_detail"></textarea>
-  </div>
-  <div class="qa-block">
-    <label id="lbl_father_health"><span>Má otec nějaká zdravotní omezení?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_father_health">
-      <label><input type="radio" name="father_health" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="father_health" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="father_health" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+
+    <div class="qa-block">
+      <label id="lbl_bio_p2_carer"><span>Je zároveň vychovávajícím rodičem?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p2_carer">
+        <label><input type="radio" name="bio_p2_carer" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="bio_p2_carer" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="bio_p2_carer" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
     </div>
-  </div>
-  <div class="qa-block hidden" id="q_father_health_detail" data-controlled-by="father_health">
-    <label for="father_health_detail"><span>Pokud ano, uveďte prosím jaká omezení:</span></label>
-    <textarea class="long-text" name="father_health_detail" id="father_health_detail"></textarea>
-  </div>
-  <div class="qa-block">
-    <label id="lbl_mother_employed"><span>Je matka dítěte momentálně zaměstnaná?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_mother_employed">
-      <label><input type="radio" name="mother_employed" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="mother_employed" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="mother_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+
+    <div class="qa-block">
+      <label id="lbl_bio_p2_mental"><span>Má/měl(a) nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p2_mental">
+        <label><input type="radio" name="bio_p2_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="bio_p2_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="bio_p2_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
     </div>
-  </div>
-  <div class="qa-block hidden" id="q_mother_jobs_detail" data-controlled-by="mother_employed">
-    <label for="mother_jobs"><span>Jaká zaměstnání vykonává matka:</span></label>
-    <textarea class="long-text" name="mother_jobs" id="mother_jobs"></textarea>
-  </div>
-  <div class="qa-block">
-    <label id="lbl_father_employed"><span>Je otec dítěte momentálně zaměstnaný?</span></label>
-    <div class="select-group" role="radiogroup" aria-labelledby="lbl_father_employed">
-      <label><input type="radio" name="father_employed" value="Ano"><span>Ano</span></label>
-      <label><input type="radio" name="father_employed" value="Ne"><span>Ne</span></label>
-      <label><input type="radio" name="father_employed" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+    <div class="qa-block hidden" id="q_bio_p2_mental_detail" data-controlled-by="bio_p2_mental" data-trigger-value="Ano">
+      <label for="bio_p2_mental_text"><span>Jaké duševní obtíže to jsou/byla?</span></label>
+      <textarea class="long-text" name="bio_p2_mental_text" id="bio_p2_mental_text"></textarea>
     </div>
-  </div>
-  <div class="qa-block hidden" id="q_father_jobs_detail" data-controlled-by="father_employed">
-    <label for="father_jobs"><span>Jaká zaměstnání vykonává otec:</span></label>
-    <textarea class="long-text" name="father_jobs" id="father_jobs"></textarea>
-  </div>
+
+    <div class="qa-block">
+      <label id="lbl_bio_p2_physical"><span>Má/měl(a) nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_bio_p2_physical">
+        <label><input type="radio" name="bio_p2_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="bio_p2_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="bio_p2_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_bio_p2_physical_detail" data-controlled-by="bio_p2_physical" data-trigger-value="Ano">
+      <label for="bio_p2_physical_text"><span>Jaká fyzická omezení to jsou/byla?</span></label>
+      <textarea class="long-text" name="bio_p2_physical_text" id="bio_p2_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+</div>
+<!-- End of bio parent -->
+
+
+<!-- Step Parent -->
+
+<div class="qa-block qa-group hidden" id="group_stepparent_combined" data-controlled-by="respondent_relation" data-trigger-value="Nevlastní rodič">
+
+  <fieldset>
+    <legend>Údaje o Vás</legend>
+
+    <div class="qa-block">
+      <label for="step_resp_age"><span>Váš věk:</span></label>
+      <input type="number" name="step_resp_age" id="step_resp_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_resp_job_status"><span>Jste zaměstnaný/á?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_resp_job_status">
+        <label><input type="radio" name="step_resp_job_status" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_resp_job_status" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_resp_job_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_resp_job_detail" data-controlled-by="step_resp_job_status" data-trigger-value="Ano">
+      <label for="step_resp_job_text"><span>Jaké je vaše zaměstnání?</span></label>
+      <input class="short-text" type="text" name="step_resp_job_text" id="step_resp_job_text">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_resp_mental"><span>Máte nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_resp_mental">
+        <label><input type="radio" name="step_resp_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_resp_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_resp_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_resp_mental_detail" data-controlled-by="step_resp_mental" data-trigger-value="Ano">
+      <label for="step_resp_mental_text"><span>Jaké duševní obtíže to jsou?</span></label>
+      <textarea class="long-text" name="step_resp_mental_text" id="step_resp_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_resp_physical"><span>Máte nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_resp_physical">
+        <label><input type="radio" name="step_resp_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_resp_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_resp_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_resp_physical_detail" data-controlled-by="step_resp_physical" data-trigger-value="Ano">
+      <label for="step_resp_physical_text"><span>Jaká fyzická omezení to jsou?</span></label>
+      <textarea class="long-text" name="step_resp_physical_text" id="step_resp_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Biologická matka</legend>
+
+    <div class="qa-block">
+      <label for="step_bio_m_age"><span>Věk:</span></label>
+      <input type="number" name="step_bio_m_age" id="step_bio_m_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_m_carer"><span>Je zároveň vychovávajícím rodičem?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_m_carer">
+        <label><input type="radio" name="step_bio_m_carer" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_m_carer" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_m_carer" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_m_mental"><span>Má/měl(a) nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_m_mental">
+        <label><input type="radio" name="step_bio_m_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_m_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_m_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_bio_m_mental_detail" data-controlled-by="step_bio_m_mental" data-trigger-value="Ano">
+      <label for="step_bio_m_mental_text"><span>Jaké duševní obtíže to jsou/byla?</span></label>
+      <textarea class="long-text" name="step_bio_m_mental_text" id="step_bio_m_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_m_physical"><span>Má/měl(a) nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_m_physical">
+        <label><input type="radio" name="step_bio_m_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_m_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_m_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_bio_m_physical_detail" data-controlled-by="step_bio_m_physical" data-trigger-value="Ano">
+      <label for="step_bio_m_physical_text"><span>Jaká fyzická omezení to jsou/byla?</span></label>
+      <textarea class="long-text" name="step_bio_m_physical_text" id="step_bio_m_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Biologický otec</legend>
+
+    <div class="qa-block">
+      <label for="step_bio_f_age"><span>Věk:</span></label>
+      <input type="number" name="step_bio_f_age" id="step_bio_f_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_f_carer"><span>Je zároveň vychovávajícím rodičem?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_f_carer">
+        <label><input type="radio" name="step_bio_f_carer" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_f_carer" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_f_carer" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_f_mental"><span>Má/měl(a) nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_f_mental">
+        <label><input type="radio" name="step_bio_f_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_f_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_f_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_bio_f_mental_detail" data-controlled-by="step_bio_f_mental" data-trigger-value="Ano">
+      <label for="step_bio_f_mental_text"><span>Jaké duševní obtíže to jsou/byla?</span></label>
+      <textarea class="long-text" name="step_bio_f_mental_text" id="step_bio_f_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_step_bio_f_physical"><span>Má/měl(a) nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_step_bio_f_physical">
+        <label><input type="radio" name="step_bio_f_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="step_bio_f_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="step_bio_f_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_step_bio_f_physical_detail" data-controlled-by="step_bio_f_physical" data-trigger-value="Ano">
+      <label for="step_bio_f_physical_text"><span>Jaká fyzická omezení to jsou/byla?</span></label>
+      <textarea class="long-text" name="step_bio_f_physical_text" id="step_bio_f_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+</div>
+
+<!-- End of step parent -->
+ 
+<!-- Other relationship -->
+
+<div class="qa-block qa-group hidden" id="group_other_combined" data-controlled-by="respondent_relation" data-trigger-value="Jiný vztah">
+
+  <fieldset>
+    <legend>Údaje o Vás</legend>
+
+    <div class="qa-block">
+      <label for="other_resp_relation_spec"><span>Jaký je váš vztah k dítěti?</span></label>
+      <input class="short-text" type="text" name="other_resp_relation_spec" id="other_resp_relation_spec">
+    </div>
+
+    <div class="qa-block">
+      <label for="other_resp_age"><span>Váš věk:</span></label>
+      <input type="number" name="other_resp_age" id="other_resp_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_resp_job_status"><span>Jste zaměstnaný/á?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_resp_job_status">
+        <label><input type="radio" name="other_resp_job_status" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_resp_job_status" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_resp_job_status" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_resp_job_detail" data-controlled-by="other_resp_job_status" data-trigger-value="Ano">
+      <label for="other_resp_job_text"><span>Jaké je vaše zaměstnání?</span></label>
+      <input class="short-text" type="text" name="other_resp_job_text" id="other_resp_job_text">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_resp_mental"><span>Máte nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_resp_mental">
+        <label><input type="radio" name="other_resp_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_resp_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_resp_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_resp_mental_detail" data-controlled-by="other_resp_mental" data-trigger-value="Ano">
+      <label for="other_resp_mental_text"><span>Jaké duševní obtíže to jsou?</span></label>
+      <textarea class="long-text" name="other_resp_mental_text" id="other_resp_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_resp_physical"><span>Máte nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_resp_physical">
+        <label><input type="radio" name="other_resp_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_resp_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_resp_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_resp_physical_detail" data-controlled-by="other_resp_physical" data-trigger-value="Ano">
+      <label for="other_resp_physical_text"><span>Jaká fyzická omezení to jsou?</span></label>
+      <textarea class="long-text" name="other_resp_physical_text" id="other_resp_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Biologická matka</legend>
+
+    <div class="qa-block">
+      <label for="other_bio_m_age"><span>Věk:</span></label>
+      <input type="number" name="other_bio_m_age" id="other_bio_m_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_m_carer"><span>Je zároveň vychovávajícím rodičem?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_m_carer">
+        <label><input type="radio" name="other_bio_m_carer" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_m_carer" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_m_carer" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_m_mental"><span>Má/měl(a) nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_m_mental">
+        <label><input type="radio" name="other_bio_m_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_m_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_m_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_bio_m_mental_detail" data-controlled-by="other_bio_m_mental" data-trigger-value="Ano">
+      <label for="other_bio_m_mental_text"><span>Jaké duševní obtíže to jsou/byla?</span></label>
+      <textarea class="long-text" name="other_bio_m_mental_text" id="other_bio_m_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_m_physical"><span>Má/měl(a) nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_m_physical">
+        <label><input type="radio" name="other_bio_m_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_m_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_m_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_bio_m_physical_detail" data-controlled-by="other_bio_m_physical" data-trigger-value="Ano">
+      <label for="other_bio_m_physical_text"><span>Jaká fyzická omezení to jsou/byla?</span></label>
+      <textarea class="long-text" name="other_bio_m_physical_text" id="other_bio_m_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <legend>Biologický otec</legend>
+
+    <div class="qa-block">
+      <label for="other_bio_f_age"><span>Věk:</span></label>
+      <input type="number" name="other_bio_f_age" id="other_bio_f_age">
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_f_carer"><span>Je zároveň vychovávajícím rodičem?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_f_carer">
+        <label><input type="radio" name="other_bio_f_carer" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_f_carer" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_f_carer" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_f_mental"><span>Má/měl(a) nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_f_mental">
+        <label><input type="radio" name="other_bio_f_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_f_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_f_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_bio_f_mental_detail" data-controlled-by="other_bio_f_mental" data-trigger-value="Ano">
+      <label for="other_bio_f_mental_text"><span>Jaké duševní obtíže to jsou/byla?</span></label>
+      <textarea class="long-text" name="other_bio_f_mental_text" id="other_bio_f_mental_text"></textarea>
+    </div>
+
+    <div class="qa-block">
+      <label id="lbl_other_bio_f_physical"><span>Má/měl(a) nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_bio_f_physical">
+        <label><input type="radio" name="other_bio_f_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="other_bio_f_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="other_bio_f_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_other_bio_f_physical_detail" data-controlled-by="other_bio_f_physical" data-trigger-value="Ano">
+      <label for="other_bio_f_physical_text"><span>Jaká fyzická omezení to jsou/byla?</span></label>
+      <textarea class="long-text" name="other_bio_f_physical_text" id="other_bio_f_physical_text"></textarea>
+    </div>
+  </fieldset>
+
+</div>
+
+<!-- End of Other relationship -->
+
    <div class="qa-block">
-    <label id="lbl_other_carer_status"><span>Vychovává dítě i někdo jiný (podstatným způsobem zasahuje do života dítěte)?</span></label>
+    <label id="lbl_other_carer_status"><span>Podílí se na výchově dítěte ještě někdo další?</span></label>
     <div class="select-group" role="radiogroup" aria-labelledby="lbl_other_carer_status">
       <label><input type="radio" name="other_carer_status" value="Ano"><span>Ano</span></label>
       <label><input type="radio" name="other_carer_status" value="Ne"><span>Ne</span></label>
@@ -1878,9 +2251,10 @@ Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustřed
     </div>
   </div>
   <div class="qa-block hidden" id="q_other_carer_detail" data-controlled-by="other_carer_status">
-    <label for="additional_carers_count"><span>Kolik dalších osob dítě vychovává?</span></label>
-    <input type="number" name="additional_carers_count" id="additional_carers_count" min="0">
-  <div id="additional_carers_container"></div>
+    <div id="additional_carers_container"></div>
+    <div class="qa-block" style="text-align: center; margin-top: 15px;">
+        <button type="button" class="btn btn-secondary btn-add-item" onclick="addCarer()">+ Přidat vychovávající osobu</button>
+    </div>
   </div>
   <div class="qa-block">
     <label id="lbl_has_siblings"><span>Má dítě sourozence?</span></label>
@@ -1891,9 +2265,10 @@ Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustřed
     </div>
   </div>
   <div class="qa-block hidden" id="q_siblings_detail" data-controlled-by="has_siblings">
-    <label for="siblings_count"><span>Kolik má sourozenců?</span></label>
-    <input type="number" name="siblings_count" id="siblings_count" min="0">
     <div id="siblings_container"></div>
+    <div class="qa-block" style="text-align: center; margin-top: 15px;">
+        <button type="button" class="btn btn-secondary btn-add-item" onclick="addSibling()">+ Přidat sourozence</button>
+    </div>
   </div>
 </fieldset>
 
@@ -1946,11 +2321,10 @@ Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustřed
   <div class="qa-block">
     <label id="lbl_time_with_children"><span>Kolik času denně trávíte vy osobně s dítětem (stačí pouhá přítomnost doma)?</span></label>
     <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_children">
-      <label><input type="radio" name="time_with_children" value="do 1 hodiny"><span>do 1 hodiny</span></label>
-      <label><input type="radio" name="time_with_children" value="1-2 hodiny"><span>1-2 hodiny</span></label>
-      <label><input type="radio" name="time_with_children" value="2-3 hodiny"><span>2-3 hodiny</span></label>
-      <label><input type="radio" name="time_with_children" value="3-4 hodiny"><span>3-4 hodiny</span></label>
-      <label><input type="radio" name="time_with_children" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_children" value="Do 2 hodin"><span>Do 2 hodin</span></label>
+      <label><input type="radio" name="time_with_children" value="2–5 hodin"><span>2–5 hodin</span></label>
+      <label><input type="radio" name="time_with_children" value="5–8 hodin"><span>5–8 hodin</span></label>
+      <label><input type="radio" name="time_with_children" value="8 hodin a více"><span>8 hodin a více</span></label>
       <label><input type="radio" name="time_with_children" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
@@ -1958,23 +2332,21 @@ Zdravotní stav dítěte do značné míry určuje, jakou má kapacitu soustřed
   <div class="qa-block">
     <label id="lbl_time_with_child_active"><span>Kolik času denně se dítěti vy osobně přímo věnujete (hra, společné činnosti, rozhovor)?</span></label>
     <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_child_active">
-      <label><input type="radio" name="time_with_child_active" value="do 1 hodiny"><span>do 1 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_active" value="1-2 hodiny"><span>1-2 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_active" value="0-30 minut"><span>0-30 minut</span></label>
+      <label><input type="radio" name="time_with_child_active" value="30-60 minut"><span>30-60 minut</span></label>
       <label><input type="radio" name="time_with_child_active" value="2-3 hodiny"><span>2-3 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_active" value="3-4 hodiny"><span>3-4 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_active" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_child_active" value="3 hodiny a více"><span>3 hodiny a více</span></label>
       <label><input type="radio" name="time_with_child_active" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
 
   <div class="qa-block">
-    <label id="lbl_time_with_child_others"><span>Kolik času denně se dítěti věnují další osoby (hra, společné činnosti, rozhovor)?</span></label>
+    <label id="lbl_time_with_child_others"><span>Kolik času denně se dítěti přímo věnují další osoby (hra, společné činnosti, rozhovor)?</span></label>
     <div class="select-group" role="radiogroup" aria-labelledby="lbl_time_with_child_others">
-      <label><input type="radio" name="time_with_child_others" value="do 1 hodiny"><span>do 1 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_others" value="1-2 hodiny"><span>1-2 hodiny</span></label>
+      <label><input type="radio" name="time_with_child_others" value="0-30 minut"><span>0-30 minut</span></label>
+      <label><input type="radio" name="time_with_child_others" value="30-60 minut"><span>30-60 minut</span></label>
       <label><input type="radio" name="time_with_child_others" value="2-3 hodiny"><span>2-3 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_others" value="3-4 hodiny"><span>3-4 hodiny</span></label>
-      <label><input type="radio" name="time_with_child_others" value="4 a více"><span>4 a více</span></label>
+      <label><input type="radio" name="time_with_child_others" value="3 hodiny a více"><span>3 hodiny a více</span></label>
       <label><input type="radio" name="time_with_child_others" value="Bez odpovědi"><span>Bez odpovědi</span></label>
     </div>
   </div>
@@ -2734,7 +3106,6 @@ V domácím prostředí dítě odpočívá, učí se, hraje si a tráví velkou 
 <footer class="page-footer">
   <p>© 2026 MUNI FSS, Diagnostika dítěte</p>
   <p>Licence <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.cs" target="_blank">CC BY-NC-ND 4.0</a></p>
-  <p>Verze 2.1-alpha (<a href="https://github.com/strojiladam/anamdotaznik.github.io" target="_blank">o aplikaci</a>)</p>
 </footer>
 
 </form>
@@ -2786,7 +3157,11 @@ function updateProgressBar() {
     // 2. Výpočet pro každý segment na základě tvé původní logiky
     fieldsets.forEach((fieldset, index) => {
         const allBlocks = Array.from(fieldset.querySelectorAll('.qa-block'))
-            .filter(block => block.querySelector('label') && !block.querySelector('#child_age'));
+            .filter(block => {
+                const hasDirectLabel = Array.from(block.children).some(child => child.tagName === 'LABEL');
+                const isAgeField = block.querySelector('#child_age');
+                return hasDirectLabel && !isAgeField;
+            });
         
         if (allBlocks.length === 0) return;
 
@@ -2924,9 +3299,25 @@ function updateAllConditionals() {
 setupConditional('mother_health', 'q_mother_health_detail', 'Ano');
 setupConditional('father_health', 'q_father_health_detail', 'Ano');
 setupConditional('other_carer_status', 'q_other_carer_detail', 'Ano');
+document.querySelectorAll('input[name="other_carer_status"]').forEach(r => {
+  r.addEventListener('change', (e) => {
+    if (e.target.value === 'Ano') {
+      const container = document.getElementById('additional_carers_container');
+      if (container && container.children.length === 0) addCarer();
+    }
+  });
+});
 setupConditional('mother_employed', 'q_mother_jobs_detail', 'Ano');
 setupConditional('father_employed', 'q_father_jobs_detail', 'Ano');
 setupConditional('has_siblings', 'q_siblings_detail', 'Ano');
+document.querySelectorAll('input[name="has_siblings"]').forEach(r => {
+  r.addEventListener('change', (e) => {
+    if (e.target.value === 'Ano') {
+      const container = document.getElementById('siblings_container');
+      if (container && container.children.length === 0) addSibling();
+    }
+  });
+});
 setupConditional('child_has_device', 'q_child_device_details', 'Ano');
 setupConditional('neurolog_exam', 'q_neurolog_exam_detail', 'Ano');
 setupConditional('chronic_illnesses_status', 'q_chronic_illnesses_detail', 'Ano');
@@ -2967,6 +3358,49 @@ setupConditional('home_conflicts_exists', 'q_home_conflicts_detail', 'Ano');
 
 
 
+// Rodinná anamníza
+  // Registrace hlavní skupiny
+  setupConditional('respondent_relation', 'group_bio_parents_combined', 'Biologický rodič');
+  setupConditional('respondent_relation', 'group_stepparent_combined', 'Vychovávající rodič');
+  setupConditional('respondent_relation', 'group_other_combined', 'Jiný vztah');
+
+  // Registrace vnořených podmínek pro Biologického rodiče 1 (Vy)
+  setupConditional('bio_p1_job_status', 'q_bio_p1_job_detail', 'Ano');
+  setupConditional('bio_p1_mental', 'q_bio_p1_mental_detail', 'Ano');
+  setupConditional('bio_p1_physical', 'q_bio_p1_physical_detail', 'Ano');
+
+  // Registrace vnořených podmínek pro Biologického rodiče 2 (Druhý rodič)
+  setupConditional('bio_p2_job_status', 'q_bio_p2_job_detail', 'Ano');
+  setupConditional('bio_p2_mental', 'q_bio_p2_mental_detail', 'Ano');
+  setupConditional('bio_p2_physical', 'q_bio_p2_physical_detail', 'Ano');
+
+  // Respondent (Nevlastní rodič)
+setupConditional('step_resp_job_status', 'q_step_resp_job_detail', 'Ano');
+setupConditional('step_resp_mental', 'q_step_resp_mental_detail', 'Ano');
+setupConditional('step_resp_physical', 'q_step_resp_physical_detail', 'Ano');
+
+// Respondent (Nevlastní rodič) Bio Matka
+setupConditional('step_bio_m_mental', 'q_step_bio_m_mental_detail', 'Ano');
+setupConditional('step_bio_m_physical', 'q_step_bio_m_physical_detail', 'Ano');
+
+// Respondent (Nevlastní rodič) Bio Otec
+setupConditional('step_bio_f_mental', 'q_step_bio_f_mental_detail', 'Ano');
+setupConditional('step_bio_f_physical', 'q_step_bio_f_physical_detail', 'Ano');
+
+// Respondent (Jiný vztah)
+setupConditional('other_resp_job_status', 'q_other_resp_job_detail', 'Ano');
+setupConditional('other_resp_mental', 'q_other_resp_mental_detail', 'Ano');
+setupConditional('other_resp_physical', 'q_other_resp_physical_detail', 'Ano');
+
+// Respondent (Jiný vztah) Bio Matka
+setupConditional('other_bio_m_mental', 'q_other_bio_m_mental_detail', 'Ano');
+setupConditional('other_bio_m_physical', 'q_other_bio_m_physical_detail', 'Ano');
+
+// Respondent (Jiný vztah) Bio Otec
+setupConditional('other_bio_f_mental', 'q_other_bio_f_mental_detail', 'Ano');
+setupConditional('other_bio_f_physical', 'q_other_bio_f_physical_detail', 'Ano');
+
+
 // Auto-expand and retract textarea with padding only after first character
 function autoExpandTextarea(textarea) {
   textarea.style.height = 'auto'; // Reset height to recalc scrollHeight
@@ -2994,110 +3428,250 @@ document.querySelectorAll('textarea.long-text').forEach(area => {
 
 
 // Dynamic generation for additional carers
-const additionalCarersCountInput = document.getElementById('additional_carers_count');
-const additionalCarersContainer = document.getElementById('additional_carers_container');
-additionalCarersCountInput.addEventListener('input', () => {
-  let count = parseInt(additionalCarersCountInput.value) || 0;
-  if (count > 10) count = 10;
-  if (count < 0) count = 0;
+function addCarer(data = null) {
+  const container = document.getElementById('additional_carers_container');
+  const index = container.children.length + 1;
+  const fs = document.createElement('fieldset');
+  fs.className = 'style-soft dynamic-item';
+  
+  fs.innerHTML = `
+    <div class="style-soft-header">
+        <legend>Další osoba ${index}</legend>
+        <button type="button" class="btn-remove-3" onclick="removeDynamicItem(this)">✖ Odebrat</button>
+    </div>
+    <div class="style-soft-body">
+    <div class="qa-block">
+      <label for="carer_${index}_relation"><span>V jakém vztahu je osoba s dítětem (případně s vámi)?</span></label>
+      <input class="short-text" type="text" name="carer_${index}_relation" id="carer_${index}_relation">
+    </div>
+    <div class="qa-block">
+      <label for="carer_${index}_age"><span>Věk:</span></label>
+      <input type="number" name="carer_${index}_age" id="carer_${index}_age">
+    </div>
+    <div class="qa-block">
+      <label id="lbl_carer_${index}_mental"><span>Má nějaké duševní obtíže?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_carer_${index}_mental">
+        <label><input type="radio" name="carer_${index}_mental" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="carer_${index}_mental" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="carer_${index}_mental" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_carer_${index}_mental_detail" data-controlled-by="carer_${index}_mental">
+      <label for="carer_${index}_mental_text"><span>Jaké duševní obtíže to jsou?</span></label>
+      <textarea class="long-text" name="carer_${index}_mental_text" id="carer_${index}_mental_text"></textarea>
+    </div>
+    <div class="qa-block">
+      <label id="lbl_carer_${index}_physical"><span>Má nějaká fyzická omezení (např. nemoci)?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_carer_${index}_physical">
+        <label><input type="radio" name="carer_${index}_physical" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="carer_${index}_physical" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="carer_${index}_physical" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block hidden" id="q_carer_${index}_physical_detail" data-controlled-by="carer_${index}_physical">
+      <label for="carer_${index}_physical_text"><span>Jaká fyzická omezení to jsou?</span></label>
+      <textarea class="long-text" name="carer_${index}_physical_text" id="carer_${index}_physical_text"></textarea>
+    </div>
+    </div>
+  `;
+  
+  container.appendChild(fs);
+  
+  // Attach listeners for conditional logic
+  const mentalRadios = fs.querySelectorAll(`input[name^="carer_"][name$="_mental"]`);
+  mentalRadios.forEach(r => r.addEventListener('change', () => {
+      const currentName = r.name;
+      const match = currentName.match(/_(\d+)_/);
+      if (match) {
+          const currentIndex = match[1];
+          const targetId = `q_carer_${currentIndex}_mental_detail`;
+          const target = document.getElementById(targetId);
+          if(target) {
+              target.classList.toggle('is-visible', r.value === 'Ano');
+              updateProgressBar();
+              updateQuestionnaireSummary();
+          }
+      }
+  }));
 
-  const currentCount = additionalCarersContainer.children.length;
+  const physicalRadios = fs.querySelectorAll(`input[name^="carer_"][name$="_physical"]`);
+  physicalRadios.forEach(r => r.addEventListener('change', () => {
+      const currentName = r.name;
+      const match = currentName.match(/_(\d+)_/);
+      if (match) {
+          const currentIndex = match[1];
+          const targetId = `q_carer_${currentIndex}_physical_detail`;
+          const target = document.getElementById(targetId);
+          if(target) {
+              target.classList.toggle('is-visible', r.value === 'Ano');
+              updateProgressBar();
+              updateQuestionnaireSummary();
+          }
+      }
+  }));
 
-  if (count > currentCount) {
-    // Add only new fields
-    for (let i = currentCount + 1; i <= count; i++) {
-      const fs = document.createElement('fieldset');
-      fs.innerHTML = `
-        <legend>Další vychovávající osoba ${i}</legend>
-        <div class="qa-block">
-          <label for="carer_${i}_name"><span>Jméno osoby ${i}:</span></label><input class="short-text" type="text" name="carer_${i}_name" id="carer_${i}_name">
-        </div>
-        <div class="qa-block">
-          <label for="carer_${i}_age"><span>Věk osoby ${i}:</span></label><input type="number" name="carer_${i}_age" id="carer_${i}_age">
-        </div>
-        <div class="qa-block"><label for="carer_${i}_relation"><span>Jaké jsou vaše vztahy s osobou ${i}:</span></label><textarea class="long-text" name="carer_${i}_relation" id="carer_${i}_relation"></textarea></div>
-        <div class="qa-block"><label for="carer_${i}_household"><span>V jaké domácnosti osoba ${i} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i}_household" id="carer_${i}_household"></textarea></div>
-      `;
-      additionalCarersContainer.appendChild(fs);
-      fs.querySelectorAll('textarea.long-text').forEach(area => {
-        area.addEventListener('input', () => autoExpandTextarea(area));
-        autoExpandTextarea(area);
+  // Auto-expand textareas
+  fs.querySelectorAll('textarea.long-text').forEach(area => {
+    area.addEventListener('input', () => autoExpandTextarea(area));
+    autoExpandTextarea(area);
+  });
+
+  // Pre-fill data if provided
+  if (data) {
+      const inputs = fs.querySelectorAll('input, textarea, select');
+      inputs.forEach(input => {
+          if (data[input.name] !== undefined) {
+              if (input.type === 'radio' || input.type === 'checkbox') {
+                  if (input.value === data[input.name]) input.checked = true;
+              } else {
+                  input.value = data[input.name];
+              }
+          }
       });
-    }
-  } else if (count < currentCount) {
-    // Remove fields from the end
-    while (additionalCarersContainer.children.length > count) {
-      additionalCarersContainer.lastElementChild.remove();
-    }
+      // Trigger change events to show/hide details
+      mentalRadios.forEach(r => { if(r.checked) r.dispatchEvent(new Event('change')); });
+      physicalRadios.forEach(r => { if(r.checked) r.dispatchEvent(new Event('change')); });
   }
+
   validateAllQuestions();
   updateProgressBar();
   updateQuestionnaireSummary();
-});
+}
 
 // Dynamic generation for siblings
-const siblingsCountInput = document.getElementById('siblings_count');
-const siblingsContainer = document.getElementById('siblings_container');
-siblingsCountInput.addEventListener('input', () => {
-  let count = parseInt(siblingsCountInput.value) || 0;
-  if (count > 10) count = 10;
-  if (count < 0) count = 0;
+function addSibling(data = null) {
+  const container = document.getElementById('siblings_container');
+  const index = container.children.length + 1;
+  const fs = document.createElement('fieldset');
+  fs.className = 'style-soft dynamic-item';
+  
+  fs.innerHTML = `
+    <div class="style-soft-header">
+        <legend>Sourozenec ${index}</legend>
+        <button type="button" class="btn-remove-3" onclick="removeDynamicItem(this)">× Odebrat</button>
+    </div>
+    <div class="style-soft-body">
+    <div class="qa-block">
+      <label for="sibling_${index}_name"><span>Jméno sourozence:</span></label>
+      <input class="short-text" type="text" name="sibling_${index}_name" id="sibling_${index}_name">
+    </div>
+    <div class="qa-block">
+      <label for="sibling_${index}_age"><span>Věk sourozence:</span></label>
+      <input type="number" name="sibling_${index}_age" id="sibling_${index}_age">
+    </div>
+    <div class="qa-block">
+      <label id="lbl_sibling_${index}_biological_parents"><span>Mají dítě a sourozenec stejné biologické rodiče?</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${index}_biological_parents">
+        <label><input type="radio" name="sibling_${index}_biological_parents" value="Ano, oba"><span>Ano, oba</span></label>
+        <label><input type="radio" name="sibling_${index}_biological_parents" value="Ano, jednoho"><span>Ano, jednoho</span></label>
+        <label><input type="radio" name="sibling_${index}_biological_parents" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="sibling_${index}_biological_parents" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+    <div class="qa-block">
+      <label id="lbl_sibling_${index}_same_household"><span>Žijí ve stejné domácnosti:</span></label>
+      <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${index}_same_household">
+        <label><input type="radio" name="sibling_${index}_same_household" value="Ano"><span>Ano</span></label>
+        <label><input type="radio" name="sibling_${index}_same_household" value="Ne"><span>Ne</span></label>
+        <label><input type="radio" name="sibling_${index}_same_household" value="Bez odpovědi"><span>Bez odpovědi</span></label>
+      </div>
+    </div>
+        <div class="qa-block">
+        <label for="sibling_${index}_diagnoses"><span>Má sourozenec nějaké fyzické nebo psychické obtíže?</span></label>
+        <textarea class="long-text" name="sibling_${index}_diagnoses" id="sibling_${index}_diagnoses"></textarea>
+    </div>
+    <div class="qa-block">
+        <label for="sibling_${index}_relationship"><span>Jak vypadá vztah sourozence a dítěte?</span></label>
+        <textarea class="long-text" name="sibling_${index}_relationship" id="sibling_${index}_relationship"></textarea>
+    </div>
+    </div>
+  `;
+  
+  container.appendChild(fs);
+  
+  fs.querySelectorAll('textarea.long-text').forEach(area => {
+    area.addEventListener('input', () => autoExpandTextarea(area));
+    autoExpandTextarea(area);
+  });
 
-  const currentCount = siblingsContainer.children.length;
-
-  if (count > currentCount) {
-    for (let i = currentCount + 1; i <= count; i++) {
-      const fs = document.createElement('fieldset');
-      fs.innerHTML = `
-        <legend>Sourozenec ${i}</legend>
-        <div class="qa-block">
-          <label for="sibling_${i}_name"><span>Jméno sourozence ${i}:</span></label><input class="short-text" type="text" name="sibling_${i}_name" id="sibling_${i}_name">
-        </div>
-        <div class="qa-block">
-          <label for="sibling_${i}_age"><span>Věk sourozence ${i}:</span></label><input type="number" name="sibling_${i}_age" id="sibling_${i}_age">
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i}_biological"><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_biological">
-            <label><input type="radio" name="sibling_${i}_biological" value="Ano"><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i}_biological" value="Ne"><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i}_biological" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i}_common_parents"><span>Má dítě se sourozencem společné rodiče:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_common_parents">
-            <label><input type="radio" name="sibling_${i}_common_parents" value="Ano"><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i}_common_parents" value="Ne"><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i}_common_parents" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i}_same_household"><span>Žijí ve stejné domácnosti:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i}_same_household">
-            <label><input type="radio" name="sibling_${i}_same_household" value="Ano"><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i}_same_household" value="Ne"><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i}_same_household" value="Bez odpovědi"><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block"><label for="sibling_${i}_relationship"><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i}_relationship" id="sibling_${i}_relationship"></textarea></div>
-        <div class="qa-block"><label for="sibling_${i}_diagnoses"><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i}_diagnoses" id="sibling_${i}_diagnoses"></textarea></div>
-      `;
-      siblingsContainer.appendChild(fs);
-      fs.querySelectorAll('textarea.long-text').forEach(area => {
-        area.addEventListener('input', () => autoExpandTextarea(area));
-        autoExpandTextarea(area);
+  if (data) {
+      const inputs = fs.querySelectorAll('input, textarea, select');
+      inputs.forEach(input => {
+          if (data[input.name] !== undefined) {
+              if (input.type === 'radio' || input.type === 'checkbox') {
+                  if (input.value === data[input.name]) input.checked = true;
+              } else {
+                  input.value = data[input.name];
+              }
+          }
       });
-    }
-  } else if (count < currentCount) {
-    while (siblingsContainer.children.length > count) {
-      siblingsContainer.lastElementChild.remove();
-    }
   }
+
   validateAllQuestions();
   updateProgressBar();
   updateQuestionnaireSummary();
-});
+}
+
+function removeDynamicItem(button) {
+    const fieldset = button.closest('.dynamic-item');
+    const container = fieldset.parentElement;
+    fieldset.remove();
+    
+    // Determine base name for reindexing
+    let baseName = '';
+    if (container.id === 'additional_carers_container') baseName = 'carer';
+    else if (container.id === 'siblings_container') baseName = 'sibling';
+    
+    reindexItems(container.id, baseName);
+    
+    validateAllQuestions();
+    updateProgressBar();
+    updateQuestionnaireSummary();
+}
+
+function reindexItems(containerId, baseName) {
+    const container = document.getElementById(containerId);
+    const items = container.querySelectorAll('.dynamic-item');
+    
+    items.forEach((item, index) => {
+        const newIndex = index + 1;
+        
+        // Update Legend
+        const legend = item.querySelector('legend');
+        if (legend) {
+            // Preserve text, update number. Assuming format "Text Number"
+            const text = legend.textContent.replace(/\d+$/, '');
+            legend.textContent = text + newIndex;
+        }
+        
+        // Update Hidden Blocks IDs first
+        const hiddenBlocks = item.querySelectorAll('.qa-block.hidden');
+        hiddenBlocks.forEach(block => {
+            if (block.id) {
+                block.id = block.id.replace(new RegExp(`${baseName}_\\d+`), `${baseName}_${newIndex}`);
+            }
+            if (block.hasAttribute('data-controlled-by')) {
+                const val = block.getAttribute('data-controlled-by');
+                block.setAttribute('data-controlled-by', val.replace(new RegExp(`${baseName}_\\d+`), `${baseName}_${newIndex}`));
+            }
+        });
+
+        // Update Inputs and Labels
+        const elements = item.querySelectorAll('input, textarea, select, label, div[role="radiogroup"]');
+        elements.forEach(el => {
+            const regex = new RegExp(`${baseName}_\\d+`);
+            const replacement = `${baseName}_${newIndex}`;
+            
+            if (el.name) el.name = el.name.replace(regex, replacement);
+            if (el.id) el.id = el.id.replace(regex, replacement);
+            if (el.htmlFor) el.htmlFor = el.htmlFor.replace(regex, replacement);
+            if (el.hasAttribute('aria-labelledby')) {
+                const val = el.getAttribute('aria-labelledby');
+                el.setAttribute('aria-labelledby', val.replace(regex, replacement));
+            }
+        });
+    });
+}
 
 //saving
 
@@ -3172,10 +3746,14 @@ function getFormData() {
 
   // Save dynamic carers
   const carers = [];
-  document.querySelectorAll('#additional_carers_container fieldset').forEach(fs => {
+  document.querySelectorAll('#additional_carers_container .dynamic-item').forEach(fs => {
     const carerData = {};
-    fs.querySelectorAll('input, textarea').forEach(el => {
-      carerData[el.name] = el.value;
+    fs.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.type === 'radio' || el.type === 'checkbox') {
+          if (el.checked) carerData[el.name] = el.value;
+      } else {
+          carerData[el.name] = el.value;
+      }
     });
     carers.push(carerData);
   });
@@ -3183,13 +3761,11 @@ function getFormData() {
 
   // Save dynamic siblings
   const siblings = [];
-  document.querySelectorAll('#siblings_container fieldset').forEach(fs => {
+  document.querySelectorAll('#siblings_container .dynamic-item').forEach(fs => {
     const siblingData = {};
     fs.querySelectorAll('input, select, textarea').forEach(el => {
-      if (el.type === 'radio') {
-        if (el.checked) siblingData[el.name] = el.value;
-      } else if (el.type === 'checkbox') {
-        siblingData[el.name] = el.checked;
+      if (el.type === 'radio' || el.type === 'checkbox') {
+          if (el.checked) siblingData[el.name] = el.value;
       } else {
         siblingData[el.name] = el.value;
       }
@@ -3274,66 +3850,16 @@ function loadData(data) {
   });
 
   // Recreate dynamic carers
-  if (data['additional_carers']) {
-    data['additional_carers'].forEach((carer, i) => {
-      const fs = document.createElement('fieldset');
-      fs.innerHTML = `
-        <legend>Další vychovávající osoba ${i + 1}</legend>
-        <div class="qa-block">
-          <label for="carer_${i+1}_name"><span>Jméno osoby ${i + 1}:</span></label><input class="short-text" type="text" name="carer_${i+1}_name" id="carer_${i+1}_name" value="${carer['carer_' + (i+1) + '_name'] || ''}">
-        </div>
-        <div class="qa-block">
-          <label for="carer_${i+1}_age"><span>Věk osoby ${i + 1}:</span></label><input type="number" name="carer_${i+1}_age" id="carer_${i+1}_age" value="${carer['carer_' + (i+1) + '_age'] || ''}">
-        </div>
-        <div class="qa-block"><label for="carer_${i+1}_relation"><span>Jaké jsou vaše vztahy s osobou ${i + 1}:</span></label><textarea class="long-text" name="carer_${i+1}_relation" id="carer_${i+1}_relation">${carer['carer_' + (i+1) + '_relation'] || ''}</textarea></div>
-        <div class="qa-block"><label for="carer_${i+1}_household"><span>V jaké domácnosti osoba ${i + 1} dítě vychovává:</span></label><textarea class="long-text" name="carer_${i+1}_household" id="carer_${i+1}_household">${carer['carer_' + (i+1) + '_household'] || ''}</textarea></div>
-      `;
-      document.getElementById('additional_carers_container').appendChild(fs);
-      fs.querySelectorAll('textarea.long-text').forEach(area => autoExpandTextarea(area));
+  if (data['additional_carers'] && Array.isArray(data['additional_carers'])) {
+    data['additional_carers'].forEach(carer => {
+        addCarer(carer);
     });
   }
 
   // Recreate dynamic siblings
-  if (data['siblings']) {
-    data['siblings'].forEach((sib, i) => {
-      const fs = document.createElement('fieldset');
-      fs.innerHTML = `
-        <legend>Sourozenec ${i + 1}</legend>
-        <div class="qa-block">
-          <label for="sibling_${i+1}_name"><span>Jméno sourozence ${i + 1}:</span></label><input class="short-text" type="text" name="sibling_${i+1}_name" id="sibling_${i+1}_name" value="${sib['sibling_' + (i+1) + '_name'] || ''}">
-        </div>
-        <div class="qa-block">
-          <label for="sibling_${i+1}_age"><span>Věk sourozence ${i + 1}:</span></label><input type="number" name="sibling_${i+1}_age" id="sibling_${i+1}_age" value="${sib['sibling_' + (i+1) + '_age'] || ''}">
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i+1}_biological"><span>Jsou dítě a sourozenec biologičtí příbuzní:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_biological">
-            <label><input type="radio" name="sibling_${i+1}_biological" value="Ano" ${sib['sibling_' + (i+1) + '_biological'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i+1}_biological" value="Ne" ${sib['sibling_' + (i+1) + '_biological'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i+1}_biological" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_biological'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i+1}_common_parents"><span>Má dítě se sourozencem společné rodiče:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_common_parents">
-            <label><input type="radio" name="sibling_${i+1}_common_parents" value="Ano" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i+1}_common_parents" value="Ne" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i+1}_common_parents" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_common_parents'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block">
-          <label id="lbl_sibling_${i+1}_same_household"><span>Žijí ve stejné domácnosti:</span></label>
-          <div class="select-group" role="radiogroup" aria-labelledby="lbl_sibling_${i+1}_same_household">
-            <label><input type="radio" name="sibling_${i+1}_same_household" value="Ano" ${sib['sibling_' + (i+1) + '_same_household'] === 'Ano' ? 'checked' : ''}><span>Ano</span></label>
-            <label><input type="radio" name="sibling_${i+1}_same_household" value="Ne" ${sib['sibling_' + (i+1) + '_same_household'] === 'Ne' ? 'checked' : ''}><span>Ne</span></label>
-            <label><input type="radio" name="sibling_${i+1}_same_household" value="Bez odpovědi" ${sib['sibling_' + (i+1) + '_same_household'] === 'Bez odpovědi' ? 'checked' : ''}><span>Bez odpovědi</span></label>
-          </div>
-        </div>
-        <div class="qa-block"><label for="sibling_${i+1}_relationship"><span>Jaký mají vztah:</span></label><textarea class="long-text" name="sibling_${i+1}_relationship" id="sibling_${i+1}_relationship">${sib['sibling_' + (i+1) + '_relationship'] || ''}</textarea></div>
-        <div class="qa-block"><label for="sibling_${i+1}_diagnoses"><span>Fyzické a psychické diagnózy:</span></label><textarea class="long-text" name="sibling_${i+1}_diagnoses" id="sibling_${i+1}_diagnoses">${sib['sibling_' + (i+1) + '_diagnoses'] || ''}</textarea></div>
-      `;
-      document.getElementById('siblings_container').appendChild(fs);
-      fs.querySelectorAll('textarea.long-text').forEach(area => autoExpandTextarea(area));
+  if (data['siblings'] && Array.isArray(data['siblings'])) {
+    data['siblings'].forEach(sib => {
+        addSibling(sib);
     });
   }
   // Trigger visibility checks for all conditional fields
@@ -3732,16 +4258,6 @@ const Validator = {
             
             return true; // Vše v pořádku
         },
-        additional_carers_count: function(input) {
-            const val = parseInt(input.value);
-            if (val > 10) return "Počet dalších pečujících osob je omezen na 10.";
-            return true;
-        },
-        siblings_count: function(input) {
-            const val = parseInt(input.value);
-            if (val > 10) return "Počet sourozenců je omezen na 10.";
-            return true;
-        }
     },
 
     // POMOCNÉ FUNKCE PRO SPOUŠTĚNÍ
