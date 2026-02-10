@@ -1513,7 +1513,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: var(--shadow-soft);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: 10000;
       transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
@@ -1696,32 +1696,36 @@
       cursor: pointer;
       transition: all 0.2s;
       box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
     }
 
-    .nav-item:hover {
-      border-color: var(--muni-blue);
-      box-shadow: 0 2px 8px rgba(0, 0, 220, 0.1);
-      transform: translateY(-1px);
+    @media (hover: hover) {
+      .nav-item:hover {
+        border-color: var(--muni-blue);
+        box-shadow: 0 2px 8px rgba(0, 0, 220, 0.1);
+        transform: translateY(-1px);
+      }
 
-    }
-
-    .nav-item.visible {
-      border-left-color: #B3C7FF;
-      box-shadow: inset 3px 0 0 0 #B3C7FF;
+      .nav-item.active:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 220, 0.1);
+      }
     }
 
     .nav-item.active {
-      border-left-color: var(--muni-blue);
+      border-color: var(--muni-blue);
       background-color: #fbfcff;
-      box-shadow: inset 3px 0 0 0 var(--muni-blue);
     }
 
-    .nav-item.visible:hover {
-      box-shadow: inset 3px 0 0 0 #B3C7FF, 0 2px 8px rgba(0, 0, 220, 0.1);
-    }
-
-    .nav-item.active:hover {
-      box-shadow: inset 3px 0 0 0 var(--muni-blue), 0 2px 8px rgba(0, 0, 220, 0.1);
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+      /* Thickness of the highlight */
+      background-color: var(--muni-blue);
     }
 
     .nav-item-row {
@@ -1940,8 +1944,10 @@
       transition: background-color 0.2s;
     }
 
-    .summary-list-item:hover {
-      background-color: #f4f8ff;
+    @media (hover: hover) {
+      .summary-list-item:hover {
+        background-color: #f4f8ff;
+      }
     }
 
     .item-info {
@@ -2318,9 +2324,9 @@
         </div>
 
         <div class="qa-block">
-          <label for="child_age"><span>Věk:</span></label>
-          <input type="text" name="child_age" id="child_age" readonly style="cursor:default; pointer-events: none;"
-            placeholder="Dopočítá se z data narození">
+          <label><span>Věk:</span></label>
+          <input type="text" name="child_age" id="child_age" readonly tabindex="-1" onfocus="this.blur()"
+            style="cursor:default; pointer-events: none;" placeholder="Dopočítá se z data narození">
         </div>
       </fieldset>
 
@@ -2750,7 +2756,7 @@
             <legend>Údaje o Vás</legend>
 
             <div class="qa-block">
-              <label for="other_resp_relation_spec"><span>Jaký je váš vztah k dítěti?</span></label>
+              <label for="other_resp_relation_spec"><span>V jakém vztahu jste k dítěti?</span></label>
               <input class="short-text" type="text" name="other_resp_relation_spec" id="other_resp_relation_spec">
             </div>
 
@@ -3913,9 +3919,10 @@
 
         <div class="manual-alert">
           <strong>⚠️ Upozornění:</strong>
-          <span>Data v uloženém souboru nejsou šifrována a mohou být čitelná třetími stranami.
-            Některé formy sdílení, například skrze e-mail, mohou nést rizika.</span><br><br>
-          <span>Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
+          <span>Data v uloženém souboru mohou být citlivé povahy.
+            Některé nezabezpečené formy sdílení, například skrze e-mail, mohou nést rizika. Preferujte raději
+            předání osobně (USB disk), nebo skrze zabezepečené cesty.</span><br><br>
+          <span> Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
             <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
           </span>
         </div>
@@ -3991,20 +3998,29 @@
         item.className = 'nav-item';
         item.id = `nav-item-${index}`;
         item.onclick = () => {
-          const firstQuestion = fieldset.querySelector('.qa-block');
-          if (firstQuestion) {
-            firstQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else {
-            const legendEl = fieldset.querySelector('legend');
-            if (legendEl) {
-              legendEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-              fieldset.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+          // Prioritize the HEADING (legend) so the user sees the section title first
+          const target = fieldset.querySelector('legend') || fieldset.querySelector('.qa-block') || fieldset;
+
+          if (target) {
+            // Dynamic offset: positions the heading at ~45% of the screen height (responsive)
+            const headerOffset = window.innerHeight * 0.35;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
           }
-          // Optional: Close nav on click on mobile (now including larger phones/tablets)
-          if (window.innerWidth <= 850) {
-            document.getElementById('smart-nav').classList.remove('is-expanded');
+
+          // Collapse nav if on mobile OR if the expanded menu blocks the view of the section header
+          // The header is positioned at `headerOffset` (35% of viewport height).
+          // If the menu extends below this point, it obstructs the view.
+          const smartNav = document.getElementById('smart-nav');
+          const headerOffset = window.innerHeight * 0.35; // Must match the scroll offset calculation above
+
+          if (window.innerWidth <= 850 || (smartNav.classList.contains('is-expanded') && smartNav.offsetHeight > headerOffset)) {
+            smartNav.classList.remove('is-expanded');
           }
         };
 
@@ -4024,7 +4040,8 @@
       // Scroll Spy Logic
       const handleScrollSpy = () => {
         const viewportHeight = window.innerHeight;
-        const triggerLine = viewportHeight * 0.5; // 50% from top
+        // Trigger line slightly below the scroll target (0.35) so the section header is "above" or crossing it
+        const triggerLine = viewportHeight * 0.38;
 
         let closestIndex = -1;
         let minDistance = Infinity;
@@ -4033,13 +4050,8 @@
           const rect = fieldset.getBoundingClientRect();
           const navItem = document.getElementById(`nav-item-${index}`);
 
-          // Visibility check
+          // Reset active status
           if (navItem) {
-            if (rect.top < viewportHeight && rect.bottom > 0) {
-              navItem.classList.add('visible');
-            } else {
-              navItem.classList.remove('visible');
-            }
             navItem.classList.remove('active');
           }
 
@@ -4771,7 +4783,21 @@
 
       const date = new Date();
       const timestamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-      const childName = data.child_name ? data.child_name.replace(/ /g, '_') : 'dite';
+
+      let childName = 'dite';
+      if (data.child_name && data.child_name.trim().length > 0) {
+        const parts = data.child_name.trim().split(/\s+/);
+        if (parts.length === 1) {
+          childName = parts[0];
+        } else if (parts.length > 1) {
+          const firstName = parts[0];
+          const lastInitial = parts[parts.length - 1].charAt(0);
+          childName = `${firstName}_${lastInitial}`;
+        }
+      }
+
+      // Sanitize filename (remove potentially unsafe characters, keep alphanumeric, dashes, underscores)
+      childName = childName.replace(/[^a-zA-Z0-9_\-\u00C0-\u017F]/g, '');
       const suggestedName = `dotaznik-${childName}-${timestamp}.json`;
 
       // Use the modern File System Access API if available
@@ -4891,6 +4917,7 @@
         document.getElementById('siblings_container').innerHTML = '';
         updateAllConditionals();
         validateAllQuestions();
+        if (typeof Validator !== 'undefined') Validator.checkAll();
         updateProgressBar();
         updateQuestionnaireSummary();
 
