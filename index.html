@@ -134,9 +134,11 @@
       font-weight: bold;
     }
 
-    .btn.primary:hover {
-      background-color: #0000aa;
-      border-color: #0000aa;
+    @media (hover: hover) {
+      .btn.primary:hover {
+        background-color: #0000aa;
+        border-color: #0000aa;
+      }
     }
 
     /* Secondary button style */
@@ -147,9 +149,11 @@
       font-weight: 500;
     }
 
-    .btn.btn-secondary:hover:not(:disabled) {
-      background-color: #e9f1ff;
-      /* Light blue from tip-block */
+    @media (hover: hover) {
+      .btn.btn-secondary:hover:not(:disabled) {
+        background-color: #e9f1ff;
+        /* Light blue from tip-block */
+      }
     }
 
     .btn.btn-secondary:disabled {
@@ -166,9 +170,11 @@
       font-weight: 500;
     }
 
-    .btn.btn-danger:hover:not(:disabled) {
-      background-color: rgba(176, 42, 55, 0.1);
-      /* Light red, consistent with other hovers */
+    @media (hover: hover) {
+      .btn.btn-danger:hover:not(:disabled) {
+        background-color: rgba(176, 42, 55, 0.1);
+        /* Light red, consistent with other hovers */
+      }
     }
 
     /* Styl pro nenápadné smazání dat */
@@ -184,9 +190,11 @@
       transition: color 0.2s ease;
     }
 
-    .btn-delete-link:hover {
-      color: var(--color-error);
-      /* Zčervená až při najetí (vizuální varování) */
+    @media (hover: hover) {
+      .btn-delete-link:hover {
+        color: var(--color-error);
+        /* Zčervená až při najetí (vizuální varování) */
+      }
     }
 
 
@@ -200,9 +208,11 @@
       transition: color 0.2s ease;
     }
 
-    .alert-action-link:hover {
-      color: var(--color-error);
-      /* Zčervená při najetí (shoda s mazacím odkazem) */
+    @media (hover: hover) {
+      .alert-action-link:hover {
+        color: var(--color-error);
+        /* Zčervená při najetí (shoda s mazacím odkazem) */
+      }
     }
 
     /* Styl pro dynamické pole (style-soft) */
@@ -257,12 +267,14 @@
       transition: all 0.2s;
     }
 
-    .btn-remove-3:hover {
-      color: #c62828;
-      /* Červená */
-      background-color: #fff5f5;
-      /* Jemně červené pozadí */
-      border-color: #ffd6d6;
+    @media (hover: hover) {
+      .btn-remove-3:hover {
+        color: #c62828;
+        /* Červená */
+        background-color: #fff5f5;
+        /* Jemně červené pozadí */
+        border-color: #ffd6d6;
+      }
     }
 
     .preview-mode-active .btn-add-item,
@@ -357,8 +369,10 @@
       height: auto;
     }
 
-    html:not(.preview-mode-active) .select-group label:hover span {
-      background-color: #0000dc08;
+    @media (hover: hover) {
+      html:not(.preview-mode-active) .select-group label:hover span {
+        background-color: #0000dc08;
+      }
     }
 
     html:not(.preview-mode-active) .select-group input[type="radio"]:checked+span,
@@ -385,9 +399,11 @@
     }
 
     /* 2. Hover state: Highlight with a light red background */
-    html:not(.preview-mode-active) .select-group label:has(input[value="Bez odpovědi"]):hover span {
-      background-color: rgba(176, 42, 55, 0.1);
-      /* Light red background */
+    @media (hover: hover) {
+      html:not(.preview-mode-active) .select-group label:has(input[value="Bez odpovědi"]):hover span {
+        background-color: rgba(176, 42, 55, 0.1);
+        /* Light red background */
+      }
     }
 
     /* 3. Selected state: Red text and light red background */
@@ -463,7 +479,7 @@
       color: #0000dc;
       display: block;
       margin-bottom: 6px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230000dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230000dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: left center;
       background-size: 16px 16px;
@@ -506,14 +522,14 @@
 
     .manual-alert {
       background-color: var(--color-warning-bg);
-      border: 1px solid var(--color-warning-border);
+      border: 1px solid var(--color-warning-accent);
       border-left: 4px solid var(--color-warning-accent);
       border-radius: 8px;
       padding: 12px 16px;
       margin: 15px 0;
       font-size: 14px;
       line-height: 1.5;
-      color: var(--color-warning-text);
+      color: #222;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: flex-start;
@@ -538,7 +554,7 @@
       margin: 15px 0;
       font-size: 14px;
       line-height: 1.5;
-      color: #000000;
+      color: #222;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: flex-start;
@@ -1259,8 +1275,10 @@
       gap: 25px;
     }
 
-    .header-link:hover {
-      color: #0000dc;
+    @media (hover: hover) {
+      .header-link:hover {
+        color: #0000dc;
+      }
     }
 
     .feedback-link {
@@ -1274,9 +1292,11 @@
       border-radius: 4px;
     }
 
-    .version-link:hover {
-      background: #0000dc10;
-      color: #0000dc;
+    @media (hover: hover) {
+      .version-link:hover {
+        background: #0000dc10;
+        color: #0000dc;
+      }
     }
 
     .changelog-text {
@@ -1560,8 +1580,10 @@
       user-select: none;
     }
 
-    .nav-header:hover {
-      background-color: #e9f1ff;
+    @media (hover: hover) {
+      .nav-header:hover {
+        background-color: #e9f1ff;
+      }
     }
 
     .nav-progress-wrapper {
@@ -1853,8 +1875,10 @@
       gap: 15px;
     }
 
-    .summary-header:hover {
-      background-color: #e9f1ff;
+    @media (hover: hover) {
+      .summary-header:hover {
+        background-color: #e9f1ff;
+      }
     }
 
     .summary-stats {
@@ -2238,10 +2262,22 @@
           </div>
           <div class="header-right">
             <a href="manual.pdf" target="_blank" class="header-link">
-              <span class="icon">📖</span> Metodický manuál
+              <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" x2="8" y1="13" y2="13" />
+                  <line x1="16" x2="8" y1="17" y2="17" />
+                  <line x1="10" x2="8" y1="9" y2="9" />
+                </svg></span> Metodický manuál
             </a>
             <a href="https://forms.gle/EpxAt2FqTxr5nCu1A" target="_blank" class="header-link feedback-link">
-              <span class="icon">💬</span> Zpětná vazba
+              <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                  <path d="M12 8v4" />
+                  <path d="M12 16h.01" />
+                </svg></span> Zpětná vazba
             </a>
           </div>
         </div>
@@ -2299,10 +2335,28 @@
           </div>
         </div>
 
-        <p> Pokud si přejete dotazník dokončit později, dosavadní průchod se ukládá v tomto prohlížeči automaticky, ale
-          můžete jej také uložit tlačítkem <strong>Průběžně uložit</strong>. Nejpraktičtější však je si soubor se svými
-          odpověďmi stáhnout tlačítkem <strong>Uložit do souboru</strong>. Obě možnosti naleznete na konci dotazníku.
+        <p> Pokud si přejete dotazník dokončit jindy, soubor se svými
+          odpověďmi si můžete stáhnout tlačítkem <strong>Uložit do souboru</strong>. Dosavadní průchod se ukládá v tomto
+          prohlížeči automaticky, případně také tlačítkem <strong>Průběžně uložit</strong>. Obě možnosti naleznete na
+          konci
+          dotazníku.
         </p>
+
+        <div class="manual-alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="flex-shrink: 0; color: var(--color-warning);">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+          <div>
+            <strong>Upozornění:</strong>
+            <span>Automatické ukládání nebude fungovat v anonymním režimu. Zavření anonymního okna automaticky uložené
+              údaje smaže.</span>
+          </div>
+
+        </div>
 
         <p>Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru</strong>. Pokud existuje
           průběžně/automaticky
@@ -3940,14 +3994,14 @@
         <div class="manual-alert">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            style="flex-shrink: 0; color: #b02a37;">
+            style="flex-shrink: 0; color: var(--color-warning);">
             <path
               d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
             <path d="M12 8v4" />
             <path d="M12 16h.01" />
           </svg>
           <div>
-            <strong>Upozornění:</strong>
+            <strong>Upozornění k ochraně dat:</strong>
             <span>Data v uloženém souboru mohou být citlivé povahy.
               Některé nezabezpečené formy sdílení, například skrze e-mail, mohou nést rizika. Upřednostněte raději
               předání osobně (USB disk), nebo skrze jiné zabezpečené cesty.</span><br><br>
