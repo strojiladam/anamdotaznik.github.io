@@ -457,12 +457,17 @@
     }
 
     .tip-block::before {
-      content: "💡 Proč se ptáme?";
+      content: "Proč se ptáme?";
       font-weight: 300;
       font-style: normal;
       color: #0000dc;
       display: block;
       margin-bottom: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230000dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 16px 16px;
+      padding-left: 20px;
     }
 
     /* Instruction block style */
@@ -510,6 +515,9 @@
       line-height: 1.5;
       color: var(--color-warning-text);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
 
     .manual-alert strong {
@@ -532,6 +540,9 @@
       line-height: 1.5;
       color: #000000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
 
     .manual-tooltip strong {
@@ -2272,11 +2283,20 @@
         </ul>
 
         <div class="manual-tooltip">
-          <strong>🛡️ Ochrana dat:</strong>
-          <span>Data, která budete zadávat, mohou být citlivé povahy. Tento dotazník nikdy neodesílá data mimo vaše
-            zařízení.
-            Pro jistotu jsou vaše odpovědi automaticky ukládány pouze lokálně ve vašem prohlížeči (umožňuje obnovu v
-            případě zavření dotazníku apod.).</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="flex-shrink: 0; color: #0000dc;">
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+          <div>
+            <strong>Ochrana dat:</strong>
+            <span>Data, která budete zadávat, mohou být citlivé povahy. Tento dotazník nikdy neodesílá data mimo vaše
+              zařízení.
+              Pro jistotu jsou vaše odpovědi automaticky ukládány pouze lokálně ve vašem prohlížeči (umožňuje obnovu v
+              případě zavření dotazníku apod.).</span>
+          </div>
         </div>
 
         <p> Pokud si přejete dotazník dokončit později, dosavadní průchod se ukládá v tomto prohlížeči automaticky, ale
@@ -3347,7 +3367,7 @@
 
           <div class="qa-block hidden" id="q_school_fav_subjects_detail"
             data-controlled-by="school_fav_subjects_exists">
-            <label for="school_fav_subjects_list"><span>Jaké předměty to jsou?</span></label>
+            <label for="school_fav_subjects_list"><span>Jaké oblíbenépředměty to jsou?</span></label>
             <textarea class="long-text" name="school_fav_subjects_list" id="school_fav_subjects_list"></textarea>
           </div>
 
@@ -3364,7 +3384,7 @@
 
           <div class="qa-block hidden" id="q_school_disliked_subjects_detail"
             data-controlled-by="school_disliked_subjects_exists">
-            <label for="school_disliked_subjects_list"><span>Které to jsou?</span></label>
+            <label for="school_disliked_subjects_list"><span>Které předměty nemá rádo?</span></label>
             <textarea class="long-text" name="school_disliked_subjects_list"
               id="school_disliked_subjects_list"></textarea>
           </div>
@@ -3918,22 +3938,31 @@
         </div>
 
         <div class="manual-alert">
-          <strong>⚠️ Upozornění:</strong>
-          <span>Data v uloženém souboru mohou být citlivé povahy.
-            Některé nezabezpečené formy sdílení, například skrze e-mail, mohou nést rizika. Preferujte raději
-            předání osobně (USB disk), nebo skrze jiné zabezpečené cesty.</span><br><br>
-          <span> Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
-            <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
-          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            style="flex-shrink: 0; color: #b02a37;">
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+          <div>
+            <strong>Upozornění:</strong>
+            <span>Data v uloženém souboru mohou být citlivé povahy.
+              Některé nezabezpečené formy sdílení, například skrze e-mail, mohou nést rizika. Upřednostněte raději
+              předání osobně (USB disk), nebo skrze jiné zabezpečené cesty.</span><br><br>
+            <span> Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
+              <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
+            </span>
+          </div>
+
         </div>
 
-      </div>
-
-      <footer class="page-footer">
-        <p>© 2026 MUNI FSS, Diagnostika dítěte</p>
-        <p>Licence <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.cs" target="_blank">CC BY-NC-ND
-            4.0</a></p>
-      </footer>
+        <footer class="page-footer">
+          <p>© 2026 MUNI FSS, Diagnostika dítěte</p>
+          <p>Licence <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.cs" target="_blank">CC BY-NC-ND
+              4.0</a></p>
+        </footer>
 
     </form>
   </main>
@@ -5602,4 +5631,3 @@
 </body>
 
 </html>
-
