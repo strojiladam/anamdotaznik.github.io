@@ -5,9 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dotazník dítěte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: var(--font-body);
       background-color: #f4f6f8;
       color: #333;
       margin: 0;
@@ -40,7 +45,7 @@
     }
 
     legend {
-      font-weight: bold;
+      font-weight: 600;
       color: #0000dc;
       font-size: 16px;
       padding: 0 5px;
@@ -68,7 +73,7 @@
       margin-bottom: 22px;
       line-height: 1.5;
       height: 40px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
       vertical-align: middle;
     }
 
@@ -124,6 +129,7 @@
       /* Reserve space for border */
       margin: 0;
       /* Reset margin */
+      font-family: var(--font-body);
     }
 
     /* Primary button style */
@@ -265,6 +271,7 @@
       padding: 6px 12px;
       border-radius: 4px;
       transition: all 0.2s;
+      font-family: var(--font-body);
     }
 
     @media (hover: hover) {
@@ -294,6 +301,14 @@
     .qa-block {
       transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease;
       overflow: hidden;
+    }
+
+    /* Robust alignment for validation dot and questions */
+    .qa-block>label>span {
+      display: flex;
+      align-items: flex-start;
+      gap: 0px;
+      /* Dot has margin-right, but we can rely on flex gap if we wanted. keeping 0 for now to respect dot's margin-right or remove it? Dot has margin-right: 9px. */
     }
 
     .qa-block.hidden {
@@ -342,7 +357,7 @@
       align-items: center;
       gap: 6px;
       /* spacing between input and text */
-      font-weight: 500;
+      font-weight: 400;
       margin: 0;
       padding: 4px 8px;
       border-radius: 4px;
@@ -474,7 +489,7 @@
 
     .tip-block::before {
       content: "Proč se ptáme?";
-      font-weight: 300;
+      font-weight: 400;
       font-style: normal;
       color: #0000dc;
       display: block;
@@ -500,10 +515,18 @@
       color: #222;
     }
 
+    .instruction-label {
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 2px;
+    }
+
     .instruction-block::before {
       content: "Instrukce k vyplňování";
       font-weight: bold;
-      color: #333;
+      font-size: 16px;
+      color: #222;
       display: block;
       margin-bottom: 8px;
     }
@@ -511,7 +534,7 @@
     .instruction-block.sharing-options::before {
       content: "Možnosti uložení a sdílení";
       font-weight: bold;
-      color: #333;
+      color: #222;
     }
 
     .instruction-block ul {
@@ -573,7 +596,7 @@
       text-align: center;
       font-size: 10pt;
       color: #666;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
       border-top: 1px solid #ccc;
       padding: 10px 0;
       margin-top: 40px;
@@ -608,7 +631,7 @@
       /* Normálně neviditelné */
       white-space: pre-wrap;
       /* Zachová odřádkování */
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
       font-size: 12pt;
       color: #444;
       /* Shoda s barvou inputů při tisku */
@@ -706,7 +729,7 @@
       font-size: 20pt;
       color: #0000dc;
       margin-bottom: 20px;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .print-preview .print-only-header {
@@ -732,7 +755,7 @@
     }
 
     .print-preview form {
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .print-preview .qa-block {
@@ -746,7 +769,7 @@
       border: none !important;
       padding: 0 !important;
       margin-bottom: 25px !important;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .preview-mode-active fieldset {
@@ -762,7 +785,7 @@
       padding: 0 !important;
       margin-bottom: 25px !important;
       text-align: left !important;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .print-preview label {
@@ -772,7 +795,7 @@
       page-break-inside: avoid !important;
       font-weight: normal;
       color: black;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .print-preview label span {
@@ -780,7 +803,7 @@
       margin-bottom: 4px;
       font-weight: normal;
       color: black;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
     }
 
     .print-preview input,
@@ -793,7 +816,7 @@
       font-weight: normal;
       margin-left: 0 !important;
       color: #444;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--font-print);
       font-size: 12pt !important;
       page-break-inside: auto !important;
       margin-bottom: 22px !important;
@@ -980,7 +1003,7 @@
         padding: 0;
         margin: 0;
         font-size: 12pt;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
         color: black;
       }
 
@@ -989,7 +1012,7 @@
         font-size: 20pt;
         color: #0000dc;
         margin-bottom: 20px;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       .print-only-header {
@@ -1006,7 +1029,7 @@
         background: none;
         padding: 0;
         max-width: 100%;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       fieldset {
@@ -1014,7 +1037,7 @@
         border: none !important;
         padding: 0 !important;
         margin-bottom: 25px !important;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       legend {
@@ -1026,7 +1049,7 @@
         padding: 0 !important;
         margin-bottom: 25px !important;
         text-align: left !important;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       label {
@@ -1036,7 +1059,7 @@
         page-break-inside: avoid !important;
         font-weight: normal;
         color: black;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       label span {
@@ -1044,7 +1067,7 @@
         margin-bottom: 4px;
         font-weight: normal;
         color: black;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
       }
 
       input,
@@ -1057,7 +1080,7 @@
         font-weight: normal;
         margin-left: 0 !important;
         color: #444;
-        font-family: "Times New Roman", Times, serif;
+        font-family: var(--font-print);
         font-size: 12pt !important;
         page-break-inside: auto !important;
         /* Allow breaking inside long textareas */
@@ -1203,7 +1226,10 @@
       border: 1px solid var(--muni-blue);
       border-radius: 50%;
       margin-right: 9px;
-      vertical-align: middle;
+      margin-top: 5px;
+      /* Flexbox alignment fix */
+      flex-shrink: 0;
+      /* Remove old positioning hacks */
       box-sizing: border-box;
       transition: background-color 0.4s ease, border-color 0.4s ease;
       opacity: 1;
@@ -1240,7 +1266,7 @@
       border-bottom: 1px solid #e0e0e0;
       padding: 8px 0;
       font-size: 13px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: var(--font-body);
       color: #666;
     }
 
@@ -1266,7 +1292,7 @@
 
     .header-left {
       color: #0000dc;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-size: 16px;
     }
 
@@ -1281,12 +1307,9 @@
       }
     }
 
-    .feedback-link {
-      font-weight: 500;
-    }
 
     .version-link {
-      font-family: monospace;
+      font-family: var(--font-mono);
       background: #f4f6f8;
       padding: 2px 8px;
       border-radius: 4px;
@@ -1329,7 +1352,11 @@
     :root {
       --muni-blue: #0000dc;
       --text-black: #000000;
-      --font-heavy: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+      /* Fonts */
+      --font-body: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-print: "Times New Roman", Times, serif;
+      --font-mono: monospace;
 
       /* Unified Accessible Colors (WCAG AA compliant) */
       --color-success: #1a7a33;
@@ -1360,7 +1387,7 @@
       flex-direction: column;
       align-items: flex-end;
       /* Pravostranné zarovnání */
-      font-family: var(--font-heavy);
+      font-family: var(--font-body);
     }
 
     /* Hlavní titul na jednom řádku */
@@ -1859,12 +1886,12 @@
       margin: 40px 0 30px 0;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       overflow: hidden;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: var(--font-body);
     }
 
     .summary-header {
       padding: 15px 20px;
-      background-color: #f8f9fa;
+      background-color: #ffffff;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -2258,7 +2285,7 @@
         <div class="header-inner">
           <div class="header-left">
             Verze 1.0 beta | <a href="https://diagnostikaditete.cz/" target="_blank"
-              class="header-link feedback-link">diagnostikaditete.cz</a>
+              class="header-link">diagnostikaditete.cz</a>
           </div>
           <div class="header-right">
             <a href="manual.pdf" target="_blank" class="header-link">
@@ -2271,7 +2298,7 @@
                   <line x1="10" x2="8" y1="9" y2="9" />
                 </svg></span> Metodický manuál
             </a>
-            <a href="https://forms.gle/EpxAt2FqTxr5nCu1A" target="_blank" class="header-link feedback-link">
+            <a href="https://forms.gle/EpxAt2FqTxr5nCu1A" target="_blank" class="header-link">
               <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
@@ -2309,14 +2336,24 @@
         <ul>
           <li>Dotazník není krátký a k pohodlnějšímu vyplňování tedy doporučujeme použít počítač/laptop.</li>
           <li>Během vyplňování se budou na základě vašich odpovědí rozbalovat doplňující otázky.</li>
-          <li>Pro snadnější navigaci jsou nezodpovězené otázky označeny modrou tečkou.</li>
-          <li>Lišta nahoře bude ukazovat váš postup v sekcích dotazníku; rozbalením lišty uvidíte detail jednotlivých
+          <li>Horní lišta bude ukazovat váš postup v sekcích dotazníku; rozbalením lišty uvidíte detail jednotlivých
             sekcí.
           </li>
-          <li> Pokud některou otázku přeskočíte omylem, zobrazí se vám v rekapitulaci na konci dotazníku.</li>
-          <li> Pokud si přejete položku nezodpovídat, vyberte možnost <em>“Bez odpovědi”</em> nebo nechte pole prázdné.
+          <li> Pokud si přejete otázku nezodpovídat, vyberte možnost <em>“Bez odpovědi”</em> nebo nechte pole prázdné.
           </li>
+          <li> Pokud některou otázku přeskočíte, zobrazí se vám v rekapitulaci na konci dotazníku.</li>
         </ul>
+
+
+        <p>
+          <strong>Ukládání dotazníku</strong><br>
+          Pokud si přejete dotazník dokončit jindy, soubor se svými
+          odpověďmi si můžete stáhnout tlačítkem <strong>Uložit do souboru</strong>. Dosavadní průchod se ukládá v tomto
+          prohlížeči automaticky, případně také tlačítkem <strong>Průběžně uložit</strong>. Obě možnosti naleznete na
+          konci
+          dotazníku.
+        </p>
+
 
         <div class="manual-tooltip">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -2330,17 +2367,11 @@
             <strong>Ochrana dat:</strong>
             <span>Data, která budete zadávat, mohou být citlivé povahy. Tento dotazník nikdy neodesílá data mimo vaše
               zařízení.
-              Pro jistotu jsou vaše odpovědi automaticky ukládány pouze lokálně ve vašem prohlížeči (umožňuje obnovu v
-              případě zavření dotazníku apod.).</span>
+              Pro jistotu jsou vaše odpovědi automaticky ukládány pouze lokálně ve vašem prohlížeči. To umožňuje obnovu
+              dat v případě zavření dotazníku apod.</span>
           </div>
         </div>
 
-        <p> Pokud si přejete dotazník dokončit jindy, soubor se svými
-          odpověďmi si můžete stáhnout tlačítkem <strong>Uložit do souboru</strong>. Dosavadní průchod se ukládá v tomto
-          prohlížeči automaticky, případně také tlačítkem <strong>Průběžně uložit</strong>. Obě možnosti naleznete na
-          konci
-          dotazníku.
-        </p>
 
         <div class="manual-alert">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -2352,15 +2383,19 @@
           </svg>
           <div>
             <strong>Upozornění:</strong>
-            <span>Automatické ukládání nebude fungovat v anonymním režimu. Zavření anonymního okna automaticky uložené
-              údaje smaže.</span>
+            <span>Automatické ukládání nebude fungovat v anonymním režimu. Data se mohou ztratit také při smazání
+              historie prohlížeče. Ukládání do souboru je nejspolehlivější metodou.</span>
           </div>
 
         </div>
 
-        <p>Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru</strong>. Pokud existuje
+
+        <p>
+          <strong>Načítání dotazníku</strong><br>
+          Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru</strong>. Pokud existuje
           průběžně/automaticky
-          uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.</p>
+          uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.
+        </p>
 
 
         <div
@@ -4004,8 +4039,8 @@
             <strong>Upozornění k ochraně dat:</strong>
             <span>Data v uloženém souboru mohou být citlivé povahy.
               Některé nezabezpečené formy sdílení, například skrze e-mail, mohou nést rizika. Upřednostněte raději
-              předání osobně (USB disk), nebo skrze jiné zabezpečené cesty.</span><br><br>
-            <span> Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení/exportu
+              předání osobně (USB disk) nebo skrze jiné zabezpečené cesty.</span><br><br>
+            <span> Pokud jste vyplnili dotazník na veřejném zařízení, nezapomeňte po uložení nebo exportu
               <span class="alert-action-link" onclick="clearHistory()">vymazat dotazník a průběžně uložená data</span>.
             </span>
           </div>
