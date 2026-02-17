@@ -863,7 +863,7 @@
       gap: 16px !important;
       margin-top: 0 !important;
       margin-bottom: 22px !important;
-      padding: 0 !important;
+      padding: 0 0 0 6px !important;
       background: none !important;
       border: none !important;
       page-break-inside: avoid !important;
@@ -877,7 +877,7 @@
       gap: 6px !important;
       font-weight: normal !important;
       font-size: 12pt !important;
-      color: #000 !important;
+      color: #444 !important;
       padding: 0 !important;
       margin: 0 !important;
       background: none !important;
@@ -890,13 +890,13 @@
       width: 14px !important;
       height: 14px !important;
       margin: 0 !important;
-      accent-color: #000 !important;
+      accent-color: #444 !important;
     }
 
     .print-preview .select-group label span {
       display: inline-block !important;
       line-height: 1.2 !important;
-      color: #000 !important;
+      color: #444 !important;
       font-weight: normal !important;
     }
 
@@ -985,6 +985,7 @@
       @page {
         size: A4;
         margin: 20mm;
+        margin-bottom: 25mm;
       }
 
       html {
@@ -1191,7 +1192,7 @@
         gap: 16px !important;
         margin-top: 0 !important;
         margin-bottom: 22px !important;
-        padding: 0 !important;
+        padding: 0 0 0 6px !important;
         background: none !important;
         border: none !important;
         page-break-inside: avoid !important;
@@ -1203,7 +1204,7 @@
         gap: 6px !important;
         font-weight: normal !important;
         font-size: 12pt !important;
-        color: #000 !important;
+        color: #444 !important;
         padding: 0 !important;
         margin: 0 !important;
         background: none !important;
@@ -1216,13 +1217,13 @@
         width: 14px !important;
         height: 14px !important;
         margin: 0 !important;
-        accent-color: #000 !important;
+        accent-color: #444 !important;
       }
 
       .select-group label span {
         display: inline-block !important;
         line-height: 1.2 !important;
-        color: #000 !important;
+        color: #444 !important;
         font-weight: normal !important;
       }
 
@@ -1409,6 +1410,17 @@
       }
     }
 
+    /* Print/Preview only */
+    .preview-mode-active .print-export-date {
+      display: block !important;
+    }
+
+    @media print {
+      .print-export-date {
+        display: block !important;
+      }
+    }
+
     /* Headline styles */
 
     :root {
@@ -1549,6 +1561,17 @@
     /* Hide the plain header on screen, show only in print/preview */
     .print-only-header {
       display: none;
+    }
+
+    .print-export-date {
+      display: none;
+      font-family: var(--font-print);
+      font-size: 11pt;
+      color: #666;
+      margin-top: -15px;
+      margin-bottom: 25px;
+      font-style: normal;
+      text-align: center;
     }
 
 
@@ -1775,7 +1798,6 @@
       font-size: 13px;
       padding: 8px 12px;
       border-radius: 20px;
-      background-color: var(--muni-blue-light);
       transition: all 0.2s;
     }
 
@@ -2388,6 +2410,7 @@
       </header>
 
       <h1 class="print-only-header">Anamnestický dotazník</h1>
+      <div id="export-date" class="print-export-date"></div>
 
       <div class="instruction-block">
         <p>Je možné, že vás některý ze specialistů pečujících o vaše dítě požádal o poskytnutí anamnestických informací.
@@ -5001,13 +5024,7 @@
       if (loadBtn && loadBtn.disabled) { loadBtn.disabled = false; }
     }
 
-    async function saveAsJsonFile() {
-      const data = getFormData();
-      // Šifrování dat před uložením
-      const encryptedData = await Security.encrypt(data);
-      const jsonData = JSON.stringify(encryptedData, null, 2); // Pretty print JSON
-      const blob = new Blob([jsonData], { type: 'application/json' });
-
+    function generateFilenameBase(data) {
       const date = new Date();
       const timestamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
@@ -5025,7 +5042,17 @@
 
       // Sanitize filename (remove potentially unsafe characters, keep alphanumeric, dashes, underscores)
       childName = childName.replace(/[^a-zA-Z0-9_\-\u00C0-\u017F]/g, '');
-      const suggestedName = `dotaznik-${childName}-${timestamp}.json`;
+      return `dotaznik-${childName}-${timestamp}`;
+    }
+
+    async function saveAsJsonFile() {
+      const data = getFormData();
+      // Šifrování dat před uložením
+      const encryptedData = await Security.encrypt(data);
+      const jsonData = JSON.stringify(encryptedData, null, 2); // Pretty print JSON
+      const blob = new Blob([jsonData], { type: 'application/json' });
+
+      const suggestedName = `${generateFilenameBase(data)}.json`;
 
       // Use the modern File System Access API if available
       if (window.showSaveFilePicker) {
@@ -5273,6 +5300,21 @@
       });
     }
 
+    function updateExportDate() {
+      const el = document.getElementById('export-date');
+      if (el) {
+        const now = new Date();
+        const days = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+        const dayName = days[now.getDay()];
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        el.textContent = `Zpráva vytvořena: ${dayName} ${day}.${month}.${year}, ${hours}:${minutes}`;
+      }
+    }
+
 
     // --- Print with Unanswered Marks ---
 
@@ -5292,6 +5334,7 @@
       const inputs = form.querySelectorAll('input, textarea, select');
 
       if (isPreviewing) {
+        updateExportDate(); // Set current date
         generatePrintReplacements(); // Generování stínových divů pro tisk
         markUnansweredQuestions();
         window.scrollTo(0, 0); // Scroll to top
@@ -5398,13 +5441,77 @@
       });
     }
 
+    function updatePrintFooter(data) {
+      // 1. Construct Footer Text (Left side)
+      let childName = 'dite';
+      if (data.child_name && data.child_name.trim().length > 0) {
+        const parts = data.child_name.trim().split(/\s+/);
+        if (parts.length === 1) {
+          childName = parts[0];
+        } else if (parts.length > 1) {
+          const firstName = parts[0];
+          const lastInitial = parts[parts.length - 1].charAt(0);
+          childName = `${firstName} ${lastInitial}.`;
+        }
+      }
+
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      const footerText = `${childName}, ${day}.${month}.${year}`;
+
+      // 2. Inject Dynamic Style
+      let styleEl = document.getElementById('dynamic-print-style');
+      if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'dynamic-print-style';
+        document.head.appendChild(styleEl);
+      }
+
+      styleEl.innerHTML = `
+        @page {
+          size: A4;
+          margin: 20mm;
+          margin-bottom: 25mm;
+
+          @bottom-left {
+            content: "${footerText}";
+            font-family: "Times New Roman", Times, serif;
+            font-size: 9pt;
+            color: #888;
+          }
+
+          @bottom-right {
+            content: counter(page) " / " counter(pages);
+            font-family: "Times New Roman", Times, serif;
+            font-size: 9pt;
+            color: #888;
+          }
+        }
+      `;
+    }
+
     function printWithUnansweredMarks() {
       // This function is now used for the "Tisk PDF" button in preview
+      updateExportDate(); // Ensure date is current
       generatePrintReplacements(); // Pro jistotu přegenerovat aktuální texty
+
+      // Update document title for PDF filename
+      // Store original title in a property to allow restoring it later if needed (though we hardcode restore)
+      window.originalDocTitle = document.title;
+      const data = getFormData();
+      document.title = generateFilenameBase(data);
+
+      updatePrintFooter(data); // Update formatting before print
+
       window.print();
     }
 
     window.addEventListener('afterprint', () => {
+      // Restore title
+      document.title = "Anamnéza dítěte";
+
       // Only remove marks if we are NOT in preview mode.
       if (!document.documentElement.classList.contains('preview-mode-active')) {
         removeUnansweredMarks();
