@@ -13,15 +13,15 @@
   <style>
     body {
       font-family: var(--font-body);
-      background-color: #f4f6f8;
-      color: #333;
+      background-color: var(--bg-body);
+      color: var(--text-main);
       margin: 0;
       padding: 20px;
       padding-top: 20px;
     }
 
     h1 {
-      color: #0000dc;
+      color: var(--muni-blue);
       text-align: center;
       margin-bottom: 30px;
     }
@@ -29,24 +29,24 @@
     form {
       max-width: 900px;
       margin: 0 auto;
-      background-color: #fff;
+      background-color: var(--bg-base);
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     fieldset {
-      border: 1px solid #ccc;
+      border: 1px solid var(--border-main);
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 20px;
-      background-color: #fafafa;
+      background-color: var(--bg-fieldset);
       min-width: 0;
     }
 
     legend {
       font-weight: 700;
-      color: #0000dc;
+      color: var(--muni-blue);
       font-size: 17px;
       padding: 0 5px;
     }
@@ -63,7 +63,9 @@
     textarea {
       padding: 6px;
       border-radius: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--border-main);
+      background-color: var(--bg-input);
+      color: var(--text-input);
       font-size: 16px;
       width: 100%;
       margin-left: 0;
@@ -81,14 +83,14 @@
     input[type="date"] {
       -webkit-appearance: none;
       appearance: none;
-      background-color: #fff;
+      background-color: var(--bg-base);
     }
 
     /* Add this block for consistent focus styles */
     input:focus-visible,
     select:focus-visible,
     textarea:focus-visible {
-      border-color: #0000dc;
+      border-color: var(--muni-blue);
       /* Change border to your accent color */
       outline: none;
       /* Remove the default browser outline */
@@ -134,43 +136,43 @@
 
     /* Primary button style */
     .btn.primary {
-      background-color: #0000dc;
-      color: white;
-      border-color: #0000dc;
+      background-color: var(--muni-blue);
+      color: var(--text-on-primary);
+      border-color: var(--muni-blue);
       font-weight: bold;
     }
 
     @media (hover: hover) {
       .btn.primary:hover {
-        background-color: #0000aa;
-        border-color: #0000aa;
+        background-color: var(--muni-blue-hover);
+        border-color: var(--muni-blue-hover);
       }
     }
 
     /* Secondary button style */
     .btn.btn-secondary {
-      background-color: white;
-      color: #0000dc;
-      border: 1px solid #0000dc;
+      background-color: var(--bg-base);
+      color: var(--muni-blue);
+      border: 1px solid var(--muni-blue);
       font-weight: 500;
     }
 
     @media (hover: hover) {
       .btn.btn-secondary:hover:not(:disabled) {
-        background-color: #e9f1ff;
+        background-color: var(--muni-blue-light);
         /* Light blue from tip-block */
       }
     }
 
     .btn.btn-secondary:disabled {
       color: #999;
-      border-color: #ccc;
+      border-color: var(--border-main);
       cursor: not-allowed;
     }
 
     /* Danger button style */
     .btn.btn-danger {
-      background-color: white;
+      background-color: var(--bg-base);
       color: var(--color-error);
       border: 1px solid var(--color-error);
       font-weight: 500;
@@ -187,7 +189,7 @@
     .btn-delete-link {
       background: none;
       border: none;
-      color: #535353;
+      color: var(--text-secondary);
       text-decoration: underline;
       cursor: pointer;
       font-size: 12px;
@@ -223,8 +225,8 @@
 
     /* Styl pro dynamické pole (style-soft) */
     .style-soft {
-      background: #fff;
-      border: 1px solid #ccc;
+      background: var(--bg-base);
+      border: 1px solid var(--border-main);
       border-radius: 8px;
       margin-bottom: 20px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -236,12 +238,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--border-light);
     }
 
     .style-soft-header legend {
       font-weight: 700;
-      color: #0000dc;
+      color: var(--muni-blue);
       font-size: 16px;
       margin: 0 !important;
       border-bottom: none !important;
@@ -259,7 +261,7 @@
       background: none;
       border: 1px solid transparent;
       /* Rezerva pro rámeček při hoveru */
-      color: #666;
+      color: var(--text-muted);
       font-size: 14px;
       /* Menší písmo pro text */
       font-weight: 500;
@@ -278,9 +280,9 @@
       .btn-remove-3:hover {
         color: #c62828;
         /* Červená */
-        background-color: #fff5f5;
+        background-color: var(--bg-error-hover);
         /* Jemně červené pozadí */
-        border-color: #ffd6d6;
+        border-color: var(--border-error-hover);
       }
     }
 
@@ -343,10 +345,10 @@
       width: 100%;
       margin-top: 6px;
       margin-bottom: 22px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--border-main);
       border-radius: 8px;
       padding: 8px;
-      background: #fff;
+      background: var(--bg-base);
       align-items: center;
       justify-content: flex-start;
       box-sizing: border-box;
@@ -373,7 +375,7 @@
       height: 18px;
       margin: 0;
       /* remove margin-right */
-      accent-color: #0000dc;
+      accent-color: var(--muni-blue);
     }
 
     .select-group label span {
@@ -386,14 +388,14 @@
 
     @media (hover: hover) {
       html:not(.preview-mode-active) .select-group label:hover span {
-        background-color: #0000dc08;
+        background-color: var(--bg-select-hover);
       }
     }
 
     html:not(.preview-mode-active) .select-group input[type="radio"]:checked+span,
     html:not(.preview-mode-active) .select-group input[type="checkbox"]:checked+span {
-      background-color: #0000dc10;
-      color: #0000dc;
+      background-color: var(--bg-select-checked);
+      color: var(--muni-blue);
     }
 
     .select-group input[type="radio"]:focus-visible,
@@ -407,7 +409,7 @@
 
     /* 1. Default state: Grey text for "Bez odpovědi" */
     .select-group input[value="Bez odpovědi"]+span {
-      color: #6c757d;
+      color: var(--border-neutral);
       /* A neutral grey */
       transition: background-color 0.15s ease, color 0.15s ease;
       /* Smooth transition */
@@ -432,9 +434,9 @@
 
     /* Tip / note block */
     .tip-block {
-      background-color: #e9f1ff;
+      background-color: var(--muni-blue-light);
       /* light blue tone matching your accent */
-      border-bottom: 3px solid #B3C7FF;
+      border-bottom: 3px solid var(--muni-blue-border);
       border-radius: 8px;
       padding: 14px 18px;
       /* Keep padding consistent */
@@ -442,7 +444,7 @@
       font-size: 15px;
       font-style: italic;
       line-height: 1.6;
-      color: #222;
+      color: var(--text-dark);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       position: relative;
       /* Needed to position the arrow */
@@ -460,7 +462,7 @@
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-top: 10px solid #B3C7FF;
+      border-top: 10px solid var(--muni-blue-border);
       /* Arrow color matches the block */
     }
 
@@ -471,7 +473,7 @@
       margin-bottom: 30px;
       /* Removes bottom margin */
       border-bottom: 0;
-      border-top: 3px solid #B3C7FF;
+      border-top: 3px solid var(--muni-blue-border);
       /* Change border to top */
     }
 
@@ -483,7 +485,7 @@
       /* Position the arrow just above the block */
       border-top: none;
       /* Remove the downward-pointing arrow */
-      border-bottom: 10px solid #B3C7FF;
+      border-bottom: 10px solid var(--muni-blue-border);
       /* Create an upward-pointing arrow */
     }
 
@@ -491,7 +493,7 @@
       content: "Proč se ptáme?";
       font-weight: 400;
       font-style: normal;
-      color: #0000dc;
+      color: var(--muni-blue);
       display: block;
       margin-bottom: 6px;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230000dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
@@ -501,23 +503,27 @@
       padding-left: 20px;
     }
 
+    [data-theme="dark"] .tip-block::before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364b5f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
+    }
+
     /* Instruction block style */
     .instruction-block {
-      background-color: #f8f9fa;
-      border: 1px solid #ccc;
-      border-left: 3px solid #6c757d;
+      background-color: var(--bg-instruction);
+      border: 1px solid var(--border-main);
+      border-left: 3px solid var(--border-neutral);
       /* Neutral grey border */
       border-radius: 8px;
       padding: 14px 18px;
       margin: 20px 0 30px 0;
       font-size: 15px;
       line-height: 1.6;
-      color: #222;
+      color: var(--text-dark);
     }
 
     .instruction-label {
       font-weight: 500;
-      color: #333;
+      color: var(--text-main);
       display: block;
       margin-bottom: 2px;
     }
@@ -526,7 +532,7 @@
       content: "Instrukce k vyplňování";
       font-weight: bold;
       font-size: 16px;
-      color: #222;
+      color: var(--text-dark);
       display: block;
       margin-bottom: 8px;
     }
@@ -534,7 +540,7 @@
     .instruction-block.sharing-options::before {
       content: "Možnosti uložení a sdílení";
       font-weight: bold;
-      color: #222;
+      color: var(--text-dark);
     }
 
     .instruction-block ul {
@@ -552,7 +558,7 @@
       margin: 15px 0;
       font-size: 14px;
       line-height: 1.5;
-      color: #222;
+      color: var(--text-dark);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: flex-start;
@@ -577,7 +583,7 @@
       margin: 15px 0;
       font-size: 14px;
       line-height: 1.5;
-      color: #222;
+      color: var(--text-dark);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: flex-start;
@@ -595,9 +601,9 @@
       width: 100%;
       text-align: center;
       font-size: 10pt;
-      color: #666;
+      color: var(--text-muted);
       font-family: var(--font-print);
-      border-top: 1px solid #ccc;
+      border-top: 1px solid var(--border-main);
       padding: 10px 0;
       margin-top: 40px;
       position: relative;
@@ -651,7 +657,7 @@
     /* --- A4 Preview Layout --- */
     @media screen {
       .preview-mode-active {
-        background-color: #e0e0e0;
+        background-color: var(--bg-grey);
         /* Grey backdrop */
       }
 
@@ -684,7 +690,7 @@
 
     .print-preview.preview-mode-active body,
     .print-preview body {
-      background-color: #e0e0e0;
+      background-color: var(--bg-grey);
     }
 
 
@@ -727,7 +733,7 @@
     .print-preview h1 {
       font-weight: bold;
       font-size: 20pt;
-      color: #0000dc;
+      color: var(--muni-blue);
       margin-bottom: 20px;
       font-family: var(--font-print);
     }
@@ -747,7 +753,7 @@
       margin: 20px 0;
       /* Add some vertical margin for spacing from screen edges */
       padding: 20mm;
-      background-color: white;
+      background-color: var(--bg-base);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       border-radius: 0;
       box-sizing: border-box;
@@ -777,7 +783,7 @@
     }
 
     .print-preview legend {
-      color: #0000dc;
+      color: var(--muni-blue);
       font-size: 14pt;
       font-weight: normal;
       border-bottom: none;
@@ -1062,7 +1068,7 @@
       }
 
       body {
-        background-color: white;
+        background-color: var(--bg-base);
         padding: 0;
         margin: 0;
         font-size: 12pt;
@@ -1073,7 +1079,7 @@
       h1 {
         font-weight: bold;
         font-size: 20pt;
-        color: #0000dc;
+        color: var(--muni-blue);
         margin-bottom: 20px;
         font-family: var(--font-print);
       }
@@ -1104,7 +1110,7 @@
       }
 
       legend {
-        color: #0000dc;
+        color: var(--muni-blue);
         font-size: 14pt;
         font-weight: normal;
         border-bottom: none;
@@ -1325,12 +1331,12 @@
     /* --- Header bar --- */
     .survey-utility-header {
       width: 100%;
-      background-color: #ffffff;
-      border-bottom: 1px solid #e0e0e0;
+      background-color: var(--bg-base);
+      border-bottom: 1px solid var(--bg-grey);
       padding: 8px 0;
       font-size: 13px;
       font-family: var(--font-body);
-      color: #666;
+      color: var(--text-muted);
     }
 
     .header-inner {
@@ -1346,7 +1352,7 @@
     .header-link,
     .version-link {
       text-decoration: none;
-      color: #666;
+      color: var(--text-muted);
       transition: color 0.2s ease;
       display: inline-flex;
       align-items: center;
@@ -1354,7 +1360,7 @@
     }
 
     .header-left {
-      color: #0000dc;
+      color: var(--muni-blue);
       font-family: var(--font-body);
       font-size: 16px;
     }
@@ -1367,14 +1373,14 @@
 
     @media (hover: hover) {
       .header-link:hover {
-        color: #0000dc;
+        color: var(--muni-blue);
       }
     }
 
 
     .version-link {
       font-family: var(--font-mono);
-      background: #f4f6f8;
+      background: var(--bg-body);
       padding: 2px 8px;
       border-radius: 4px;
     }
@@ -1382,7 +1388,7 @@
     @media (hover: hover) {
       .version-link:hover {
         background: #0000dc10;
-        color: #0000dc;
+        color: var(--muni-blue);
       }
     }
 
@@ -1450,11 +1456,11 @@
       justify-content: center;
       border-radius: 4px;
       margin-left: 10px;
-      color: #666;
+      color: var(--text-muted);
     }
 
     .menu-toggle-btn:hover {
-      background-color: #f0f0f0;
+      background-color: var(--border-light);
     }
 
     .menu-toggle-dot {
@@ -1483,10 +1489,10 @@
         top: 100%;
         right: 0;
         width: 200px;
-        background-color: white;
+        background-color: var(--bg-base);
         flex-direction: column;
         gap: 0;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--bg-grey);
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         padding: 5px 0;
@@ -1500,8 +1506,8 @@
 
       .header-right-links .header-link {
         padding: 12px 20px;
-        border-bottom: 1px solid #f5f5f5;
-        color: #333;
+        border-bottom: 1px solid var(--border-light);
+        color: var(--text-main);
       }
 
       .header-right-links .header-link:last-child {
@@ -1509,16 +1515,41 @@
       }
 
       .header-right-links .header-link:hover {
-        background-color: #f9f9f9;
-        color: #0000dc;
+        background-color: var(--bg-hover-menu);
+        color: var(--muni-blue);
       }
     }
 
     /* Headline styles */
 
     :root {
+      /* Auto-extracted colors for Dark Mode */
+      --bg-body: #f4f6f8;
+      --bg-base: #fff;
+      --bg-fieldset: #fafafa;
+      --text-main: #333;
+      --text-dark: #222;
+      --text-muted: #666;
+      --text-secondary: #535353;
+      --border-main: #ccc;
+      --border-light: #f0f0f0;
+      --border-neutral: #6c757d;
+      --muni-blue-hover: #0000aa;
+      --muni-blue-border: #B3C7FF;
+      --bg-instruction: #f8f9fa;
+      --bg-error-hover: #fff5f5;
+      --border-error-hover: #ffd6d6;
+      --bg-grey: #e0e0e0;
       --muni-blue: #0000dc;
+      --logo-color: #0000dc;
       --text-black: #000000;
+      --bg-input: #ffffff;
+      --text-input: #333333;
+      --bg-select-hover: #0000dc08;
+      --bg-select-checked: #0000dc10;
+      --text-on-primary: white;
+      --bg-hover-menu: #f9f9f9;
+      --bg-hover-summary: #f4f8ff;
 
       /* Fonts */
       --font-body: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1527,6 +1558,7 @@
 
       /* Unified Accessible Colors (WCAG AA compliant) */
       --color-success: #1a7a33;
+      --bg-success: #e8f5e9;
       --color-error: #c62828;
       --color-warning: #BF360C;
       /* Pro nadpis a ikony */
@@ -1544,6 +1576,123 @@
       --bg-glass: rgba(255, 255, 255, 0.95);
       --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
       --transition-speed: 0.4s;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #121212;
+      --bg-base: #1e1e1e;
+      --bg-fieldset: #2a2a2a;
+      --text-main: #e0e0e0;
+      --text-dark: #f5f5f5;
+      --text-muted: #aaaaaa;
+      --text-secondary: #cccccc;
+      --border-main: #444444;
+      --border-light: #333333;
+      --border-neutral: #555555;
+      --muni-blue: #64b5f6;
+      --muni-blue-hover: #42a5f5;
+      --muni-blue-light: #1a237e;
+      --muni-blue-border: #283593;
+      --bg-instruction: #222222;
+      --bg-error-hover: #4a0000;
+      --border-error-hover: #7f0000;
+      --bg-grey: #2c2c2c;
+      --bg-glass: rgba(30, 30, 30, 0.95);
+      --text-black: #ffffff;
+      --logo-color: #ffffff;
+      --color-warning: #ffb300;
+      --color-warning-text: #fff3e0;
+      --color-warning-bg: #4e342e;
+      --color-warning-accent: #ff8f00;
+      --color-warning-border: #ffb300;
+      --bg-input: #1E1E1E;
+      --text-input: #ffffff;
+      --color-success: #81c784;
+      --bg-success: #1e3522;
+      --bg-select-hover: rgba(100, 181, 246, 0.1);
+      --bg-select-checked: rgba(100, 181, 246, 0.2);
+      --text-on-primary: #121212;
+      --bg-hover-menu: #2c2c2c;
+      --bg-hover-summary: rgba(100, 181, 246, 0.1);
+    }
+
+    @media print {
+
+      :root,
+      [data-theme="dark"] {
+        --bg-body: #f4f6f8;
+        --bg-base: #fff;
+        --bg-fieldset: #fafafa;
+        --text-main: #333;
+        --text-dark: #222;
+        --text-muted: #666;
+        --text-secondary: #535353;
+        --border-main: #ccc;
+        --border-light: #f0f0f0;
+        --border-neutral: #6c757d;
+        --muni-blue: #0000dc;
+        --muni-blue-hover: #0000aa;
+        --muni-blue-light: #e9f1ff;
+        --muni-blue-border: #B3C7FF;
+        --bg-instruction: #f8f9fa;
+        --bg-error-hover: #fff5f5;
+        --border-error-hover: #ffd6d6;
+        --bg-grey: #e0e0e0;
+        --bg-glass: rgba(255, 255, 255, 0.95);
+        --text-black: #000000;
+        --logo-color: #0000dc;
+        --color-warning: #BF360C;
+        --color-warning-text: #4E342E;
+        --color-warning-bg: #FFF9F0;
+        --color-warning-accent: #E65100;
+        --color-warning-border: #FFCC80;
+        --bg-input: #ffffff;
+        --text-input: #333333;
+        --color-success: #1a7a33;
+        --bg-success: #e8f5e9;
+        --bg-select-hover: #0000dc08;
+        --bg-select-checked: #0000dc10;
+        --text-on-primary: white;
+        --bg-hover-menu: #f9f9f9;
+        --bg-hover-summary: #f4f8ff;
+      }
+    }
+
+    /* Force preview mode interior to remain light, while allowing the root (background) to stay dark */
+    [data-theme="dark"].preview-mode-active body {
+      --bg-base: #fff;
+      --bg-fieldset: #fafafa;
+      --text-main: #333;
+      --text-dark: #222;
+      --text-muted: #666;
+      --text-secondary: #535353;
+      --border-main: #ccc;
+      --border-light: #f0f0f0;
+      --border-neutral: #6c757d;
+      --muni-blue: #0000dc;
+      --muni-blue-hover: #0000aa;
+      --muni-blue-light: #e9f1ff;
+      --muni-blue-border: #B3C7FF;
+      --bg-instruction: #f8f9fa;
+      --bg-error-hover: #fff5f5;
+      --border-error-hover: #ffd6d6;
+      --bg-glass: rgba(255, 255, 255, 0.95);
+      --text-black: #000000;
+      --logo-color: #0000dc;
+      --color-warning: #BF360C;
+      --color-warning-text: #4E342E;
+      --color-warning-bg: #FFF9F0;
+      --color-warning-accent: #E65100;
+      --color-warning-border: #FFCC80;
+      --bg-input: #ffffff;
+      --text-input: #333333;
+      --color-success: #1a7a33;
+      --bg-success: #e8f5e9;
+      --bg-select-hover: #0000dc08;
+      --bg-select-checked: #0000dc10;
+      --text-on-primary: white;
+      --bg-hover-menu: #f9f9f9;
+      --bg-hover-summary: #f4f8ff;
     }
 
     .header-wide {
@@ -1660,7 +1809,7 @@
       display: none;
       font-family: var(--font-print);
       font-size: 11pt;
-      color: #666;
+      color: var(--text-muted);
       margin-top: -15px;
       margin-bottom: 25px;
       font-style: normal;
@@ -1671,7 +1820,7 @@
     /* --- Error messages --- */
     /* Kontejner pro bublinu, který zajišťuje plynulé vysunutí */
     .error-bubble {
-      background-color: #fff5f5;
+      background-color: var(--bg-error-hover);
       /* Velmi jemná červená */
       border-left: 4px solid var(--color-error);
       border-radius: 4px;
@@ -1787,7 +1936,7 @@
 
     @media (hover: hover) {
       .nav-header:hover {
-        background-color: #e9f1ff;
+        background-color: var(--muni-blue-light);
       }
     }
 
@@ -1802,7 +1951,7 @@
     .nav-label {
       font-size: 12px;
       font-weight: 600;
-      color: #666;
+      color: var(--text-muted);
       margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
@@ -1832,7 +1981,7 @@
 
     .segment {
       flex: 1;
-      background-color: #e0e0e0;
+      background-color: var(--bg-grey);
       border-radius: 2px;
       overflow: hidden;
       position: relative;
@@ -1844,7 +1993,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #e0e0e0;
+      background-color: var(--bg-grey);
       border-radius: 3px;
       overflow: hidden;
       opacity: 0;
@@ -1927,8 +2076,8 @@
       display: flex;
       flex-direction: column;
       padding: 12px 15px;
-      background-color: #fff;
-      border: 1px solid #ccc;
+      background-color: var(--bg-base);
+      border: 1px solid var(--border-main);
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
@@ -1951,7 +2100,6 @@
 
     .nav-item.active {
       border-color: var(--muni-blue);
-      background-color: #fbfcff;
     }
 
     .nav-item.active::before {
@@ -1985,13 +2133,13 @@
     }
 
     .status-done {
-      background: #e8f5e9;
+      background: var(--bg-success);
       color: var(--color-success);
     }
 
     .status-todo {
-      background: #f0f0f0;
-      color: #555;
+      background: var(--border-light);
+      color: var(--text-muted);
     }
 
     .status-active {
@@ -2004,13 +2152,13 @@
       flex: 1;
       font-size: 14px;
       font-weight: 500;
-      color: #444;
+      color: var(--text-main);
     }
 
     .nav-item-meta {
       font-size: 11px;
-      color: #888;
-      background: #f4f4f4;
+      color: var(--text-muted);
+      background: var(--bg-fieldset);
       padding: 2px 8px;
       border-radius: 10px;
     }
@@ -2024,7 +2172,7 @@
     .nav-item-progress-track {
       height: 4px;
       width: 100%;
-      background-color: #f0f0f0;
+      background-color: var(--border-light);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -2055,9 +2203,9 @@
 
     /* --- SOUHRNNÝ PANEL (SUMMARY) --- */
     .summary-container {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-left: 3px solid #0000dc;
+      background-color: var(--bg-base);
+      border: 1px solid var(--border-main);
+      border-left: 3px solid var(--muni-blue);
       /* MUNI Modrá */
       border-radius: 8px;
       margin: 40px 0 30px 0;
@@ -2068,7 +2216,7 @@
 
     .summary-header {
       padding: 15px 20px;
-      background-color: #ffffff;
+      background-color: var(--bg-base);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -2081,7 +2229,7 @@
 
     @media (hover: hover) {
       .summary-header:hover {
-        background-color: #e9f1ff;
+        background-color: var(--muni-blue-light);
       }
     }
 
@@ -2106,7 +2254,7 @@
     .stat-label {
       font-size: 11px;
       text-transform: uppercase;
-      color: #666;
+      color: var(--text-muted);
       letter-spacing: 0.5px;
       font-weight: 600;
       white-space: nowrap;
@@ -2131,7 +2279,7 @@
 
     .toggle-icon {
       font-size: 13px;
-      color: #0000dc;
+      color: var(--muni-blue);
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -2153,7 +2301,7 @@
       overflow: hidden;
       /* Zrušen scrollbar pro plynulost */
       transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      background-color: #fff;
+      background-color: var(--bg-base);
       opacity: 0.5;
     }
 
@@ -2173,7 +2321,7 @@
 
     .summary-list-item {
       padding: 12px 20px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--border-light);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -2185,7 +2333,7 @@
 
     @media (hover: hover) {
       .summary-list-item:hover {
-        background-color: #f4f8ff;
+        background-color: var(--bg-hover-summary);
       }
     }
 
@@ -2207,7 +2355,7 @@
     .item-question {
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: var(--text-main);
     }
 
     .item-status {
@@ -2355,7 +2503,7 @@
 
     /* VARIANTA 3: ČERVENÁ (Kritické smazání) */
     #custom-confirm.type-delete {
-      background-color: #ffffff;
+      background-color: var(--bg-base);
       /* Bílé pozadí dle přání */
       border-left: 4px solid var(--color-error);
       /* Červený pruh */
@@ -2368,7 +2516,7 @@
 
     /* Varianta ORANŽOVÁ (Smazání / Varování) */
     #custom-confirm.type-warning {
-      background-color: #ffffff;
+      background-color: var(--bg-base);
       border-left: 4px solid var(--color-warning-accent);
     }
 
@@ -2379,13 +2527,13 @@
     /* Varianta MODRÁ (Uložení / Info) */
     #custom-confirm.type-success,
     #custom-confirm.type-info {
-      background-color: #ffffff;
-      border-left: 4px solid #0000dc;
+      background-color: var(--bg-base);
+      border-left: 4px solid var(--muni-blue);
     }
 
     #custom-confirm.type-success h3,
     #custom-confirm.type-info h3 {
-      color: #0000dc;
+      color: var(--muni-blue);
     }
 
     .dialog-inner {
@@ -2399,7 +2547,7 @@
     }
 
     .dialog-inner p {
-      color: #333;
+      color: var(--text-main);
       line-height: 1.6;
       margin-bottom: 30px;
       font-size: 15px;
@@ -2463,16 +2611,16 @@
           <div class="header-left">
             <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link">
               <svg width="193" height="68" viewBox="0 0 193 68" style="height: 68px; width: auto;">
-                <path fill="#0000dc"
+                <path fill="var(--logo-color)"
                   d="M-0.06,3l0,26.6l4.14,0l0,-26.6zm4.29,0l2.59,26.6l1.4,0l-2.58,-26.6zm6.73,0l-2.58,26.6l1.4,0l2.59,-26.6zm1.56,0l0,26.6l4.18,0l0,-26.6zm15.69,0l0,20.48c0,3.57,3.23,6.35,6.69,6.35c3.46,0,6.69,-2.78,6.69,-6.35l0,-20.48l-4.18,0l0,20.33c0,1.44,-1.29,2.47,-2.51,2.47c-1.22,0,-2.51,-1.03,-2.51,-2.47l0,-20.33zm26.26,0l0,26.6l4.18,0l0,-26.6zm4.33,0l3.95,26.6l1.45,0l-3.95,-26.6zm5.55,0l0,26.6l4.18,0l0,-26.6zm18.05,25.12l0,1.48l11.36,0l0,-1.48l-3.61,0l0,-23.64l3.61,0l0,-1.48l-11.36,0l0,1.48l3.57,0l0,23.64z">
                 </path>
-                <path fill="#0000dc"
+                <path fill="var(--logo-color)"
                   d="M2.68,68.1l2.05,0l0,-11.74l10.14,0l0,-1.9l-10.14,0l0,-11.06l10.6,0l0,-1.9l-12.65,0zm32.22,0.23c3.65,0,6.57,-2.59,6.57,-6.35l0,-1.63c0,-4.33,-3.64,-5.82,-6.15,-6.39c-2.32,-0.53,-4.94,-1.4,-4.94,-4.52l0,-1.78c0,-2.47,2.13,-4.41,4.52,-4.41c2.36,0,4.52,1.94,4.52,4.41l0,0.95l2.05,0l0,-0.99c0,-3.65,-2.92,-6.35,-6.57,-6.35c-3.65,0,-6.57,2.7,-6.57,6.35l0,1.82c0,4.45,3.76,5.85,6.08,6.39c2.43,0.53,5.01,1.4,5.01,4.56l0,1.55c0,2.47,-2.13,4.41,-4.48,4.41c-2.4,0,-4.56,-1.94,-4.56,-4.41l0,-0.87l-2.05,0l0,0.91c0,3.76,2.92,6.35,6.57,6.35zm26.6,0c3.65,0,6.57,-2.59,6.57,-6.35l0,-1.63c0,-4.33,-3.64,-5.82,-6.15,-6.39c-2.32,-0.53,-4.94,-1.4,-4.94,-4.52l0,-1.78c0,-2.47,2.13,-4.41,4.52,-4.41c2.36,0,4.52,1.94,4.52,4.41l0,0.95l2.05,0l0,-0.99c0,-3.65,-2.92,-6.35,-6.57,-6.35c-3.65,0,-6.57,2.7,-6.57,6.35l0,1.82c0,4.45,3.76,5.85,6.08,6.39c2.43,0.53,5.01,1.4,5.01,4.56l0,1.55c0,2.47,-2.13,4.41,-4.48,4.41c-2.4,0,-4.56,-1.94,-4.56,-4.41l0,-0.87l-2.05,0l0,0.91c0,3.76,2.92,6.35,6.57,6.35z">
                 </path>
-                <path fill="#0000dc"
+                <path fill="var(--logo-color)"
                   d="M111.23,3.01l0,10.68l3.55,0c3.63,0,5.67,-1.92,5.67,-5.34c0,-3.42,-2.04,-5.34,-5.67,-5.34zm2.19,1.89l1.33,0c2.3,0,3.42,1.14,3.42,3.45c0,2.31,-1.12,3.45,-3.42,3.45l-1.33,0zm10.71,-0.09l0,-1.8l-2.1,0l0,1.8zm0,8.88l0,-7.62l-2.1,0l0,7.62zm5.03,-7.86c-2.18,0,-3.23,1.17,-3.3,2.62l2.04,0c0.03,-0.72,0.48,-1.15,1.26,-1.15c0.73,0,1.24,0.39,1.24,1.35l0,0.27c-0.48,0.03,-1.34,0.12,-1.9,0.21c-2.21,0.34,-2.96,1.18,-2.96,2.43c0,1.32,0.98,2.31,2.6,2.31c1.05,0,1.9,-0.39,2.47,-1.2l0.03,0c0,0.37,0.03,0.7,0.11,1.02l1.88,0c-0.13,-0.51,-0.2,-1.13,-0.2,-2.09l0,-2.76c0,-1.99,-1.12,-3.01,-3.27,-3.01zm1.24,4.65c0,0.69,-0.07,1.09,-0.43,1.45c-0.31,0.3,-0.77,0.44,-1.2,0.44c-0.74,0,-1.13,-0.39,-1.13,-0.96c0,-0.62,0.36,-0.9,1.23,-1.05c0.45,-0.08,1.08,-0.14,1.53,-0.17zm6.63,-4.62c-1.92,0,-3.15,1.5,-3.15,3.87c0,2.37,1.22,3.87,3.12,3.87c0.92,0,1.56,-0.35,2.13,-1.14l0.03,0l0,0.67c0,1.49,-0.58,1.97,-1.53,1.97c-0.79,0,-1.27,-0.35,-1.32,-0.93l-2.1,0c0.12,1.5,1.28,2.43,3.38,2.43c2.19,0,3.61,-1.08,3.61,-3.39l0,-7.14l-1.98,0l0,1.02l-0.03,0c-0.58,-0.87,-1.23,-1.23,-2.16,-1.23zm0.57,1.72c0.99,0,1.62,0.86,1.62,2.15c0,1.29,-0.63,2.14,-1.62,2.14c-0.93,0,-1.53,-0.82,-1.53,-2.14c0,-1.32,0.6,-2.15,1.53,-2.15zm9.87,-1.69c-0.97,0,-1.74,0.46,-2.23,1.14l-0.03,0l0,-0.96l-1.97,0l0,7.62l2.1,0l0,-4.08c0,-1.38,0.63,-2.07,1.5,-2.07c0.83,0,1.34,0.52,1.34,1.68l0,4.47l2.1,0l0,-4.68c0,-2.07,-1.1,-3.12,-2.81,-3.12zm8.18,-0.06c-2.39,0,-3.9,1.57,-3.9,4.05c0,2.47,1.51,4.05,3.9,4.05c2.38,0,3.9,-1.58,3.9,-4.05c0,-2.48,-1.52,-4.05,-3.9,-4.05zm0,1.62c1.03,0,1.69,0.94,1.69,2.43c0,1.48,-0.66,2.43,-1.69,2.43c-1.04,0,-1.7,-0.95,-1.7,-2.43c0,-1.49,0.66,-2.43,1.7,-2.43zm8.34,-1.62c-1.89,0,-3.15,0.97,-3.15,2.34c0,1.77,1.36,2.07,2.64,2.4c1.18,0.31,1.75,0.45,1.75,1.11c0,0.45,-0.37,0.73,-1.11,0.73c-0.87,0,-1.33,-0.43,-1.33,-1.2l-2.13,0c0,1.85,1.3,2.72,3.42,2.72c2.07,0,3.36,-0.96,3.36,-2.39c0,-1.86,-1.5,-2.2,-2.87,-2.56c-1.15,-0.3,-1.63,-0.44,-1.63,-0.98c0,-0.43,0.36,-0.7,1.03,-0.7c0.75,0,1.2,0.33,1.2,1.11l2.01,0c0,-1.7,-1.2,-2.58,-3.19,-2.58zm8.44,6.28c-0.72,0,-0.99,-0.33,-0.99,-1.17l0,-3.31l1.46,0l0,-1.56l-1.46,0l0,-1.98l-2.1,0l0,1.98l-1.23,0l0,1.56l1.23,0l0,3.69c0,1.77,0.77,2.47,2.52,2.47c0.36,0,0.83,-0.06,1.11,-0.15l0,-1.6c-0.13,0.04,-0.34,0.07,-0.54,0.07zm4.04,-7.3l0,-1.8l-2.1,0l0,1.8zm0,8.88l0,-7.62l-2.1,0l0,7.62zm9.31,0l-3.21,-4.11l2.89,-3.51l-2.37,0l-2.46,3.07l-0.03,0l0,-6.13l-2.1,0l0,10.68l2.1,0l0,-3.57l0.03,0l2.55,3.57zm3.66,-7.86c-2.17,0,-3.22,1.17,-3.3,2.62l2.04,0c0.03,-0.72,0.48,-1.15,1.26,-1.15c0.74,0,1.25,0.39,1.25,1.35l0,0.27c-0.48,0.03,-1.34,0.12,-1.91,0.21c-2.21,0.34,-2.96,1.18,-2.96,2.43c0,1.32,0.98,2.31,2.6,2.31c1.05,0,1.9,-0.39,2.48,-1.2l0.03,0c0,0.37,0.03,0.7,0.1,1.02l1.89,0c-0.14,-0.51,-0.21,-1.13,-0.21,-2.09l0,-2.76c0,-1.99,-1.11,-3.01,-3.27,-3.01zm1.25,4.65c0,0.69,-0.08,1.09,-0.44,1.45c-0.3,0.3,-0.76,0.44,-1.2,0.44c-0.74,0,-1.12,-0.39,-1.12,-0.96c0,-0.62,0.35,-0.9,1.23,-1.05c0.44,-0.08,1.08,-0.14,1.53,-0.17z">
                 </path>
-                <path fill="#0000dc"
+                <path fill="var(--logo-color)"
                   d="M117.95,31.69l0,-10.68l-2.1,0l0,3.97l-0.03,0c-0.46,-0.72,-1.29,-1.1,-2.16,-1.1c-1.91,0,-3.13,1.57,-3.13,4c0,2.43,1.24,4,3.16,4c0.89,0,1.73,-0.42,2.19,-1.2l0.03,0l0,1.01zm-3.59,-6.21c0.95,0,1.59,0.88,1.59,2.4c0,1.51,-0.64,2.4,-1.59,2.4c-1,0,-1.64,-0.95,-1.64,-2.4c0,-1.46,0.64,-2.4,1.64,-2.4zm7.05,-2.28l2.11,-2.19l-2.6,0l-1.15,2.19zm0.68,8.49l0,-7.62l-2.1,0l0,7.62zm5.46,-1.58c-0.72,0,-0.99,-0.33,-0.99,-1.17l0,-3.31l1.45,0l0,-1.56l-1.45,0l0,-1.98l-2.1,0l0,1.98l-1.23,0l0,1.56l1.23,0l0,3.69c0,1.77,0.76,2.47,2.52,2.47c0.36,0,0.82,-0.06,1.11,-0.15l0,-1.6c-0.14,0.04,-0.34,0.07,-0.54,0.07zm3.87,-6.91l2.24,0l1.71,-2.19l-1.93,0l-0.9,1.14l-0.91,-1.14l-1.92,0zm1.15,7.24c-0.9,0,-1.66,-0.55,-1.72,-2.13l5.47,0c0,-0.84,-0.07,-1.42,-0.23,-1.95c-0.49,-1.54,-1.78,-2.53,-3.53,-2.53c-2.39,0,-3.78,1.74,-3.78,3.99c0,2.43,1.39,4.11,3.79,4.11c2.03,0,3.35,-1.16,3.65,-2.55l-2.15,0c-0.1,0.61,-0.66,1.06,-1.5,1.06zm-0.01,-5.13c0.84,0,1.53,0.53,1.66,1.68l-3.33,0c0.17,-1.15,0.81,-1.68,1.67,-1.68zm8.67,4.8c-0.72,0,-0.99,-0.33,-0.99,-1.17l0,-3.31l1.45,0l0,-1.56l-1.45,0l0,-1.98l-2.1,0l0,1.98l-1.23,0l0,1.56l1.23,0l0,3.69c0,1.77,0.77,2.47,2.52,2.47c0.36,0,0.82,-0.06,1.11,-0.15l0,-1.6c-0.14,0.04,-0.35,0.07,-0.54,0.07zm5.02,0.33c-0.9,0,-1.66,-0.55,-1.72,-2.13l5.47,0c0,-0.84,-0.07,-1.42,-0.24,-1.95c-0.48,-1.54,-1.77,-2.53,-3.52,-2.53c-2.39,0,-3.78,1.74,-3.78,3.99c0,2.43,1.39,4.11,3.79,4.11c2.03,0,3.35,-1.16,3.65,-2.55l-2.15,0c-0.1,0.61,-0.66,1.06,-1.5,1.06zm-0.01,-5.13c0.84,0,1.53,0.53,1.66,1.68l-3.33,0c0.17,-1.15,0.81,-1.68,1.67,-1.68z">
                 </path>
                 <desc>Diagnostika dítěte</desc>
@@ -2481,6 +2629,17 @@
           </div>
           <div class="header-right">
             <div class="header-right-links" id="header-right-links">
+              <a href="#" class="header-link" id="theme-toggle" onclick="toggleTheme(event)">
+                <span class="icon" id="theme-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-moon-icon lucide-moon">
+                    <path
+                      d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+                  </svg>
+                </span>
+                <span id="theme-text">Tmavý režim</span>
+              </a>
               <a href="manual.pdf" target="_blank" class="header-link">
                 <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2540,7 +2699,7 @@
           <li>Horní lišta bude ukazovat váš postup v sekcích dotazníku; rozbalením lišty uvidíte detail jednotlivých
             sekcí.
           </li>
-          <li> Pokud si přejete otázku nezodpovídat, vyberte možnost <em>“Bez odpovědi”</em> nebo nechte pole prázdné.
+          <li> Pokud si přejete otázku nezodpovídat, vyberte možnost <em>Bez odpovědi</em> nebo nechte pole prázdné.
           </li>
           <li> Pokud některou otázku přeskočíte, zobrazí se vám v rekapitulaci na konci dotazníku.</li>
         </ul>
@@ -2549,8 +2708,10 @@
         <p>
           <strong>Ukládání dotazníku</strong><br>
           Pokud si přejete dotazník dokončit jindy, soubor se svými
-          odpověďmi si můžete stáhnout tlačítkem <strong>Uložit do souboru</strong>. Dosavadní průchod se ukládá v tomto
-          prohlížeči automaticky, případně také tlačítkem <strong>Průběžně uložit</strong>. Obě možnosti naleznete na
+          odpověďmi si můžete stáhnout tlačítkem <em>Uložit do souboru</em>. Dosavadní průchod se
+          ukládá v tomto
+          prohlížeči automaticky, případně také tlačítkem <em>Průběžně uložit</em>. Obě možnosti
+          naleznete na
           konci
           dotazníku.
         </p>
@@ -2559,7 +2720,7 @@
         <div class="manual-tooltip">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            style="flex-shrink: 0; color: #0000dc;">
+            style="flex-shrink: 0; color: var(--muni-blue);">
             <path
               d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
             <path d="m9 12 2 2 4-4" />
@@ -2593,9 +2754,9 @@
 
         <p>
           <strong>Načítání dotazníku</strong><br>
-          Vámi uložený soubor s odpověďmi načtete tlačítkem <strong>Načíst ze souboru</strong>. Pokud existuje
+          Vámi uložený soubor s odpověďmi načtete tlačítkem <em>Načíst ze souboru</em>. Pokud existuje
           průběžně/automaticky
-          uložený průchod, obnovíte jej kliknutím na tlačítko <strong>Načíst poslední průchod</strong>.
+          uložený průchod, obnovíte jej kliknutím na tlačítko <em>Načíst poslední průchod</em>.
         </p>
 
 
@@ -5253,20 +5414,24 @@
     }
 
     // Load saved data
-    async function loadForm() {
+    async function loadForm(isAutoLoad = false) {
       const saved = localStorage.getItem(formStorageKey);
       if (!saved) {
-        await showCustomDialog(
-          "Data nenalezena",
-          "V paměti tohoto prohlížeče nebyl nalezen žádný rozpracovaný dotazník. Ujistěte se, že používáte stejný prohlížeč, jako posledně",
-          "Zavřít",
-          "warning"
-        );
+        if (!isAutoLoad) {
+          await showCustomDialog(
+            "Data nenalezena",
+            "V paměti tohoto prohlížeče nebyl nalezen žádný rozpracovaný dotazník. Ujistěte se, že používáte stejný prohlížeč, jako posledně",
+            "Zavřít",
+            "warning"
+          );
+        }
         return;
       }
       const data = JSON.parse(saved);
       loadData(data);
-      await showCustomDialog("Obnoveno", "Data byla úspěšně načtena z prohlížeče.", "OK", "success");
+      if (!isAutoLoad) {
+        await showCustomDialog("Obnoveno", "Data byla úspěšně načtena z prohlížeče.", "OK", "success");
+      }
     }
 
 
@@ -5818,6 +5983,14 @@
         }
       });
 
+      // Auto-load data if the page is being reloaded
+      const isReload = (window.performance && window.performance.navigation && window.performance.navigation.type === 1) ||
+        (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType("navigation").length > 0 && window.performance.getEntriesByType("navigation")[0].type === "reload");
+
+      if (isReload && localStorage.getItem(formStorageKey)) {
+        loadForm(true);
+      }
+
     });
 
 
@@ -6046,11 +6219,32 @@
     });
 
     // Spuštění po načtení
-    document.addEventListener('DOMContentLoaded', updateQuestionnaireSummary);
+    document.addEventListener('DOMContentLoaded', () => {
+      updateQuestionnaireSummary();
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        toggleTheme(null, 'dark');
+      }
+    });
 
+    function toggleTheme(e, forceTheme) {
+      if (e) e.preventDefault();
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const newTheme = forceTheme ? forceTheme : (currentTheme === "dark" ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem('theme', newTheme);
 
+      const themeIcon = document.getElementById("theme-icon");
+      const themeText = document.getElementById("theme-text");
 
-
+      if (newTheme === "dark") {
+        themeText.textContent = "Světlý režim";
+        themeIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+      } else {
+        themeText.textContent = "Tmavý režim";
+        themeIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>`;
+      }
+    }
   </script>
 
 
