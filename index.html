@@ -1409,7 +1409,7 @@
     }
 
     /* Mobilní úprava */
-    @media (max-width: 600px) {
+    @media (max-width: 850px) {
       .header-inner {
         /* Zachovat řádek pro úsporu místa díky menu v hlavičce */
         flex-direction: row;
@@ -1476,7 +1476,7 @@
       align-items: center;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 850px) {
       .menu-toggle-btn {
         display: flex;
         /* Show on mobile */
@@ -1776,27 +1776,51 @@
       }
 
       .accent-line {
-        max-width: 300px;
+        max-width: 100%;
       }
     }
 
     @media (max-width: 600px) {
       .header-wide {
-        align-items: center;
-        text-align: center;
+        padding: 0 20px;
+        margin: 40px auto;
       }
 
       .title-single-line {
-        white-space: normal;
-        font-size: 20pt;
+        font-size: clamp(16pt, 6.5vw, 24pt);
+        white-space: nowrap;
+      }
+
+      .subtitle-wide {
+        font-size: clamp(8pt, 3vw, 11pt);
+        margin-top: 5px;
+        letter-spacing: 1px;
       }
 
       .accent-row {
-        justify-content: center;
+        margin-top: 15px;
       }
 
       .accent-line {
-        display: none;
+        max-width: 100%;
+        height: 2px;
+        margin-right: 15px;
+      }
+
+      .dots-set {
+        gap: 10px;
+      }
+
+      .dot-full {
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+      }
+
+      .dot-outline {
+        width: 15px;
+        height: 15px;
+        border-width: 2px;
       }
     }
 
@@ -2609,7 +2633,7 @@
       <div class="survey-utility-header">
         <div class="header-inner">
           <div class="header-left">
-            <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link">
+            <a href="https://diagnostikaditete.cz/" target="_blank" class="header-link" aria-label="Diagnostika dítěte">
               <svg width="193" height="68" viewBox="0 0 193 68" style="height: 68px; width: auto;">
                 <path fill="var(--logo-color)"
                   d="M-0.06,3l0,26.6l4.14,0l0,-26.6zm4.29,0l2.59,26.6l1.4,0l-2.58,-26.6zm6.73,0l-2.58,26.6l1.4,0l2.59,-26.6zm1.56,0l0,26.6l4.18,0l0,-26.6zm15.69,0l0,20.48c0,3.57,3.23,6.35,6.69,6.35c3.46,0,6.69,-2.78,6.69,-6.35l0,-20.48l-4.18,0l0,20.33c0,1.44,-1.29,2.47,-2.51,2.47c-1.22,0,-2.51,-1.03,-2.51,-2.47l0,-20.33zm26.26,0l0,26.6l4.18,0l0,-26.6zm4.33,0l3.95,26.6l1.45,0l-3.95,-26.6zm5.55,0l0,26.6l4.18,0l0,-26.6zm18.05,25.12l0,1.48l11.36,0l0,-1.48l-3.61,0l0,-23.64l3.61,0l0,-1.48l-11.36,0l0,1.48l3.57,0l0,23.64z">
@@ -2728,7 +2752,7 @@
           <div>
             <strong>Ochrana dat:</strong>
             <span>Data, která budete zadávat, mohou být citlivé povahy. Tento dotazník nikdy neodesílá data mimo vaše
-              zařízení.
+              zařízení. Vaše odpovědi nejsou webem nijak shromažďovány ani zpracovávány.
               Pro jistotu jsou vaše odpovědi automaticky ukládány pouze lokálně ve vašem prohlížeči. To umožňuje obnovu
               dat v případě zavření dotazníku apod.</span>
           </div>
